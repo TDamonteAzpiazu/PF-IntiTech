@@ -25,7 +25,8 @@
     "@nestjs/platform-express": "^10.0.0",
     "dotenv": "^16.4.5",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
