@@ -5,11 +5,11 @@ import { OperatingPanels } from "./operatingPanels.entity";
 @Entity('inversor')
 export class Inversor {
     @PrimaryGeneratedColumn("uuid")
-    id : string = uuid()
+    id: string = uuid()
 
     @Column({nullable : false})
-    name : string
+    name: string
 
     @OneToMany(() => OperatingPanels, operatingPanels => operatingPanels.inversor)
-    operatingPanels : OperatingPanels[]
+    operatingPanels: OperatingPanels[]
 }

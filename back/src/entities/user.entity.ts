@@ -1,3 +1,4 @@
+import { Role } from "src/enum/role.enum";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import {v4 as uuid} from "uuid";
 @Entity({name : "users"})
@@ -5,7 +6,7 @@ export class User {
 
     @PrimaryGeneratedColumn("uuid")
     id: string = uuid;
- 
+
     @Column({length : 50 })
     name: string = uuid();
 
@@ -24,6 +25,6 @@ export class User {
     @Column({length : 50 })
     country : string;
 
-    // @ManyToOne(paneles)
-   
+    @Column({default: Role.User})
+    role: Role
 }
