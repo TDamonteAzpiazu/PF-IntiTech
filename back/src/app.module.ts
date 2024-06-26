@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import typeormConfig from './config/typeorm';
 import { UserModule } from './modules/user.module';
+import { FirebaseModule } from './modules/firebase.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserModule } from './modules/user.module';
         configService.get('typeorm'),
     }),
     UserModule,
+    FirebaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
