@@ -32,7 +32,7 @@ const Login = () => {
             htmlFor="password"
             className="block text-gray-600 cursor-text text-sm leading-[140%] font-normal mb-2"
           >
-            Contraseña
+            Contraseñaa
           </label>
           <input
             placeholder="**********"
