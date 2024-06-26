@@ -8,7 +8,7 @@ export class User {
   id: string = uuid();
 
   @Column({ length: 50 })
-  name: string = uuid();
+  name: string;
 
   @Column({ length: 50, unique: true })
   email: string;
