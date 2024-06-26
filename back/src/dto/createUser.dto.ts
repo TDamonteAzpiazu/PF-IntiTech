@@ -10,4 +10,6 @@ export class CreateUserDto {
   phone: string;
   country: string;
   role: Role;
+  image: string;
 }
+

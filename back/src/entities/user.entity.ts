@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Role } from 'src/enum/role.enum';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
@@ -26,4 +27,7 @@ export class User {
 
   @Column({ default: Role.User })
   role: Role;
+
+  @Column({default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqVg_URh9Mvrm3NYaTlCUyiM7r382ohELc1g&s"})
+  image: string;
 }
