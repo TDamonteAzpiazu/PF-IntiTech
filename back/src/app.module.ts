@@ -6,6 +6,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import typeormConfig from './config/typeorm';
 import { UserModule } from './modules/user.module';
+import { AuthModule } from './modules/auth.module';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { GoogleStrategy } from './google.strategy/google.strategy';
+import { config as dotenvConfig } from 'dotenv';
+dotenvConfig({ path: '.env' });
 
 @Module({
   imports: [
@@ -15,9 +21,17 @@ import { UserModule } from './modules/user.module';
       useFactory: (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
+    PassportModule,
+    JwtModule.register({
+      global:true,
+      secret:process.env.JWT_SECRET,
+      signOptions:{ expiresIn: '1d' },
+    }),
+    AuthModule,
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, GoogleStrategy],
 })
+
 export class AppModule {}

@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 
+import { IsOptional } from 'class-validator';
 import { Role } from 'src/enum/role.enum';
 
 export class CreateUserDto {
@@ -8,8 +9,7 @@ export class CreateUserDto {
   password: string;
   address: string;
   phone: string;
-  country: string;
+  @IsOptional()
+  image?: string;
   role: Role;
-  image: string;
 }
-
