@@ -13,6 +13,8 @@ import { ConfigService } from '@nestjs/config';
 import { UserRepository } from './user.repository';
 import { UserService } from 'src/services/user.service';
 import { Role } from 'src/enum/role.enum';
+import { config as dotenvConfig } from 'dotenv';
+dotenvConfig({ path: '.env' });
 
 @Injectable()
 export class AuthRepository {
@@ -69,11 +71,10 @@ export class AuthRepository {
 
   async createJwtToken(user: any): Promise<string> {
     const payload = { email: user.email };
-    return this.jwtService.sign(payload);
+    return this.jwtService.sign(payload, {secret:process.env.JWT_SECRET});
   }
 
   async googleLogin(req) {
-    console.log(req.user);
     const user = await this.repository.findByEmail(req.user.email);
 
     if (!user) {
@@ -88,9 +89,8 @@ export class AuthRepository {
         role: Role.User,
         image: req.user.picture,
       };
-      await this.repository.create(newUser);
+      return await this.repository.create(newUser);
 
-      return 'User created successfully';
     } else {
       console.log('User already exists');
       return user;

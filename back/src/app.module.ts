@@ -21,16 +21,17 @@ dotenvConfig({ path: '.env' });
       useFactory: (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
-    UserModule,
-    AuthModule,
     PassportModule,
     JwtModule.register({
-      global: true,
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1d' },
+      global:true,
+      secret:process.env.JWT_SECRET,
+      signOptions:{ expiresIn: '1d' },
     }),
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy],
 })
+
 export class AppModule {}
