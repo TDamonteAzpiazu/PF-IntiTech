@@ -52,12 +52,11 @@ export interface Ilogin_props {
 }
 
 export interface LoginErrorProps {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
 }
 
 export interface Iregister_props {
-  id: string;
   name: string;
   email: string;
   password: string;
@@ -66,8 +65,7 @@ export interface Iregister_props {
   country: string;
 }
 
-export interface registerErrorProps {
-  id?: string;
+export interface RegisterErrorProps {
   name?: string;
   email?: string;
   password?: string;
