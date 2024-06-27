@@ -27,6 +27,7 @@ export class AuthRepository {
         }
     }
 
+<<<<<<< Updated upstream
     async login(email: string, password: string) {
         try{
             const user = await this.authRepository.findOne({ where: { email } });
@@ -45,6 +46,30 @@ export class AuthRepository {
                 throw new InternalServerErrorException();
             }
         }
+=======
+  async login(email: string, password: string) {
+    try {
+      const user = await this.repository.findByEmail(email);
+      console.log(user);
+      if (!user) {
+        throw new NotFoundException('Invalid credentials');
+      }
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        throw new NotFoundException('Invalid credentials');
+      }
+      const token = await this.createJwtToken(user);
+      return {
+        message: 'Login successful',
+        token
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      } else {
+        throw new InternalServerErrorException();
+      }
+>>>>>>> Stashed changes
     }
 
 }

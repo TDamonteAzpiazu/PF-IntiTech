@@ -7,7 +7,37 @@ export async function login_auth(
   data_user: Ilogin_props
 ): Promise<Iauth_response> {
   try {
+<<<<<<< Updated upstream
     const response = await fetch(`${api_url}/users/login`, {
+=======
+    const res = await fetch(`${api_url}/auth/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data_user),
+      
+    });
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || "Failed to login");
+    }
+
+    const data = await res.json();
+
+    console.log(data);
+    document.cookie = `userToken=${data.token}`;//no borrar esta linea bruno culeado!!!!
+    return data;
+} catch (error: any) {
+    throw new Error(error);
+}
+}
+
+
+export async function register_auth(data_register: Iregister_props) {
+  try {
+    const res = await fetch(`${api_url}/auth/register`, {
+>>>>>>> Stashed changes
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -28,14 +58,3 @@ export async function login_auth(
     );
   }
 }
-/*a esta funcion mas adelante hay que verificar si le pega a la ruta que quede en el back para el login, por si acaso utilizamos un middleware de control de rutas, agregue el envio de cookies junto al local storage.
-
-El control de errores lo modificamos a medida tengamos las funciones de servicio y controladores.
-
-Por el momento con esto se podria empezar a probar junto al mock, en las envs, coloque la url de una api mocha esta funcionando en thunderclient a esta ruta https://apimocha.com/pruebafront/users/login tenes que poner el metodo POST y colocar esto en el cuerpo del body 
-{
-  "email": "lucas@mail.com",
-  "password": "1234"
-}
-si esta todo ok te devuelve unos datos de usuario
-*/
