@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Query } from "@nestjs/common";
 import { CreatePanelDto } from "src/dto/createPanel.dto";
-import { panelForSaleService } from "src/services/panelForSale.service";
+import { PanelForSaleService } from "src/services/panelForSale.service";
 
 @Controller('panelForSale')
 export class PanelForSaleController {
-    constructor(private readonly panelForSaleService: panelForSaleService) {}
+    constructor(private readonly panelForSaleService: PanelForSaleService) {}
 
     @Get()
     async getAllPanelForSale(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
