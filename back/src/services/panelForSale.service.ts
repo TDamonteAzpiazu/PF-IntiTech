@@ -4,7 +4,7 @@ import { PanelForSale } from "src/entities/panelForSale.entity";
 import { PanelForSaleRepository } from "src/repositories/panelForSale.repository";
 
 @Injectable()
-export class panelForSaleService {
+export class PanelForSaleService {
 
     constructor(private readonly panelForSaleRepository: PanelForSaleRepository) {}
 
