@@ -21,9 +21,6 @@ export class AuthRepository {
   constructor(
     private readonly repository: UserRepository,
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService,
-    private readonly userService: UserService,
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
   async registerEmailAndPassword(email: string, password: string, rest: any) {
@@ -33,7 +30,6 @@ export class AuthRepository {
         throw new BadRequestException('User already exists');
       }
       const hashedPassword = await bcrypt.hash(password, 10);
-      //Cloudinary para la foto de perfil
       return await this.repository.create({
         email,
         password: hashedPassword,
@@ -51,15 +47,20 @@ export class AuthRepository {
   async login(email: string, password: string) {
     try {
       const user = await this.repository.findByEmail(email);
+      console.log(user);
       if (!user) {
         throw new NotFoundException('Invalid credentials');
       }
-
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
         throw new NotFoundException('Invalid credentials');
       }
-      return user;
+      const payload = { id: user.id, email: user.email, role: user.role };
+      const token = this.jwtService.sign(payload, {secret:process.env.JWT_SECRET});
+      return {
+        message: 'Login successful',
+        token
+      };
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw error;

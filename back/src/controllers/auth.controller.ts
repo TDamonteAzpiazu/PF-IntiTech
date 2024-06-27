@@ -14,25 +14,24 @@ import { AuthService } from 'src/services/auth.service';
 import { UserService } from 'src/services/user.service';
 import { Repository } from 'typeorm';
 import { config as dotenvConfig } from 'dotenv';
+import { CreateUserDto } from 'src/dto/createUser.dto';
+import { CredentialsDto } from 'src/dto/credentials.dto';
 
 dotenvConfig({ path: '.env' });
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly authService: AuthService,
-    private readonly userService: UserService,
   ) {}
 
   @Post('register')
-  //La ruta debería tambien recibir un archivo opcional para la foto de perfil
-  async registerEmailAndPassword(@Body() body: any): Promise<any> {
+  async registerEmailAndPassword(@Body() body: CreateUserDto): Promise<any> {
     return await this.authService.registerEmailAndPassword(body);
   }
 
   @Post('login')
-  async login(@Body() body: any): Promise<any> {
+  async login(@Body() body: CredentialsDto): Promise<any> {
     return await this.authService.login(body);
   }
 
