@@ -50,6 +50,11 @@ export interface Ilogin_props {
   email: string;
   password: string;
 }
+
+export interface LoginErrorProps {
+  email: string;
+  password: string;
+}
 //CONTEXTO
 export interface Icontext_provider {
   children: React.ReactElement;
