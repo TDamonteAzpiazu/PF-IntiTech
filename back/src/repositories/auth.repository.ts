@@ -21,9 +21,6 @@ export class AuthRepository {
   constructor(
     private readonly repository: UserRepository,
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService,
-    private readonly userService: UserService,
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
   async registerEmailAndPassword(email: string, password: string, rest: any) {

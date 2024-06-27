@@ -22,9 +22,7 @@ dotenvConfig({ path: '.env' });
 @Controller('auth')
 export class AuthController {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly authService: AuthService,
-    private readonly userService: UserService,
   ) {}
 
   @Post('register')
