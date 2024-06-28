@@ -28,4 +28,8 @@ export class AuthService {
   async googleLogin(req) {
     return await this.authRepository.googleLogin(req);
   }
+
+  async sendEmail(user, jwt) {
+    return await this.authRepository.sendEmail(user, jwt);
+  }
 }
