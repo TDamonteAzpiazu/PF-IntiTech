@@ -4,72 +4,61 @@ import Image from "next/image";
 import Link from "next/link";
 import { Lines_Chart } from "@/app/dashboard/grafica";
 import { Bar_Chart } from "@/app/dashboard/barras";
-import {Circular_Chart} from "@/app/dashboard/pie"
-import NeonBarChart from "@/app/dashboard/neon_bar"
+import { Circular_Chart } from "@/app/dashboard/pie";
+import NeonBarChart from "@/app/dashboard/neon_bar";
 
-const dashboard: React.FC = () => {
+const Dashboard: React.FC = () => {
   return (
-    <div>
-      {/*logo intitech*/}
-      <div>
-        <Image
-          src={"/icon.png"}
-          alt={"icono intitech"}
-          width={50}
-          height={50}
-        ></Image>
-      </div>
-
+    <div className="flex h-auto">
       {/*barra de navegacion lateral*/}
-      <nav>
-        <h2>Dashboard</h2>
-        <ul>
+      <nav className="w-auto bg-slate-100 p-4 rounded-lg">
+        <div className="flex items-center mb-6">
+          {
+            //  <Image src={"/icon.png"} alt={"icono intitech"} width={50} height={50} />
+          }{" "}
+        </div>
+        <ul className="m-1 p-1">
           {/*completar los href con las rutas relativas de cada link*/}
-          <Link href={""}>
-            <li>Orders</li>
-          </Link>
-          <Link href={""}>
-            <li>Products</li>
-          </Link>
-          <Link href={""}>
-            <li>Messages</li>
-          </Link>
-          <Link href={""}>
-            <li>Settings</li>
-          </Link>
-          <Link href={""}>
-            <li>Sing Out</li>
-          </Link>
+          <li className="mb-4">
+            <Link href={"/orders"}>Orders</Link>
+          </li>
+          <li className="mb-4">
+            <Link href={"/products"}>Products</Link>
+          </li>
+          <li className="mb-4">
+            <Link href={"/messages"}>Messages</Link>
+          </li>
+          <li className="mb-4">
+            <Link href={"/settings"}>Settings</Link>
+          </li>
+          <li>
+            <Link href={"/signout"}>Sign Out</Link>
+          </li>
         </ul>
       </nav>
 
-      {/*los graficos van a ser insertados como componentes dentro de las sections*/}
-      <main  className="grid grid-cols-4 gap-1">
-      <section>
-        <div className="w-96 bg-gray-400">
-          <Lines_Chart />
-        </div>
-      </section>
 
-      <section>
-        <div className="w-96">
-          <Bar_Chart />
-        </div>
-      </section>
+      <main className="w-4/5 p-4 grid grid-cols-3 gap-4">
+        <section>
+          <div className="bg-gray-400 p-4 rounded-lg shadow-md">
+            <Lines_Chart />
+          </div>
+        </section>
 
-      <section>
-        <div className="w-96">
-          <Circular_Chart />
-        </div>
-      </section>
-      <section>
-        <div className="w-96">
-          <NeonBarChart />
-        </div>
-      </section>
+        <section>
+          <div className="bg-gray-400 p-4 rounded-lg shadow-md">
+            <Bar_Chart />
+          </div>
+        </section>
+
+        <section>
+          <div className="bg-gray-400 p-4 rounded-lg">
+            <Circular_Chart />
+          </div>
+        </section>
       </main>
     </div>
   );
 };
 
-export default dashboard;
+export default Dashboard;

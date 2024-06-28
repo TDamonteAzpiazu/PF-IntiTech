@@ -10,9 +10,9 @@ import {
   Legend,
   Filler,
   BarController,
+  PolarAreaController,
   plugins,
-  scales, 
-  
+  scales,
 } from "chart.js";
 
 ChartJS.register(
@@ -25,52 +25,83 @@ ChartJS.register(
   Legend,
   Filler,
   BarController,
+  PolarAreaController,
   plugins,
   scales
 );
 
-let generacion_solar = [0, 10, 20, 10, 15, 30, 25, 49, 80, 70, 50, 90];
-let meses = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
-
-let bar_data = {
-  labels: meses,
-  datasets: [
-    {
-      label: "Generacion solar",
-      data: generacion_solar,
-      backgroundColor: ["#ffed00"],
-      borderColor: ["#9ca3af"],
-      borderWidth: 1,
-    },
+let consumptionData = {
+  categories: [
+    "Category 1",
+    "Category 2"
   ],
+  series: [
+    {
+      label: "Consumo Tipo A",
+      data: [50, 70],
+      backgroundColor: "#e18104", 
+      borderColor: "#c05621", 
+      borderWidth: 1,
+      barThickness: 20, 
+    },
+    {
+      label: "Consumo Tipo B",
+      data: [70, 50],
+      backgroundColor: "#ffd700", 
+      borderColor: "#e18104", 
+      borderWidth: 1,
+      barThickness: 15, 
+    }
+  ]
 };
-let options_bar = {
+
+let options = {
   responsive: true,
   scales: {
     y: {
-      min: 0,
-      max: 100,
+      stacked: true,
+      ticks: { beginAtZero: true },
+      grid: { display: true },
     },
     x: {
-      ticks: { color: "#e18104" },
+      stacked: true,
+      ticks: { color: "#333" },
+    },
+  },
+  plugins: {
+    tooltip: {
+      enabled: true,
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      titleFont: {
+        size: 16,
+      },
+      bodyFont: {
+        size: 14,
+      },
+      callbacks: {
+        label: function(tooltipItem) {
+          return `Value: ${tooltipItem.raw}`;
+        }
+      }
+    },
+    legend: {
+      display: true,
+      position: 'bottom',
+      labels: {
+        font: {
+          size: 14,
+        },
+        color: 'black',
+      },
     },
   }
 };
 
-
 export function Bar_Chart() {
-  return <Chart type="polarArea" data={bar_data} options={options_bar} />;
+  return (
+    <Chart type="bar" data={{
+      labels: consumptionData.categories,
+      datasets: consumptionData.series
+    }} options={options} />
+  );
 }
