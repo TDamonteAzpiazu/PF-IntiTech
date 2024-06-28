@@ -34,4 +34,4 @@ export const Context_Provider: React.FC<Icontext_provider> = ({children})=>{
           )
 }
 
-export const useAuth_context = ()=> useContext(Context)
+export const useAuth_context = () => useContext(Context)

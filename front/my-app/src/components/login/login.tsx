@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import styles from './style.module.css';
-import { validateLogin, validateRegister } from '@/helpers/formValidation';
+import { validateLoginForm, validateRegisterForm } from '@/helpers/formValidation';
 import { LoginErrorProps, RegisterErrorProps, Isession_active } from '@/interfaces/interfaces';
 import { login_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
@@ -50,7 +50,7 @@ const AuthForm = () => {
   const handleChangeRegister = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setdataRegister({ ...dataRegister, [name]: value });
-    const errors = validateRegister(dataRegister)
+    const errors = validateRegisterForm(dataRegister)
     setErrorRegister(errors)
   }
   const handleSubmitRegister = async () => {
@@ -78,7 +78,7 @@ const AuthForm = () => {
   const handleChangeLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setDataLogin({ ...dataLogin, [name]: value });
-    const error = validateLogin(dataLogin)
+    const error = validateLoginForm(dataLogin)
     setError(error)
   }
   const handleSubmitLogin = async (event: React.ChangeEvent<HTMLFormElement>) => {

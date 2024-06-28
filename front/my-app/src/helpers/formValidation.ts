@@ -1,5 +1,5 @@
 import { LoginErrorProps, Ilogin_props } from "@/interfaces/interfaces";
-import { registerErrorProps, Iregister_props } from "@/interfaces/interfaces";
+import { RegisterErrorProps, Iregister_props } from "@/interfaces/interfaces";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -19,8 +19,8 @@ export function validateLoginForm(values: Ilogin_props): LoginErrorProps {
     return errors;
   }
 
-export function validateRegisterForm(values: Iregister_props): registerErrorProps {
-    let errors: registerErrorProps = {};
+export function validateRegisterForm(values: Iregister_props): RegisterErrorProps {
+    let errors: RegisterErrorProps = {};
 
     if (!values.email) {
         errors.email = "Inserte email valido";
