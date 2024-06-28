@@ -36,9 +36,12 @@ export class AuthController {
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req, @Res() res) {
-    const user = await this.authService.googleLogin(req);
+    const { user, isNew } = await this.authService.googleLogin(req);
     const jwt = await this.authService.createToken(user);
-    const sendEmail = await this.authService.sendEmail(user, jwt);
-    res.redirect(`${process.env.URL}?token=${jwt}`);
+
+    if (isNew) {
+      await this.authService.sendEmail(user, jwt);
+    }
+    res.redirect(`http://localhost:3001/`);
   }
 }
