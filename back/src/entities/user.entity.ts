@@ -13,7 +13,7 @@ export class User {
   @Column({ length: 50, unique: true })
   email: string;
 
-  @Column({ length: 50 })
+  @Column()
   password: string;
 
   @Column({ length: 50 })
@@ -22,12 +22,12 @@ export class User {
   @Column({ length: 50 })
   phone: string;
 
-  @Column({ length: 50 })
-  country: string;
-
   @Column({ default: Role.User })
   role: Role;
 
-  @Column({default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqVg_URh9Mvrm3NYaTlCUyiM7r382ohELc1g&s"})
+  @Column({
+    default:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqVg_URh9Mvrm3NYaTlCUyiM7r382ohELc1g&s',
+  })
   image: string;
 }

@@ -1,26 +1,33 @@
-import { Injectable } from "@nestjs/common";
-import { CreatePanelDto } from "src/dto/createPanel.dto";
-import { PanelForSale } from "src/entities/panelForSale.entity";
-import { PanelForSaleRepository } from "src/repositories/panelForSale.repository";
+import { Injectable } from '@nestjs/common';
+import { CreatePanelDto } from 'src/dto/createPanel.dto';
+// import { PanelForSale } from "src/entities/panelForSale.entity"; Utilizar mas adelante
+import { PanelForSaleRepository } from 'src/repositories/panelForSale.repository';
 
 @Injectable()
-export class panelForSaleService {
+export class PanelForSaleService {
+  constructor(
+    private readonly panelForSaleRepository: PanelForSaleRepository,
+  ) {}
 
-    constructor(private readonly panelForSaleRepository: PanelForSaleRepository) {}
+  async createPanelForSale(panelForSale: CreatePanelDto) {
+    return await this.panelForSaleRepository.createPanelForSale(panelForSale);
+  }
 
-    async createPanelForSale(panelForSale: CreatePanelDto) {
-        return await this.panelForSaleRepository.createPanelForSale(panelForSale);
-    }
+  async getAllPanelForSale(page: number, limit: number) {
+    return await this.panelForSaleRepository.getAllPanelForSale(page, limit);
+  }
 
-    async getAllPanelForSale(page : number, limit : number) {
-        return await this.panelForSaleRepository.getAllPanelForSale(page , limit);
-    }
+  async getPanelForSaleById(id: string) {
+    return await this.panelForSaleRepository.getPanelForSaleById(id);
+  }
 
-    async getPanelForSaleById(id: string) {
-        return await this.panelForSaleRepository.getPanelForSaleById(id);
-    }
+  async updatePanelForSale(id:string,panelForSale: Partial<CreatePanelDto>) {
+    return await this.panelForSaleRepository.updatePanelForSale(id,panelForSale)
 
-    async deletePanelForSale(id: string) {
-        return await this.panelForSaleRepository.deletePanelForSale(id);
-    }
+
+  }
+
+  async deletePanelForSale(id: string) {
+    return await this.panelForSaleRepository.deletePanelForSale(id);
+  }
 }

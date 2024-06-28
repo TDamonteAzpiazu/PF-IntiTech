@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Context_Provider } from "@/context/Context";
-const inter = Inter({ subsets: ["latin"] });
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: "400",
+});
+
 
 export const metadata: Metadata = {
   title: "Inti-Tech",
@@ -17,7 +24,11 @@ export default function RootLayout({
   return (
     <Context_Provider>
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={poppins.className}>
+        <Navbar />
+        {children}
+        <Footer />
+        </body>
     </html>
     </Context_Provider>
 
