@@ -31,19 +31,32 @@ const Navbar = () => {
         <div className="h-20 ">
             {
                 userData ? (
-                    <div className="">
-                        <div className="h-full w-24 ">
+                    <div className="flex items-center justify-between h-full">
+                        <div className="h-full w-24 ml-8">
                             <img className="h-full" src="https://pbs.twimg.com/media/GRG86T6W0AA6TyU?format=png&name=medium" alt="" />
                         </div>
-                        <nav>
-                            <ul>
-                                <li>
-                                    <Link href="/">Home</Link>
-                                    <Link href="/">Products</Link>
-                                    <Link href="/">About us</Link>
+                        <nav className="h-full">
+                            <ul className="flex items-center w-full h-full ">
+                                <li className=" flex items-center gap-5 h-full ">
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" href="/">Home</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" href="/">Products</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" href="/">About us</Link>
                                 </li>
                             </ul>
                         </nav>
+                        {
+                            userData ? (
+                                <div className="flex items-center gap-5 h-full">
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" href="/dashboard">Dashboard</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" onClick={handleLogout} href="/">Sign Out</Link>
+                                </div>
+                            ) : (
+                                <div className="flex items-center gap-5 h-full">
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" href="/login">Sign In</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" href="/signup">Sign Up</Link>
+                                </div>
+                            )
+                        }
                     </div>
                 ) : (
                     <div className="flex items-center justify-between h-full">
@@ -60,10 +73,8 @@ const Navbar = () => {
                             </ul>
                         </nav>
                         <div className="mx-5">
-                            <button onClick={handleClick} className="bg-lightorangeinti text-white mr-4 px-4 py-2 rounded-lg">
-                                <Link href="/login">Login</Link></button>
-                            <button onClick={handleClick} className="bg-lightorangeinti text-white  px-4 py-2 rounded-lg">
-                                <Link href="/login">Register </Link></button>
+                            <button onClick={handleClick} className="w-20 bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-lg transition-all duration-500">
+                                <a href="/login">Login </a></button>
                         </div>
                     </div>
                 )

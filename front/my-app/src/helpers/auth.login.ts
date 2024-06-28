@@ -28,7 +28,7 @@ export async function login_auth(data_user: Ilogin_props): Promise<Iauth_respons
 }
 
 
-export async function register_auth() {
+export async function register_auth(data_register : any) {
   try {
     const response = await fetch(`${api_url}/auth/register`, {
       method: "POST",

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { Context_Provider } from "@/context/Context";
 import ClientLayout from "@/helpers/clientLayout";
 
 const poppins = Poppins({
@@ -21,7 +20,6 @@ export default function RootLayout({
   children: React.ReactNode; 
 }>) {
   return (
-    <Context_Provider>
     <html lang="en">
       <body className={poppins.className}>
         <ClientLayout>
@@ -29,7 +27,5 @@ export default function RootLayout({
         </ClientLayout>
         </body>
     </html>
-    </Context_Provider>
-
   );
 }

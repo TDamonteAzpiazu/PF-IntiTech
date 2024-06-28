@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './style.module.css';
 import { validateLoginForm, validateRegisterForm } from '@/helpers/formValidation';
 import { LoginErrorProps, RegisterErrorProps, Isession_active } from '@/interfaces/interfaces';
-import { login_auth } from '@/helpers/auth.login';
+import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
 import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
@@ -33,7 +33,6 @@ const AuthForm = () => {
     password: '',
     address: '',
     phone: '',
-    country: '',
   });
 
   const [errorRegister, setErrorRegister] = useState<RegisterErrorProps>({
@@ -53,10 +52,12 @@ const AuthForm = () => {
     const errors = validateRegisterForm(dataRegister)
     setErrorRegister(errors)
   }
-  const handleSubmitRegister = async () => {
+  const handleSubmitRegister = async (e : React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log(1)
     try {
-      const res = await login_auth(dataRegister)
-      console.log(res)
+      const res = await register_auth(dataRegister)
+      
       alert('Register successful');
     } catch (error: any) {
       throw new Error(error);
@@ -83,6 +84,7 @@ const AuthForm = () => {
   }
   const handleSubmitLogin = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
+    console.log(23)
     try {
       const res = await login_auth(dataLogin);
       const { token, user } = await res;
