@@ -1,44 +1,43 @@
-import { Ilogin_props } from "@/interfaces/interfaces";
+import { Ilogin_props, Iregister_props } from "@/interfaces/interfaces";
 import { Iauth_response } from "@/interfaces/interfaces";
 
 const api_url = process.env.NEXT_PUBLIC_API_URL;
 
-export async function login_auth(data_user: Ilogin_props): Promise<Iauth_response> {
+export async function login_auth(data_user: Ilogin_props) {
   try {
-    const response = await fetch(`${api_url}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(data_user),
+    const res = await fetch(`${api_url}/auth/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data_user),
     });
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "No se logro iniciar sesion");
+    if (res.ok) {
+        return res.json();
+    } else {
+        alert('Failed to login');
+        throw new Error('Failed to login');
     }
-    const data: Iauth_response = await response.json();
-    document.cookie = `userToken= ${data.token}`; 
-    localStorage.setItem("userActive", JSON.stringify(data.user));
-    return data;
-  } catch (error: any) {
-    throw new Error(
-      error.message || "se produjo un error durante el incio de sesion"
-    );
-  }
+} catch (error: any) {
+    throw new Error(error);
+}
 }
 
 
-export async function register_auth(data_register : any) {
+export async function register_auth(data_register: Iregister_props) {
   try {
-    const response = await fetch(`${api_url}/auth/register`, {
+    const res = await fetch(`${api_url}/auth/register`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
+      body: JSON.stringify(data_register),
     });
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "No se logro registrar");
+    if (res.ok) {
+      return res.json();
+    }else{
+      alert('Failed to register');
+      throw new Error('Failed to register');
     }
     
   } catch (error:any) {
