@@ -52,12 +52,9 @@ const AuthForm = () => {
     const errors = validateRegisterForm(dataRegister)
     setErrorRegister(errors)
   }
-  const handleSubmitRegister = async (e : React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log(1)
+  const handleSubmitRegister = async () => {
     try {
       const res = await register_auth(dataRegister)
-      
       alert('Register successful');
     } catch (error: any) {
       throw new Error(error);
