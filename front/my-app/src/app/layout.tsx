@@ -4,6 +4,7 @@ import "./globals.css";
 import { Context_Provider } from "@/context/Context";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import ClientLayout from "@/helpers/clientLayout";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,9 +26,9 @@ export default function RootLayout({
     <Context_Provider>
     <html lang="en">
       <body className={poppins.className}>
-        <Navbar />
-        {children}
-        <Footer />
+        <ClientLayout>
+          {children}
+        </ClientLayout>
         </body>
     </html>
     </Context_Provider>

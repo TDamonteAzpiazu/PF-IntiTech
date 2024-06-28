@@ -4,7 +4,7 @@
 
 .padre {
     padding-top: 1rem;
-    padding-bottom: 3.5rem;
+    padding-bottom: 1rem;
     display: flex;
     justify-content: center;
 }
@@ -29,7 +29,7 @@
     overflow: hidden;
     width: 768px;
     max-width: 100%;
-    min-height: 520px;
+    min-height: 550px;
 }
 
 .container p {
@@ -51,21 +51,31 @@
 }
 
 .container button {
-    background-color: black;
+    background: #F7A90E;
+    background-image: 
+        radial-gradient(circle at 5% 5%, #FFED00, transparent  40%),
+        radial-gradient(circle at 100% 110%, #FFED00, transparent  40%);
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
-    border: 1px solid transparent;
+    background-size: 115%;
     border-radius: 8px;
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
     margin-top: 10px;
     cursor: pointer;
+    transition: all .4s ease-in-out;
+}
+
+.container button:hover {
+    background-position: right;
 }
 
 .container button.hidden {
-    background-color: transparent;
+    background-color: none;
+    background-image: none;
+    border: 1px solid transparent;
     border-color: #fff;
 }
 
@@ -132,8 +142,15 @@
     }
 }
 
+.logo {
+    margin-top: -15px;
+}
+.logoLogin {
+    margin-top: -30px; 
+}
+
 .social-icons {
-    margin: 20px 0;
+    margin: 10px 0 20px 0;
 }
 
 .social-icons a {
