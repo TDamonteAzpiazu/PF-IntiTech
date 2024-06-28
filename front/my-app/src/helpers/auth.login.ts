@@ -3,11 +3,9 @@ import { Iauth_response } from "@/interfaces/interfaces";
 
 const api_url = process.env.NEXT_PUBLIC_API_URL;
 
-export async function login_auth(
-  data_user: Ilogin_props
-): Promise<Iauth_response> {
+export async function login_auth(data_user: Ilogin_props): Promise<Iauth_response> {
   try {
-    const response = await fetch(`${api_url}/users/login`, {
+    const response = await fetch(`${api_url}/auth/login`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -26,6 +24,25 @@ export async function login_auth(
     throw new Error(
       error.message || "se produjo un error durante el incio de sesion"
     );
+  }
+}
+
+
+export async function register_auth() {
+  try {
+    const response = await fetch(`${api_url}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "No se logro registrar");
+    }
+    
+  } catch (error:any) {
+    throw new Error(error.message || "se produjo un error durante el registro");
   }
 }
 /*a esta funcion mas adelante hay que verificar si le pega a la ruta que quede en el back para el login, por si acaso utilizamos un middleware de control de rutas, agregue el envio de cookies junto al local storage.
