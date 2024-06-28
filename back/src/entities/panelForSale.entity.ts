@@ -18,14 +18,17 @@ export class PanelForSale {
     price: number
 
     @Column({nullable : false})
+    stock: number
+
+    @Column({nullable : false})
     description: string
 
     @Column({nullable : false})
     size: string
 
-    @Column({nullable : false})
+    @Column({type: 'decimal', precision: 10, scale: 2, nullable: false})
     dailyGeneration: number
 
-    @Column({ default: 'https://hapuricellisa.com.ar/plugins/productos/producto-sin-imagen.png'})
+    @Column({ default: 'https://res.cloudinary.com/dc8tneepi/image/upload/nnpuge2eky9kzbswxmbk.jpg'})
     image: string
 }
