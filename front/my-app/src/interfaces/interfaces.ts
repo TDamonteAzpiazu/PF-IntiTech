@@ -62,7 +62,6 @@ export interface Iregister_props {
   password: string;
   address: string;
   phone: string;
-  country: string;
 }
 
 export interface RegisterErrorProps {

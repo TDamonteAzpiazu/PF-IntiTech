@@ -34,25 +34,33 @@ const Navbar = () => {
                         <nav>
                             <ul>
                                 <li>
-                                    {/* <Link href="/">Home</Link> */}
-                                    {/* <Link href="/">About us</Link> */}
+                                    <Link href="/">Home</Link>
+                                    <Link href="/">Products</Link>
+                                    <Link href="/">About us</Link>
                                 </li>
                             </ul>
                         </nav>
                     </div>
                 ) : (
-                    <div className="flex items-center h-full">
-                        <div className="h-full w-24 border border-black ">
+                    <div className="flex items-center justify-between h-full">
+                        <div className="h-full w-24 ml-8">
                             <img className="h-full" src="https://pbs.twimg.com/media/GRG86T6W0AA6TyU?format=png&name=medium" alt="" />
                         </div>
-                        <nav>
-                            <ul>
+                        <nav className="h-full">
+                            <ul className="flex items-center w-full h-full border border-green-500">
                                 <li>
-                                    {/* <Link href="/">Home</Link> */}
-                                    {/* <Link href="/">About us</Link> */}
+                                    <Link href="/">Home</Link>
+                                    <Link href="/">Products</Link>
+                                    <Link href="/">About us</Link>
                                 </li>
                             </ul>
                         </nav>
+                        <div className="mx-5">
+                            <button onClick={handleClick} className="bg-lightorangeinti text-white mr-4 px-4 py-2 rounded-lg">
+                                <Link href="/login">Login</Link></button>
+                            <button onClick={handleClick} className="bg-lightorangeinti text-white  px-4 py-2 rounded-lg">
+                                <Link href="/login">Register </Link></button>
+                        </div>
                     </div>
                 )
             }
