@@ -23,8 +23,12 @@ const Navbar = () => {
         setOpen(!open);
     }
 
+    const handleChange = () =>{
+        console.log("hola")
+    }
+
     return (
-        <div className="h-20 border border-black">
+        <div className="h-20 ">
             {
                 userData ? (
                     <div className="">
@@ -47,11 +51,11 @@ const Navbar = () => {
                             <img className="h-full" src="https://pbs.twimg.com/media/GRG86T6W0AA6TyU?format=png&name=medium" alt="" />
                         </div>
                         <nav className="h-full">
-                            <ul className="flex items-center w-full h-full border border-green-500">
-                                <li>
-                                    <Link href="/">Home</Link>
-                                    <Link href="/">Products</Link>
-                                    <Link href="/">About us</Link>
+                            <ul className="flex items-center w-full h-full ">
+                                <li className=" flex items-center gap-5 h-full ">
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" onClick={handleChange} href="/">Home</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black"  href="/products">Products</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black"  href="/about">About us</Link>
                                 </li>
                             </ul>
                         </nav>

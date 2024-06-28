@@ -98,7 +98,7 @@ const AuthForm = () => {
       <div className={`${styles.container} ${active ? styles.active : ''}`} id="container">
         <div className={`${styles['form-container']} ${styles['sign-up']}`}>
           <form onSubmit={handleSubmitRegister}>
-            <Image src={logo} alt="logo" width={100} height={100} />
+            <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
             <div className={styles['social-icons']}>
               <a href="#" className={styles.icon}><i className="fa-brands fa-google-plus-g"></i></a>
               <a href="#" className={styles.icon}><i className="fa-brands fa-facebook-f"></i></a>
@@ -150,7 +150,7 @@ const AuthForm = () => {
         </div>
         <div className={`${styles['form-container']} ${styles['sign-in']}`}>
           <form onSubmit={handleSubmitLogin}>
-            <Image src={logo} alt="logo" width={100} height={100} />
+            <Image className={styles.logoLogin} src={logo} alt="logo" width={100} height={100} />
             <h1 className={styles.title}>Sign In</h1>
             <div className={styles['social-icons']}>
               <a href="#" className={styles.icon}><i className="fa-brands fa-google-plus-g"></i></a>
@@ -175,7 +175,7 @@ const AuthForm = () => {
               type='password'
               placeholder='Password' />
             <a href="#">Forget Your Password?</a>
-            <button type='submit'>Sign In</button>
+            <button className='btn-session' type='submit'>Sign In</button>
           </form>
         </div>
         <div className={styles['toggle-container']}>
