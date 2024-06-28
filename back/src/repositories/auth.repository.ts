@@ -84,11 +84,12 @@ export class AuthRepository {
         phone: '',
         role: Role.User,
         image: req.user.picture,
+        status: 'active',
       };
-      return await this.repository.create(newUser);
+      const createdUser = await this.repository.create(newUser);
+      return { user: createdUser, isNew: true };
     } else {
-      console.log('User already exists');
-      return user;
+      return { user, isNew: false };
     }
   }
 

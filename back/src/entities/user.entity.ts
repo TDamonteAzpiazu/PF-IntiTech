@@ -30,4 +30,7 @@ export class User {
       'https://res.cloudinary.com/dc8tneepi/image/upload/ztbuutsulfhoarq63xsh.jpg',
   })
   image: string;
+
+  @Column()
+  status: 'active' | 'inactive' | 'pending';
 }
