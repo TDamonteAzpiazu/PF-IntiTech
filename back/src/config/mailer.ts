@@ -9,8 +9,12 @@ export const transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // Use `true` for port 465, `false` for all other ports
   auth: {
-    user: 'pablorodriguez6002@gmail.com',
+    user: 'pfintitech@gmail.com',
     pass: process.env.PASSWORD_APP,
+  },
+  //Esto de abajo hace q no rompa pero no es recomendable para producción
+  tls: {
+    rejectUnauthorized: false,
   },
 });
 
