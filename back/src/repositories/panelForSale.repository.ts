@@ -45,10 +45,9 @@ export class PanelForSaleRepository {
       if (!panelToUpdate) {
         throw new NotFoundException("Panel not found");
       }
-      Object.assign(panelToUpdate, panel);
-      await this.panelForSaleRepository.save(panelToUpdate);
-      return panelToUpdate;
-
+      const updatedPanel = this.panelForSaleRepository.merge(panelToUpdate, panel);
+      await this.panelForSaleRepository.save(updatedPanel);
+      return updatedPanel;
     }
 
 

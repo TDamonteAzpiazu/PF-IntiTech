@@ -51,10 +51,7 @@ export class AuthRepository {
       if (!isPasswordValid) {
         throw new NotFoundException('Invalid credentials');
       }
-      const payload = { id: user.id, email: user.email, role: user.role };
-      const token = this.jwtService.sign(payload, {
-        secret: process.env.JWT_SECRET,
-      });
+      const token = await this.createJwtToken(user);
       return {
         message: 'Login successful',
         token,
@@ -69,7 +66,7 @@ export class AuthRepository {
   }
 
   async createJwtToken(user: any): Promise<string> {
-    const payload = { email: user.email };
+    const payload = { id: user.id, email: user.email, role: user.role };
     return this.jwtService.sign(payload, { secret: process.env.JWT_SECRET });
   }
 
