@@ -26,7 +26,7 @@ export class CloudinaryController {
 
   @Post('uploadUserImage/:id')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadImage(
+  async uploadUserImage(
     @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile(
       new ParseFilePipe({
@@ -73,6 +73,4 @@ export class CloudinaryController {
     return await this.panelForSaleService.updatePanelForSale(id, { image: image.url });
   }
 
-
-  
 }
