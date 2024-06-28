@@ -23,6 +23,10 @@ const Navbar = () => {
         setOpen(!open);
     }
 
+    const handleChange = () =>{
+        console.log("hola")
+    }
+
     return (
         <div className="h-20 ">
             {
@@ -48,10 +52,10 @@ const Navbar = () => {
                         </div>
                         <nav className="h-full">
                             <ul className="flex items-center w-full h-full ">
-                                <li className=" flex items-center gap-5 h-full">
-                                    <Link className="flex items-center h-full w-20 justify-center hover:border-b hover:border-black " href="/">Home</Link>
-                                    <Link className="flex items-center h-full w-20 justify-center hover:border-b hover:border-black " href="/products">Products</Link>
-                                    <Link className="flex items-center h-full w-20 justify-center hover:border-b hover:border-black " href="/about">About us</Link>
+                                <li className=" flex items-center gap-5 h-full ">
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" onClick={handleChange} href="/">Home</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black"  href="/products">Products</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black"  href="/about">About us</Link>
                                 </li>
                             </ul>
                         </nav>

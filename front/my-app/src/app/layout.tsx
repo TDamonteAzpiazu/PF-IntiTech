@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Context_Provider } from "@/context/Context";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
 import ClientLayout from "@/helpers/clientLayout";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "700", "500"],
 });
 
 
