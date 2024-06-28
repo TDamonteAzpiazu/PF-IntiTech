@@ -4,16 +4,12 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { UserRepository } from './user.repository';
-import { UserService } from 'src/services/user.service';
 import { Role } from 'src/enum/role.enum';
 import { config as dotenvConfig } from 'dotenv';
+import { transporter } from 'src/config/mailer';
 dotenvConfig({ path: '.env' });
 
 @Injectable()
@@ -56,10 +52,12 @@ export class AuthRepository {
         throw new NotFoundException('Invalid credentials');
       }
       const payload = { id: user.id, email: user.email, role: user.role };
-      const token = this.jwtService.sign(payload, {secret:process.env.JWT_SECRET});
+      const token = this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+      });
       return {
         message: 'Login successful',
-        token
+        token,
       };
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -72,7 +70,7 @@ export class AuthRepository {
 
   async createJwtToken(user: any): Promise<string> {
     const payload = { email: user.email };
-    return this.jwtService.sign(payload, {secret:process.env.JWT_SECRET});
+    return this.jwtService.sign(payload, { secret: process.env.JWT_SECRET });
   }
 
   async googleLogin(req) {
@@ -91,10 +89,18 @@ export class AuthRepository {
         image: req.user.picture,
       };
       return await this.repository.create(newUser);
-
     } else {
       console.log('User already exists');
       return user;
     }
+  }
+
+  async sendEmail(user, jwt) {
+    await transporter.sendMail({
+      from: '"Example email 👻" <pablorodriguez6002@gmail.com>', // sender address
+      to: user.email, // list of receivers
+      subject: 'Test ✔', // Subject line
+      html: `<b>Please click on the link below</b> <a href= ${process.env.URL}?token=${jwt}>Test</a>`, // html body
+    });
   }
 }
