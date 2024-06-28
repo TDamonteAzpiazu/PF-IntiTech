@@ -27,7 +27,7 @@ export class User {
 
   @Column({
     default:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqVg_URh9Mvrm3NYaTlCUyiM7r382ohELc1g&s',
+      'https://res.cloudinary.com/dc8tneepi/image/upload/ztbuutsulfhoarq63xsh.jpg',
   })
   image: string;
 }
