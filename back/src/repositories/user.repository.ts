@@ -25,7 +25,6 @@ export class UserRepository implements OnModuleInit {
         password: '123456',
         address: 'Calle Falsa 123',
         phone: '123456789',
-        country: 'Argentina',
         role: Role.Admin,
       });
 
@@ -53,7 +52,7 @@ export class UserRepository implements OnModuleInit {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return await this.userRepository.findOneBy({ id });
+    return user;
   }
 
   async updateUser(id: string, data: Partial<CreateUserDto>): Promise<User> {
@@ -72,5 +71,14 @@ export class UserRepository implements OnModuleInit {
     }
     await this.userRepository.delete(id);
     return 'User deleted';
+  }
+
+  async create(data: CreateUserDto): Promise<User> {
+    const newUser = this.userRepository.create(data);
+    return await this.userRepository.save(newUser);
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOneBy({ email });
   }
 }

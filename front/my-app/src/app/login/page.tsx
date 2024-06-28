@@ -2,6 +2,7 @@ import Login from '@/components/login/login'
 import React from 'react'
 import background from '../../../public/images/background.jpg'
 import Image from 'next/image'
+import AuthForm from '@/components/login/login'
 
 const Page = () => {
   return (
@@ -15,7 +16,7 @@ const Page = () => {
         className="absolute top-0 left-0 w-full h-full"
       />
       <div className="relative z-10">
-        <Login />
+        <AuthForm />
       </div>
     </div>
   )
