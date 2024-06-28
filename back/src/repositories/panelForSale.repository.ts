@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 
 @Injectable()
 export class PanelForSaleRepository {
+    
     constructor( 
         @InjectRepository(PanelForSale) private readonly panelForSaleRepository: Repository<PanelForSale>,
     ) {}
@@ -38,6 +39,18 @@ export class PanelForSaleRepository {
 
         return panel;
     }
+
+    async updatePanelForSale(id:string, panel: Partial<CreatePanelDto >) : Promise<PanelForSale> {
+      const panelToUpdate = await this.panelForSaleRepository.findOne({where: { id: id }});
+      if (!panelToUpdate) {
+        throw new NotFoundException("Panel not found");
+      }
+      Object.assign(panelToUpdate, panel);
+      await this.panelForSaleRepository.save(panelToUpdate);
+      return panelToUpdate;
+
+    }
+
 
     async deletePanelForSale(id: string): Promise<string> {
         const panel = await this.panelForSaleRepository.findOneBy({ id });

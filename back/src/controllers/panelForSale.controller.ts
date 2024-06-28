@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put, Query } from "@nestjs/common";
 import { CreatePanelDto } from "src/dto/createPanel.dto";
 import { PanelForSaleService } from "src/services/panelForSale.service";
 
@@ -19,6 +19,11 @@ export class PanelForSaleController {
     @Post()
     async createPanelForSale(@Body() panel: CreatePanelDto) {
         return await this.panelForSaleService.createPanelForSale(panel);
+    }
+
+    @Put(":id")
+    async updatePanelForSale(@Param("id", ParseUUIDPipe) id:string,@Body() panel: Partial<CreatePanelDto>) {
+        return await this.panelForSaleService.updatePanelForSale(id, panel);
     }
 
     @Delete(':id')

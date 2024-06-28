@@ -21,6 +21,12 @@ export class PanelForSaleService {
     return await this.panelForSaleRepository.getPanelForSaleById(id);
   }
 
+  async updatePanelForSale(id:string,panelForSale: Partial<CreatePanelDto>) {
+    return await this.panelForSaleRepository.updatePanelForSale(id,panelForSale)
+
+
+  }
+
   async deletePanelForSale(id: string) {
     return await this.panelForSaleRepository.deletePanelForSale(id);
   }
