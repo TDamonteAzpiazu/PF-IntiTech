@@ -11,6 +11,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from './google.strategy/google.strategy';
 import { config as dotenvConfig } from 'dotenv';
+import { PanelForSaleModule } from './modules/panelForSale.module';
 dotenvConfig({ path: '.env' });
 
 @Module({
@@ -29,6 +30,7 @@ dotenvConfig({ path: '.env' });
     }),
     AuthModule,
     UserModule,
+    PanelForSaleModule
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy],
