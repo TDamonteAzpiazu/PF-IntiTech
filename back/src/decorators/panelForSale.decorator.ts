@@ -1,5 +1,5 @@
 import { applyDecorators } from "@nestjs/common"
-import { ApiBody, ApiOperation, ApiQuery } from "@nestjs/swagger"
+import { ApiBody, ApiOperation, ApiQuery, ApiResponse } from "@nestjs/swagger"
 import { CreatePanelDto } from "src/dto/createPanel.dto"
 
 
@@ -55,6 +55,7 @@ export const DeletePanelForSaleSwagger = () => {
         ApiOperation({
             summary: 'Delete panel', 
             description: 'Receives the ID of a panel as a parameter and deletes it from the database.'
-        })
+        }),
+        ApiResponse({status: 200, description: 'Panel deleted'})
     )
 }
