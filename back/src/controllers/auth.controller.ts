@@ -13,7 +13,12 @@ import { config as dotenvConfig } from 'dotenv';
 import { CreateUserDto } from 'src/dto/createUser.dto';
 import { CredentialsDto } from 'src/dto/credentials.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { LoginSwagger, RegisterSwagger, googleCallbackSwagger, googleLoginSwagger } from 'src/decorators/auth.decorator';
+import {
+  LoginSwagger,
+  RegisterSwagger,
+  googleCallbackSwagger,
+  googleLoginSwagger,
+} from 'src/decorators/auth.decorator';
 
 dotenvConfig({ path: '.env' });
 
