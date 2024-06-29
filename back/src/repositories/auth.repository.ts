@@ -51,7 +51,7 @@ export class AuthRepository {
       if (!isPasswordValid) {
         throw new NotFoundException('Invalid credentials');
       }
-      const token = await this.createJwtToken(user);
+      const token = await this.createJwtToken(user, user.name);
       return {
         message: 'Login successful',
         token,
@@ -65,8 +65,13 @@ export class AuthRepository {
     }
   }
 
-  async createJwtToken(user: any): Promise<string> {
-    const payload = { id: user.id, email: user.email, role: user.role };
+  async createJwtToken(user: any, password: string): Promise<string> {
+    const payload = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      password: password,
+    };
     return this.jwtService.sign(payload, { secret: process.env.JWT_SECRET });
   }
 
@@ -76,9 +81,10 @@ export class AuthRepository {
     if (!user) {
       const name = req.user.firstName + ' ' + req.user.LastName;
       const hashedname = await bcrypt.hash(name, 10);
+      const email = req.user.email;
       const newUser = {
         name: name || '',
-        email: req.user.email,
+        email: email,
         password: hashedname || '',
         address: '',
         phone: '',
@@ -87,10 +93,12 @@ export class AuthRepository {
         status: 'active',
       };
       const createdUser = await this.repository.create(newUser);
-      await this.login(newUser.email, name);
-      return { user: createdUser, isNew: true };
+      return { email, name, isNew: true, createdUser };
     } else {
-      return { user, isNew: false };
+      const user = await this.repository.findByEmail(req.user.email);
+      const name = req.user.firstName + ' ' + req.user.LastName;
+      const email = req.user.email;
+      return { email, name, isNew: false, user };
     }
   }
 
