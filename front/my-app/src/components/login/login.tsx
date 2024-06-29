@@ -1,4 +1,5 @@
 "use client"
+import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from 'react';
 import styles from './style.module.css';
 import { validateLoginForm, validateRegisterForm } from '@/helpers/formValidation';
@@ -81,10 +82,12 @@ const AuthForm = () => {
   }
   const handleSubmitLogin = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log(23)
     try {
       const res = await login_auth(dataLogin);
       const { token, user } = await res;
+      const decoded = jwtDecode(token)      
+      console.log(decoded);
+      
       localStorage.setItem('UserSession', JSON.stringify({ token, userData: user }));
       alert('Login successful');
       router.push('/')
