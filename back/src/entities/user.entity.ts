@@ -86,7 +86,7 @@ export class User {
     example: 'active',
   })
   @Column()
-  @IsString()
+  @IsEnum(["active" , "inactive" , "pending"])
   @IsNotEmpty()
   status: 'active' | 'inactive' | 'pending';
 }
