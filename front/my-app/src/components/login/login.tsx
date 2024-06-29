@@ -87,7 +87,7 @@ const AuthForm = () => {
       const { token, user } = await res;
       const decoded = jwtDecode(token)      
       console.log(decoded);
-      
+      document.cookie = `userToken=${token}`;
       localStorage.setItem('UserSession', JSON.stringify({ token, userData: user }));
       alert('Login successful');
       router.push('/')
