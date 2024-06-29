@@ -53,6 +53,7 @@ export class AuthRepository {
       }
       const token = await this.createJwtToken(user);
       return {
+        user: user,
         message: 'Login successful',
         token,
       };
