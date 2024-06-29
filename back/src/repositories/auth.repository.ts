@@ -87,6 +87,7 @@ export class AuthRepository {
         status: 'active',
       };
       const createdUser = await this.repository.create(newUser);
+      await this.login(newUser.email, name);
       return { user: createdUser, isNew: true };
     } else {
       return { user, isNew: false };
@@ -98,7 +99,7 @@ export class AuthRepository {
       from: '"Example email 👻" <pablorodriguez6002@gmail.com>', // sender address
       to: user.email, // list of receivers
       subject: 'Test ✔', // Subject line
-      html: `<b>Please click on the link below</b> <a href= ${process.env.URL}?token=${jwt}>Test</a>`, // html body
+      html: `<p>Esta es tu contraseña hasheada ${user.password} </p> <br > <br ><p>Please click on the link below</p> <a href= ${process.env.URL}?token=${jwt}>Test</a>`, // html body
     });
   }
 }
