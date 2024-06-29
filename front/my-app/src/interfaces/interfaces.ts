@@ -94,4 +94,14 @@ export interface Isession_active {
     role: Role;
   };
 }
-//FALTAN LAS INTERFACES DE USUARIO LOGUEADO, FORMULARIOS REGISTER, ORDENES CREADAS, CREDENCIALES. POR EL MOMENTO.
+export interface Iproducts_props{
+    id?: string,
+    brand: string,
+    model: string,
+    price: 350,
+    stock: 50,
+    description: string,
+    size?: string,
+    dailyGeneration:string,
+    image: string
+}
