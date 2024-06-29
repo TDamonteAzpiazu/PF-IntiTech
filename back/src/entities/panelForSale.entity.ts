@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import {v4 as uuid} from "uuid";
 
@@ -11,6 +12,7 @@ export class PanelForSale {
         example: '74a514f2-9c6c-4e72-a909-66aed6bfbd6f',
     })
     @PrimaryGeneratedColumn("uuid")
+    @IsUUID()
     id: string = uuid()
 
     @ApiProperty({
@@ -18,6 +20,8 @@ export class PanelForSale {
         example: 'SunPower',
     })
     @Column({nullable : false})
+    @IsString()
+    @IsNotEmpty()
     brand: string
 
     @ApiProperty({
@@ -25,6 +29,8 @@ export class PanelForSale {
         example: 'Maxeon 3 400W',
     })
     @Column({nullable : false})
+    @IsString()
+    @IsNotEmpty()
     model: string
 
     @ApiProperty({
@@ -32,6 +38,8 @@ export class PanelForSale {
         example: 350,
     })
     @Column({nullable : false})
+    @IsNumber()
+    @IsNotEmpty()
     price: number
 
     @ApiProperty({
@@ -39,6 +47,8 @@ export class PanelForSale {
         example: 50,
     })
     @Column({nullable : false})
+    @IsNumber()
+    @IsNotEmpty()
     stock: number
 
     @ApiProperty({
@@ -46,6 +56,8 @@ export class PanelForSale {
         example: 'High efficiency solar panel with 400W power output.',
     })
     @Column({nullable : false})
+    @IsString()
+    @IsNotEmpty()
     description: string
 
     @ApiProperty({
@@ -53,6 +65,8 @@ export class PanelForSale {
         example: '1046 x 1690 mm',
     })
     @Column({nullable : false})
+    @IsString()
+    @IsNotEmpty()
     size: string
 
     @ApiProperty({
@@ -60,6 +74,7 @@ export class PanelForSale {
         example: 4.8,
     })
     @Column({type: 'decimal', precision: 10, scale: 2, nullable: false})
+    @IsNumber()
     dailyGeneration: number
 
     @ApiProperty({
@@ -67,5 +82,7 @@ export class PanelForSale {
         example: 'https://res.cloudinary.com/dc8tneepi/image/upload/nnpuge2eky9kzbswxmbk.jpg',
     })
     @Column({ default: 'https://res.cloudinary.com/dc8tneepi/image/upload/nnpuge2eky9kzbswxmbk.jpg'})
+    @IsString()
+    @IsNotEmpty()
     image: string
 }
