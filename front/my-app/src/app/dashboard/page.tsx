@@ -11,7 +11,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="flex h-auto">
       {/*barra de navegacion lateral*/}
-      <nav className="w-auto bg-slate-100 p-4 rounded-lg">
+      <nav className="w-auto bg-slate-100 p-4 m-2 rounded-lg">
         <div className="flex items-center mb-6">
           {
             //  <Image src={"/icon.png"} alt={"icono intitech"} width={50} height={50} />
@@ -37,24 +37,19 @@ const Dashboard: React.FC = () => {
         </ul>
       </nav>
 
-
-      <main className="w-4/5 p-4 grid grid-cols-3 gap-4">
-        <section>
-          <div className="bg-gray-400 p-4 rounded-lg shadow-md">
+      <main className="w-4/5 p-4 grid grid-cols-2 gap-2 mt-5 h-svh">
+        <section className="bg-gray-100 p-1 rounded-lg shadow-md">
+          
             <Lines_Chart />
-          </div>
         </section>
 
-        <section>
-          <div className="bg-gray-400 p-4 rounded-lg shadow-md">
+        <section className="bg-gray-100 p-4 rounded-lg shadow-md">
             <Bar_Chart />
-          </div>
+          <div className="w-56 -mt-10 overflow-hidden bg-gray-100 rounded-lg shadow-lg md:w-64 dark:bg-gray-800"></div>
         </section>
 
-        <section>
-          <div className="bg-gray-400 p-4 rounded-lg">
+        <section className="bg-gray-100 p-4 rounded-lg shadow-md h-60">
             <Circular_Chart />
-          </div>
         </section>
       </main>
     </div>
