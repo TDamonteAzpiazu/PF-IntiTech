@@ -48,13 +48,12 @@ export class AuthController {
   @googleCallbackSwagger()
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req, @Res() res) {
-    const { user, isNew, name } = await this.authService.googleLogin(req);
-    const jwt = await this.authService.createToken(user, name);
+    const { createdUser, isNew, name } = await this.authService.googleLogin(req);
+    const jwt = await this.authService.createToken(createdUser, name);
 
     if (isNew) {
-      await this.authService.sendEmail(user, jwt);
+      await this.authService.sendEmail(createdUser, jwt);
     }
-
-    res.redirect(`http://localhost:3001/${jwt}`);
+    res.redirect(`http://localhost:3001/auth/google/callback/${jwt}`);
   }
 }

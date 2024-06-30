@@ -80,18 +80,30 @@ export interface Icontext_props {
   user_data: Isession_active | null;
   setUser_data: (user_data: Isession_active | null) => void;
 }
+
+export interface IAuthContext {
+  token: string;
+  setToken: (token: string) => void;
+  logout: () => void;
+  userData: Isession_active | null;
+  setUserData: (userData: Isession_active) => void;
+
+}
+
+export interface IAuthProviderProps{
+  children: React.ReactNode
+}
+
+
 //VERIFICAR SI AL USER SE LE AGREGA UNA PROPIEDAD PARA GUARDAR SUS ORDENES Y AGREGARLA EN ESTA INTERFACE.
 export interface Isession_active {
   token: string;
   user: {
-    id: string;
     name: string;
     email: string;
     password: string;
     address: string;
     phone: string;
-    country: string;
-    role: Role;
   };
 }
 export interface Iproducts_props{
@@ -105,3 +117,4 @@ export interface Iproducts_props{
     dailyGeneration:string,
     image: string
 }
+
