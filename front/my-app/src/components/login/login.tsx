@@ -5,9 +5,11 @@ import styles from './style.module.css';
 import { validateLoginForm, validateRegisterForm } from '@/helpers/formValidation';
 import { LoginErrorProps, RegisterErrorProps, Isession_active } from '@/interfaces/interfaces';
 import { login_auth, register_auth } from '@/helpers/auth.login';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
+import { Itoken } from "../google_button/prueba";
+import { Idata_google, auth_google, post_auth } from "@/helpers/auth.google";
 
 const AuthForm = () => {
   const router = useRouter();
@@ -24,6 +26,8 @@ const AuthForm = () => {
   }
 
   }, [])
+
+  
 
   //* Logica del registro
 
@@ -95,6 +99,42 @@ const AuthForm = () => {
       throw new Error(error);
     }
   }
+
+  const [data, setData] = useState<any | null>(null);
+
+  useEffect(() => {
+    const get_data_google = async () => {
+      try {
+        if (!router.isReady) return; // Verificar que el router esté listo
+        const { token } = router.query;
+        if (token) {
+          const decode_token: Itoken = jwtDecode(token as string);
+          const autentication_data: Idata_google = {
+            email: decode_token.email,
+            name: decode_token.name,
+          };
+          const data = await auth_google(autentication_data);
+          setData(data);
+        }
+      } catch (error) {
+        console.error("error en funcion get_data_google:", error);
+      }
+    };
+
+    get_data_google(); // Llamar a la función dentro del useEffect
+
+  }, [router.isReady, router.query]);
+
+  const post_data_google = async () => {
+    try {
+      if (data) {
+        await post_auth(data);
+      }
+    } catch (error) {
+      console.error("error en funcion post_data_google:", error);
+    }
+  };
+
   return (
     <div className={styles.padre}>
       <div className={`${styles.container} ${active ? styles.active : ''}`} id="container">
@@ -186,6 +226,9 @@ const AuthForm = () => {
               <h1 className={styles.welcome}>Welcome Back!</h1>
               <p>Enter your personal details to use all of site features</p>
               <button className={styles.hidden} onClick={toggleClass}>Sign In</button>
+            </div>
+            <div>
+              Button
             </div>
             <div className={`${styles['toggle-panel']} ${styles['toggle-right']}`}>
               <h1 className={styles.welcome} >Hello, Friend!</h1>
