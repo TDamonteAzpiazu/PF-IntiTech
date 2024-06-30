@@ -12,17 +12,23 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-          'custom-radial': 'radial-gradient(circle at 5% 5%, #FFED00, transparent 40%), radial-gradient(circle at 100% 110%, #FFED00, transparent 40%)'
+          'custom-radial': 'radial-gradient(circle at 5% 5%, #FFED00, transparent 40%), radial-gradient(circle at 100% 110%, #FFED00, transparent 40%)',
+          'custom-image': "url('../../public/images/background.jpg')",
+          'custom-ratiant': 'linear-gradient(to left, #f7a90e, #fbba02, #feca00, #ffdc00, #ffed00);',
       },
       colors: {
         'yellowinti':'#ffed00',
         'lightorangeinti':'#f7a90e',
         'orangeinti':'#e18104',
         'yellowcustom': '#F7A90E',
+        'nose': '#F4F2EE',
       },
       backgroundSize: {
         'size-200': '115%',
       },
+      boxShadow: {
+        'custom': '0px 10px 35px -5px rgba(0, 0, 0, 0.1)',
+      }
     },
   },
   plugins: [],
