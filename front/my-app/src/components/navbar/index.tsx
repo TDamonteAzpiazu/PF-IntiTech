@@ -4,38 +4,36 @@ import Link from "next/link";
 import { Transition } from '@headlessui/react';
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-
+  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [userData, setUserData] = useState<Isession_active>();
+  const [userSession, setUserSession] = useState<Isession_active>();
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
-      const userData: Isession_active = JSON.parse(localStorage.getItem('token')!)
-      setUserData(userData)
+      const user: Isession_active = JSON.parse(localStorage.getItem('UserSession')!)
+      setUserSession(user)
     }
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
     document.cookie = 'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC'
     localStorage.removeItem('UserSession');
     localStorage.removeItem('DataUser');
     window.location.reload();
+    router.push('/')
   }
   const handleClick = () => {
     setOpen(!open);
   }
 
-  const handleChange = () => {
-    console.log("hola")
-  }
 
   return (
-    <div className="h-20 bg-transparent text-white fixed w-full top-0 z-50">
+    <div className="h-20 bg-gradient-to-bottom text-white fixed w-full top-0 z-50">
       {
-        userData?.token ? (
+        userSession?.token ? (
           <div className="flex items-center justify-between h-full">
             <div className="h-full w-24 ml-8">
               <Image className="h-full" src="/images/logo.png" alt="logo" width={100} height={100} />
@@ -50,7 +48,7 @@ const Navbar = () => {
               </ul>
             </nav>
             {
-              userData.token && (
+              userSession.token && (
                 <div>
                   <button className="flex items-center mr-5" onClick={handleClick} >Welcome back!
                     {
@@ -142,15 +140,15 @@ const Navbar = () => {
             <nav className="h-full">
               <ul className="flex items-center w-full h-full ">
                 <li className=" flex items-center gap-5 h-full ">
-                  <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" onClick={handleChange} href="/">Home</Link>
+                  <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/">Home</Link>
                   <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/products">Products</Link>
                   <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/about">About us</Link>
                 </li>
               </ul>
             </nav>
             <div className="mx-5">
-              <button onClick={handleClick} className="w-20 bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-lg transition-all duration-500">
-                <a href="/login">Login </a></button>
+              <button onClick={handleClick} className="w-fit bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-lg transition-all duration-500">
+                <a href="/login">Login / Register </a></button>
             </div>
           </div>
         )

@@ -44,12 +44,12 @@ export const useAuth_context = () => useContext(Context)
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string>("");
+  const [token, setToken] = useState<string | any>("");
   const [userData, setUserData] = useState<Isession_active | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storageToken: string | null = localStorage.getItem("token");
+      const storageToken: string | any = localStorage.getItem("UserSession");
       if (storageToken) {
         setToken(storageToken);
       }
