@@ -11,6 +11,10 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from './google.strategy/google.strategy';
 import { config as dotenvConfig } from 'dotenv';
+import { PanelForSaleModule } from './modules/panelForSale.module';
+import { CloudinaryModule } from './modules/cloudinary.module';
+import { OperatingPanelsModule } from './modules/operatingPanels.module';
+import { inversorModule } from './modules/inversor.module';
 dotenvConfig({ path: '.env' });
 
 @Module({
@@ -23,15 +27,18 @@ dotenvConfig({ path: '.env' });
     }),
     PassportModule,
     JwtModule.register({
-      global:true,
-      secret:process.env.JWT_SECRET,
-      signOptions:{ expiresIn: '1d' },
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1d' },
     }),
     AuthModule,
     UserModule,
+    PanelForSaleModule,
+    CloudinaryModule,
+    OperatingPanelsModule,
+    inversorModule,
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy],
 })
-
 export class AppModule {}

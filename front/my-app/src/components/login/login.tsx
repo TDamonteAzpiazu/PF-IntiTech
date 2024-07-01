@@ -1,13 +1,13 @@
 "use client"
+import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from 'react';
 import styles from './style.module.css';
 import { validateLoginForm, validateRegisterForm } from '@/helpers/formValidation';
 import { LoginErrorProps, RegisterErrorProps, Isession_active } from '@/interfaces/interfaces';
-import { login_auth } from '@/helpers/auth.login';
+import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
 import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
-
 const AuthForm = () => {
   const router = useRouter();
   const [active, setActive] = useState(false);
@@ -24,6 +24,8 @@ const AuthForm = () => {
 
   }, [])
 
+  
+
   //* Logica del registro
 
 
@@ -33,7 +35,6 @@ const AuthForm = () => {
     password: '',
     address: '',
     phone: '',
-    country: '',
   });
 
   const [errorRegister, setErrorRegister] = useState<RegisterErrorProps>({
@@ -55,8 +56,7 @@ const AuthForm = () => {
   }
   const handleSubmitRegister = async () => {
     try {
-      const res = await login_auth(dataRegister)
-      console.log(res)
+      const res = await register_auth(dataRegister)
       alert('Register successful');
     } catch (error: any) {
       throw new Error(error);
@@ -85,7 +85,11 @@ const AuthForm = () => {
     event.preventDefault()
     try {
       const res = await login_auth(dataLogin);
+      console.log(res.token);
       const { token, user } = await res;
+      const decoded = jwtDecode(token)      
+      console.log(decoded);
+      document.cookie = `userToken=${token}`;
       localStorage.setItem('UserSession', JSON.stringify({ token, userData: user }));
       alert('Login successful');
       router.push('/')
@@ -93,17 +97,20 @@ const AuthForm = () => {
       throw new Error(error);
     }
   }
+
+
   return (
     <div className={styles.padre}>
       <div className={`${styles.container} ${active ? styles.active : ''}`} id="container">
         <div className={`${styles['form-container']} ${styles['sign-up']}`}>
           <form onSubmit={handleSubmitRegister}>
-            <Image src={logo} alt="logo" width={100} height={100} />
+            <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
             <div className={styles['social-icons']}>
               <a href="#" className={styles.icon}><i className="fa-brands fa-google-plus-g"></i></a>
               <a href="#" className={styles.icon}><i className="fa-brands fa-facebook-f"></i></a>
               <a href="#" className={styles.icon}><i className="fa-brands fa-linkedin-in"></i></a>
             </div>
+            
             <span>or use your email for registration</span>
             {errorRegister.email && <q className={styles.error}>{errorRegister.email}</q>}
             <input
@@ -150,7 +157,7 @@ const AuthForm = () => {
         </div>
         <div className={`${styles['form-container']} ${styles['sign-in']}`}>
           <form onSubmit={handleSubmitLogin}>
-            <Image src={logo} alt="logo" width={100} height={100} />
+            <Image className={styles.logoLogin} src={logo} alt="logo" width={100} height={100} />
             <h1 className={styles.title}>Sign In</h1>
             <div className={styles['social-icons']}>
               <a href="#" className={styles.icon}><i className="fa-brands fa-google-plus-g"></i></a>
@@ -174,8 +181,9 @@ const AuthForm = () => {
               onChange={handleChangeLogin}
               type='password'
               placeholder='Password' />
+              <GoogleButton />
             <a href="#">Forget Your Password?</a>
-            <button type='submit'>Sign In</button>
+            <button className='btn-session' type='submit'>Sign In</button>
           </form>
         </div>
         <div className={styles['toggle-container']}>
@@ -193,6 +201,7 @@ const AuthForm = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };

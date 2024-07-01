@@ -113,16 +113,20 @@ const Dashboard: React.FC = () => {
 
       <main className="w-4/5 p-4 grid grid-cols-2 gap-2 mt-5 h-svh">
         <section className="bg-gray-100 p-1 rounded-lg shadow-md">
-          <Lines_Chart />
+ 
+            <Lines_Chart />
         </section>
 
         <section className="bg-gray-100 p-4 rounded-lg shadow-md">
-          <Bar_Chart />
+            <Bar_Chart />
+
           <div className="w-56 -mt-10 overflow-hidden bg-gray-100 rounded-lg shadow-lg md:w-64 dark:bg-gray-800"></div>
         </section>
 
         <section className="bg-gray-100 p-4 rounded-lg shadow-md h-60">
-          <Circular_Chart />
+
+            <Circular_Chart />
+
         </section>
       </main>
     </div>

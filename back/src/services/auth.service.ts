@@ -25,8 +25,8 @@ export class AuthService {
     return await this.authRepository.createJwtToken(user);
   }
 
-  async googleLogin(req) {
-    return await this.authRepository.googleLogin(req);
+  async googleLogin(data: any) {
+    return await this.authRepository.googleLogin(data);
   }
 
   async sendEmail(user, jwt) {

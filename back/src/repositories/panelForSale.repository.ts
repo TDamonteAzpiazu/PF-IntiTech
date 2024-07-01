@@ -1,15 +1,28 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreatePanelDto } from "src/dto/createPanel.dto";
 import { PanelForSale } from "src/entities/panelForSale.entity";
+import { Panels } from "src/utils/Panels";
 import { Repository } from "typeorm";
 
 @Injectable()
-export class PanelForSaleRepository {
+export class PanelForSaleRepository implements OnModuleInit{
     
     constructor( 
         @InjectRepository(PanelForSale) private readonly panelForSaleRepository: Repository<PanelForSale>,
     ) {}
+
+    async onModuleInit(): Promise<void> {
+
+      for (const panel of Panels) {
+        
+        const findPanel = await this.panelForSaleRepository.findOneBy({brand: panel.brand, model: panel.model})
+
+        if (!findPanel) {
+          await this.panelForSaleRepository.save(panel);
+        }
+      }
+  }
 
 
     async createPanelForSale(panelForSale : CreatePanelDto): Promise<PanelForSale> {
@@ -45,10 +58,9 @@ export class PanelForSaleRepository {
       if (!panelToUpdate) {
         throw new NotFoundException("Panel not found");
       }
-      Object.assign(panelToUpdate, panel);
-      await this.panelForSaleRepository.save(panelToUpdate);
-      return panelToUpdate;
-
+      const updatedPanel = this.panelForSaleRepository.merge(panelToUpdate, panel);
+      await this.panelForSaleRepository.save(updatedPanel);
+      return updatedPanel;
     }
 
 

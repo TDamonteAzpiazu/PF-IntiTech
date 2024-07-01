@@ -5,6 +5,7 @@ import { CreateUserDto } from 'src/dto/createUser.dto';
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/enum/role.enum';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserRepository implements OnModuleInit {
@@ -17,15 +18,15 @@ export class UserRepository implements OnModuleInit {
       where: { email: 'admin@example.com' },
     });
     if (!user) {
-      // hashear la contraseña del usuario
-      // comprobar si la contraseña fue hasheada correctamente
+      const hashedPassword = await bcrypt.hash('Password1!', 10);
       const newUser = this.userRepository.create({
         name: 'Admin',
         email: 'admin@example.com',
-        password: '123456',
+        password: hashedPassword,
         address: 'Calle Falsa 123',
         phone: '123456789',
         role: Role.Admin,
+        status: 'active',
       });
 
       await this.userRepository.save(newUser);
@@ -74,7 +75,9 @@ export class UserRepository implements OnModuleInit {
   }
 
   async create(data: CreateUserDto): Promise<User> {
-    const newUser = this.userRepository.create(data);
+    const newUser = this.userRepository.create({
+      ...data,
+    });
     return await this.userRepository.save(newUser);
   }
 

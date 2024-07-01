@@ -12,10 +12,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
+import { UploadPanelImageSwagger, UploadUserImageSwagger } from 'src/decorators/cloudinary.decorator';
 import { CloudinaryService } from 'src/services/cloudinary.service';
 import { PanelForSaleService } from 'src/services/panelForSale.service';
 import { UserService } from 'src/services/user.service';
 
+@ApiTags('Cloudinary')
 @Controller('files')
 export class CloudinaryController {
   constructor(
@@ -25,6 +28,7 @@ export class CloudinaryController {
   ) {}
 
   @Post('uploadUserImage/:id')
+  @UploadUserImageSwagger()
   @UseInterceptors(FileInterceptor('file'))
   async uploadUserImage(
     @Param('id', ParseUUIDPipe) id: string,
@@ -50,6 +54,7 @@ export class CloudinaryController {
 
 
   @Post('uploadPanelImage/:id')
+  @UploadPanelImageSwagger()
   @UseInterceptors(FileInterceptor('file'))
   async uploadPanelImage(
     @Param('id', ParseUUIDPipe) id: string,
