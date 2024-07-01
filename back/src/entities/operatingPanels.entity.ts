@@ -5,7 +5,7 @@ import { Stats } from "./stats.entity";
 import {  IsUUID } from "class-validator";
 import { StatsDto } from "src/dto/stats.dto";
 import { Inversor } from "./inversor.entity";
-@Entity({name : "panelstats"})
+@Entity({name : "operatingpanels"})
 export class OperatingPanels {
 
     @PrimaryGeneratedColumn("uuid")

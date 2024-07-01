@@ -53,7 +53,7 @@ export class OperatingPanelsRepository {
     
     const inversor = await this.inversorRepository.findOneBy({ name : inversorName });
     if (!inversor) {
-      throw new BadRequestException('Inversor dont exist');
+      throw new BadRequestException('Inversor does not exist');
     }
     const panelData = this.operatingPanelsRepository.create({
       stats: arrayStats,
