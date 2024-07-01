@@ -5,9 +5,10 @@ import { OperatingPanelsController } from "src/controllers/operatingPanels.contr
 import { OperatingPanels } from "src/entities/operatingPanels.entity";
 import { OperatingPanelsRepository } from "src/repositories/operatingPanels.repository";
 import { OperatingPanelsService } from "src/services/operatingPanels.service";
+import { Inversor } from "src/entities/inversor.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([OperatingPanels , Stats])],
+    imports: [TypeOrmModule.forFeature([OperatingPanels , Stats , Inversor])],
     controllers: [OperatingPanelsController],
     providers : [OperatingPanelsService , OperatingPanelsRepository]
 })
