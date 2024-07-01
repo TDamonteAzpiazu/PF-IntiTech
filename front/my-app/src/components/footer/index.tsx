@@ -4,6 +4,13 @@ import React from 'react';
 
 
 const Footer: React.FC = () => {
+
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Lógica para enviar el formulario
+  };
+
   return (
     <footer className="bg-[#dadada] text-black py-8">
       <div className="container mx-auto px-4">
@@ -11,7 +18,7 @@ const Footer: React.FC = () => {
           {/* Formulario */}
           <div>
             <h2 className="text-xl font-bold mb-4 border-b border-black h-8 w-64">Suscríbete</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="name" className="block mb-2">Nombre</label>
                 <input

@@ -110,11 +110,6 @@ const AuthForm = () => {
         <div className={`${styles['form-container']} ${styles['sign-up']}`}>
           <form onSubmit={handleSubmitRegister}>
             <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
-            <div className={styles['social-icons']}>
-              <a href="#" className={styles.icon}><i className="fa-brands fa-facebook-f"></i></a>
-              <a href="#" className={styles.icon}><i className="fa-brands fa-linkedin-in"></i></a>
-            </div>
-
             <span>or use your email for registration</span>
             {errorRegister.email && <q className={styles.error}>{errorRegister.email}</q>}
             <input
@@ -158,7 +153,7 @@ const AuthForm = () => {
               placeholder='Phone' />
             <button type='submit'>Sign Up</button>
           </form>
-          <div className="absolute bottom-6 right-0">
+          <div className="pruebaBTN absolute bottom-3 right-20">
           <GoogleButton />
           </div>
         </div>
@@ -191,6 +186,9 @@ const AuthForm = () => {
             <a href="#">Forget Your Password?</a>
             <button className='btn-session' type='submit'>Sign In</button>
           </form>
+          <div className="pruebaBTN absolute bottom-6 right-20">
+          <GoogleButton />
+          </div>
         </div>
         <div className={styles['toggle-container']}>
           <div className={styles.toggle}>

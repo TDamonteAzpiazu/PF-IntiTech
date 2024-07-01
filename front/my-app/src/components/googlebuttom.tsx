@@ -11,7 +11,7 @@ const GoogleButton = () => {
     return (
 
         <button onClick={handleLogin}>
-            <i className="fa-brands fa-google-plus-g"></i>
+            Iniciar con Google
         </button>
 
     );

@@ -109,6 +109,7 @@ export interface Isession_active {
 }
 
 export interface DataUser {
+  id: string;
   name: string;
   email: string;
   password: string;

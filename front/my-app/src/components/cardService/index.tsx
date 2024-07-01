@@ -14,7 +14,7 @@ const CardService = () => {
                     <div>
                         <h1 className="font-semibold text-xl py-3">DUSTERFLEX</h1>
                         <p className="pb-5 px-5 text-sm">Agendamiento de limpieza para las fechas requeridas. Nuestro equipo opera los robots hasta completar la limpieza.</p>
-                        <Link href="/contact">
+                        <Link href="/Hire">
                             <button className="border py-2 px-9 rounded-xl mt-10 bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right transition-all duration-500">
                                 Contratar
                             </button>
@@ -28,7 +28,7 @@ const CardService = () => {
                     <div>
                         <h1 className="font-semibold text-xl py-3">SMARTDUSTER</h1>
                         <p className="pb-5 px-5 text-sm">Instalación permanente de un robot autónomo en cada fila de paneles, para una limpieza de alta frecuencia programada de forma remota.</p>
-                        <Link href="/contact">
+                        <Link href="/Hire">
                             <button className="border py-2 px-9 rounded-xl mt-10 bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right transition-all duration-500">
                                 Contratar
                             </button>
@@ -42,7 +42,7 @@ const CardService = () => {
                     <div>
                         <h1 className="font-semibold text-xl py-3">SUNSIGHT</h1>
                         <p className="pb-5 px-5 text-sm">Obtiene una lectura correcta de la irradiación de la planta solar, mediante nuestro robot limpiador de piranómetros con conexión directa al SCADA (Supervisory Control and Data Acquisition) .</p>
-                        <Link href="/contact">
+                        <Link href="/Hire">
                             <button className="border py-2 px-9 rounded-xl bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right transition-all duration-500 ">
                                 Contratar
                             </button>

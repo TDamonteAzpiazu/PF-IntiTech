@@ -15,6 +15,7 @@ const config: Config = {
           'custom-radial': 'radial-gradient(circle at 5% 5%, #FFED00, transparent 40%), radial-gradient(circle at 100% 110%, #FFED00, transparent 40%)',
           'custom-image': "url('../../public/images/background.jpg')",
           'custom-ratiant': 'linear-gradient(to left, #f7a90e, #fbba02, #feca00, #ffdc00, #ffed00);',
+          'gradient-to-bottom': 'linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(14, 14, 14, 0))',
       },
       colors: {
         'yellowinti':'#ffed00',
