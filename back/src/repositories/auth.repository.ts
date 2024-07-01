@@ -26,11 +26,14 @@ export class AuthRepository {
         throw new BadRequestException('User already exists');
       }
       const hashedPassword = await bcrypt.hash(password, 10);
-      return await this.repository.create({
+      
+      await this.repository.create({
         email,
         password: hashedPassword,
         ...rest,
       });
+      
+      return user;
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
@@ -43,7 +46,7 @@ export class AuthRepository {
   async login(email: string, password: string) {
     try {
       const user = await this.repository.findByEmail(email);
-      console.log(user);
+      
       if (!user) {
         throw new NotFoundException('Invalid credentials');
       }
