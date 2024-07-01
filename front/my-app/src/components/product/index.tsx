@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import { Iproducts_props } from "@/interfaces/interfaces";
+import Link from "next/link";
 
 const Product: React.FC<Iproducts_props> = ({
+  id,
   brand,
   model,
   price,
@@ -12,7 +14,7 @@ const Product: React.FC<Iproducts_props> = ({
   image,
 }) => {
   return (
-    <div className="flex justify-center items-center mt-8">
+    <div className="flex justify-center items-center m-8">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden w-80">
         <div className="relative h-48">
           <Image
@@ -43,9 +45,11 @@ const Product: React.FC<Iproducts_props> = ({
             </span>
           </div>
 
-          <button className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105">
-            Ver detalles
-          </button>
+          <Link href={`product_detail/${id}`}>
+            <button className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105">
+              Ver detalles
+            </button>
+          </Link>
         </div>
       </div>
     </div>

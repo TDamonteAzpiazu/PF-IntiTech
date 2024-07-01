@@ -75,10 +75,8 @@ export class UserRepository implements OnModuleInit {
   }
 
   async create(data: CreateUserDto): Promise<User> {
-    const status = 'active';
     const newUser = this.userRepository.create({
       ...data,
-      status,
     });
     return await this.userRepository.save(newUser);
   }

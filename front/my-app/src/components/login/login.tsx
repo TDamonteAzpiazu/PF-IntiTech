@@ -8,9 +8,6 @@ import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
 import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
-import GoogleButton from "../googlebuttom";
-
-
 const AuthForm = () => {
   const router = useRouter();
   const [active, setActive] = useState(false);
@@ -104,7 +101,6 @@ const AuthForm = () => {
       throw new Error(error);
     }
   }
-
   return (
     <div className={styles.padre}>
       <div className={`${styles.container} ${active ? styles.active : ''}`} id="container">
@@ -199,9 +195,6 @@ const AuthForm = () => {
               <p>Enter your personal details to use all of site features</p>
               <button className={styles.hidden} onClick={toggleClass}>Sign In</button>
             </div>
-            <div>
-              Button
-            </div>
             <div className={`${styles['toggle-panel']} ${styles['toggle-right']}`}>
               <h1 className={styles.welcome} >Hello, Friend!</h1>
               <p>Register with your personal details to use all of site features</p>
@@ -210,6 +203,7 @@ const AuthForm = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };

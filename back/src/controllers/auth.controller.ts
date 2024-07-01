@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Post,
   Req,
   Res,
@@ -19,13 +20,17 @@ import {
   googleCallbackSwagger,
   googleLoginSwagger,
 } from 'src/decorators/auth.decorator';
+import { UserService } from 'src/services/user.service';
 
 dotenvConfig({ path: '.env' });
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post('register')
   @RegisterSwagger()
@@ -48,14 +53,10 @@ export class AuthController {
   @googleCallbackSwagger()
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req, @Res() res) {
-    const { createdUser, isNew, name } = await this.authService.googleLogin(req);
-    const jwt = await this.authService.createToken(createdUser, name);
-
-    if (isNew) {
-      await this.authService.sendEmail(createdUser, jwt);
-    }
-    res.redirect(`http://localhost:3001/auth/google/${jwt}`);
-    
-    return 
+    await this.authService.googleLogin(req.user);
+    const user = await this.userService.findByEmail(req.user.email);
+    const jwt = await this.authService.createToken(user);
+    res.status(HttpStatus.OK).redirect(`http://localhost:3001/auth/google?token=${jwt}`);
+    return;
   }
 }

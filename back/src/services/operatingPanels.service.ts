@@ -12,10 +12,15 @@ export class OperatingPanelsService {
        return await this.OperatingPanelsRepository.readExcel(buffer);
     }
 
-    async extractData(data: string) {
-        return await this.OperatingPanelsRepository.extractData(data);
+    async extractData(data: string , inversorName : string) {
+        return await this.OperatingPanelsRepository.extractData(data , inversorName);
     }
 
+    async getAllOperatingPanels() {
+        return await this.OperatingPanelsRepository.getAllOperatingPanels();
+    }
 
-
+    async getOperatingPanelById(id : string) {
+        return await this.OperatingPanelsRepository.getOperatingPanelById(id);
+    }
 }

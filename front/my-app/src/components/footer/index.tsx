@@ -1,4 +1,5 @@
 import React from 'react';
+import Google_Button from '@/components/google_button/prueba';
 const Footer: React.FC = () => {
   return (
     <footer className="bg-[#dadada] text-black py-8">
@@ -60,6 +61,8 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
+      <Google_Button/>
+
     </footer>
   );
 };

@@ -14,6 +14,6 @@ export class Inversor {
     @IsNotEmpty()
     name: string
 
-    // @OneToMany(() => OperatingPanels, operatingPanels => operatingPanels.inversor)
-    // operatingPanels: OperatingPanels[]
+    @OneToMany(() => OperatingPanels, operatingPanels => operatingPanels.inversor)
+    operatingPanels: OperatingPanels[]
 }

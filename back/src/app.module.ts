@@ -14,6 +14,7 @@ import { config as dotenvConfig } from 'dotenv';
 import { PanelForSaleModule } from './modules/panelForSale.module';
 import { CloudinaryModule } from './modules/cloudinary.module';
 import { OperatingPanelsModule } from './modules/operatingPanels.module';
+import { inversorModule } from './modules/inversor.module';
 dotenvConfig({ path: '.env' });
 
 @Module({
@@ -34,7 +35,8 @@ dotenvConfig({ path: '.env' });
     UserModule,
     PanelForSaleModule,
     CloudinaryModule,
-    OperatingPanelsModule
+    OperatingPanelsModule,
+    inversorModule,
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy],
