@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Idata_google, auth_google, post_auth } from "@/helpers/auth.google";
 import Button from "./index"; 
 import { jwtDecode } from "jwt-decode";
+import { signIn } from "next-auth/react";
 
 export interface Itoken {
   token: string | null;
@@ -28,7 +29,7 @@ const Google_Button: React.FC = () => {
           const autentication_data: Idata_google = {
             email: decode_token.email,
             name: decode_token.name,
-          };
+          }; 
           const data = await auth_google(autentication_data);
           console.log("Auth Data:", data);
           setData(data);
@@ -55,7 +56,7 @@ const Google_Button: React.FC = () => {
 
   return (
     <div>
-      <Button onClick={post_data_google} />
+      <Button onClick={()=>signIn()} />
     </div>
   );
 };
