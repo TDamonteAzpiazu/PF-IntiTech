@@ -1,20 +1,20 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {  Column, Entity , ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import {v4 as uuid} from "uuid";
-import { Inversor } from "./inversor.entity";
+
 import { Stats } from "./stats.entity";
-import { IsNotEmpty, IsString, IsUUID } from "class-validator";
-@Entity({name : "panelstats"})
+import {  IsUUID } from "class-validator";
+import { StatsDto } from "src/dto/stats.dto";
+import { Inversor } from "./inversor.entity";
+@Entity({name : "operatingpanels"})
 export class OperatingPanels {
 
     @PrimaryGeneratedColumn("uuid")
     @IsUUID()
-    id: string = uuid;
-
-    @OneToMany(() => Inversor, (inversor) => inversor.operatingPanels)
-    @IsString()
-    @IsNotEmpty()
-    inversor : string;
+    id: string = uuid()
 
     @OneToMany(() => Stats, stats => stats.operatingPanel)
     stats: Stats[];
+
+    @ManyToOne(() => Inversor, inversor => inversor.operatingPanels)
+    inversor: Inversor;
 }

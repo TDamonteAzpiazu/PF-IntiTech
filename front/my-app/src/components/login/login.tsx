@@ -8,7 +8,6 @@ import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
 import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
-
 const AuthForm = () => {
   const router = useRouter();
   const [active, setActive] = useState(false);
@@ -86,6 +85,7 @@ const AuthForm = () => {
     event.preventDefault()
     try {
       const res = await login_auth(dataLogin);
+      console.log(res.token);
       const { token, user } = await res;
       const decoded = jwtDecode(token)      
       console.log(decoded);
@@ -110,6 +110,7 @@ const AuthForm = () => {
               <a href="#" className={styles.icon}><i className="fa-brands fa-facebook-f"></i></a>
               <a href="#" className={styles.icon}><i className="fa-brands fa-linkedin-in"></i></a>
             </div>
+            
             <span>or use your email for registration</span>
             {errorRegister.email && <q className={styles.error}>{errorRegister.email}</q>}
             <input
@@ -180,6 +181,7 @@ const AuthForm = () => {
               onChange={handleChangeLogin}
               type='password'
               placeholder='Password' />
+              <GoogleButton />
             <a href="#">Forget Your Password?</a>
             <button className='btn-session' type='submit'>Sign In</button>
           </form>

@@ -65,3 +65,20 @@ http://localhost:3000/panelForSale/:id
 
 DELETE:
 http://localhost:3000/panelForSale/:id
+
+## Archivos de paneles
+
+### Subir un archivo
+
+POST:
+http://localhost:3000/panels/upload
+
+### Get all panels
+
+GET:
+http://localhost:3000/panels
+
+### Get panel by id
+
+GET:
+http://localhost:3000/panels/:id

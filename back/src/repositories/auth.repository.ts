@@ -66,32 +66,36 @@ export class AuthRepository {
   }
 
   async createJwtToken(user: any): Promise<string> {
-    const payload = { id: user.id, email: user.email, role: user.role };
+    const payload = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    };
     return this.jwtService.sign(payload, { secret: process.env.JWT_SECRET });
   }
 
-  async googleLogin(req) {
-    const user = await this.repository.findByEmail(req.user.email);
-
-    if (!user) {
-      const name = req.user.firstName + ' ' + req.user.LastName;
-      const hashedname = await bcrypt.hash(name, 10);
-      const newUser = {
-        name: name || '',
-        email: req.user.email,
-        password: hashedname || '',
-        address: '',
-        phone: '',
-        role: Role.User,
-        image: req.user.picture,
-        status: 'active',
-      };
-      const createdUser = await this.repository.create(newUser);
-      await this.login(newUser.email, name);
-      return { user: createdUser, isNew: true };
-    } else {
-      return { user, isNew: false };
-    }
+  async googleLogin(data: any) {
+    return runWithTryCatchBadRequest(async () => {
+      const user = await this.repository.findByEmail(data.email);
+      if (!user) {
+        const name = data.firstName + ' ' + data.LastName;
+        const email = data.email;
+        const newUser = {
+          name: name || '',
+          email: email,
+          password: '',
+          address: '',
+          phone: '',
+          role: Role.User,
+          image: data.picture,
+          status: 'active',
+        };
+        const createdUser = await this.repository.create(newUser);
+        return createdUser;
+      } else {
+        return user;
+      }
+    });
   }
 
   async sendEmail(user, jwt) {
@@ -101,5 +105,17 @@ export class AuthRepository {
       subject: 'Test ✔', // Subject line
       html: `<p>Esta es tu contraseña hasheada ${user.password} </p> <br > <br ><p>Please click on the link below</p> <a href= ${process.env.URL}?token=${jwt}>Test</a>`, // html body
     });
+  }
+}
+
+async function runWithTryCatchBadRequest<T>(fn: () => Promise<T>) {
+  try {
+    return await fn();
+  } catch (error) {
+    if (error instanceof BadRequestException) {
+      throw error;
+    } else {
+      throw new InternalServerErrorException(error);
+    }
   }
 }

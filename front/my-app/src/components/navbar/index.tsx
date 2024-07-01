@@ -2,7 +2,8 @@
 import { Isession_active } from "@/interfaces/interfaces";
 import Link from "next/link";
 import { Transition } from '@headlessui/react';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
+import Image from "next/image";
 
 const Navbar = () => {
 
@@ -29,19 +30,19 @@ const Navbar = () => {
     }
 
     return (
-        <div className="h-20 ">
+        <div className="h-20 bg-transparent text-white fixed w-full top-0">
             {
                 userData ? (
                     <div className="flex items-center justify-between h-full">
                         <div className="h-full w-24 ml-8">
-                            <img className="h-full" src="https://pbs.twimg.com/media/GRG86T6W0AA6TyU?format=png&name=medium" alt="" />
+                            <Image className="h-full" src="/images/logo.png" alt="logo" width={100} height={100} />
                         </div>
                         <nav className="h-full">
                             <ul className="flex items-center w-full h-full ">
                                 <li className=" flex items-center gap-5 h-full ">
-                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" href="/">Home</Link>
-                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" href="/">Products</Link>
-                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" href="/">About us</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/">Home</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/products">Products</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/about">About us</Link>
                                 </li>
                             </ul>
                         </nav>
@@ -138,9 +139,9 @@ const Navbar = () => {
                         <nav className="h-full">
                             <ul className="flex items-center w-full h-full ">
                                 <li className=" flex items-center gap-5 h-full ">
-                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black" onClick={handleChange} href="/">Home</Link>
-                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black"  href="/products">Products</Link>
-                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-black"  href="/about">About us</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" onClick={handleChange} href="/">Home</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white"  href="/products">Products</Link>
+                                    <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white"  href="/about">About us</Link>
                                 </li>
                             </ul>
                         </nav>
