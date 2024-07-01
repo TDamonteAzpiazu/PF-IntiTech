@@ -8,9 +8,6 @@ import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
 import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
-import GoogleButton from "../googlebuttom";
-
-
 const AuthForm = () => {
   const router = useRouter();
   const [active, setActive] = useState(false);
@@ -101,40 +98,6 @@ const AuthForm = () => {
     }
   }
 
-  // const [data, setData] = useState<any | null>(null);
-
-  // useEffect(() => {
-  //   const get_data_google = async () => {
-  //     try {
-  //       if (!router.isReady) return; // Verificar que el router esté listo
-  //       const { token } = router.query;
-  //       if (token) {
-  //         const decode_token: Itoken = jwtDecode(token as string);
-  //         const autentication_data: Idata_google = {
-  //           email: decode_token.email,
-  //           name: decode_token.name,
-  //         };
-  //         const data = await auth_google(autentication_data);
-  //         setData(data);
-  //       }
-  //     } catch (error) {
-  //       console.error("error en funcion get_data_google:", error);
-  //     }
-  //   };
-
-  //   get_data_google();
-
-  // }, [router.isReady, router.query]);
-
-  // const post_data_google = async () => {
-  //   try {
-  //     if (data) {
-  //       await post_auth(data);
-  //     }
-  //   } catch (error) {
-  //     console.error("error en funcion post_data_google:", error);
-  //   }
-  // };
 
   return (
     <div className={styles.padre}>
@@ -230,9 +193,6 @@ const AuthForm = () => {
               <p>Enter your personal details to use all of site features</p>
               <button className={styles.hidden} onClick={toggleClass}>Sign In</button>
             </div>
-            <div>
-              Button
-            </div>
             <div className={`${styles['toggle-panel']} ${styles['toggle-right']}`}>
               <h1 className={styles.welcome} >Hello, Friend!</h1>
               <p>Register with your personal details to use all of site features</p>
@@ -241,6 +201,7 @@ const AuthForm = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };
