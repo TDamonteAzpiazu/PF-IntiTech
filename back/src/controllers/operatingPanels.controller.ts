@@ -1,5 +1,6 @@
-import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Inversor } from 'src/entities/inversor.entity';
 import { OperatingPanelsService } from 'src/services/operatingPanels.service';
 
 @Controller('panels')
@@ -8,7 +9,7 @@ export class OperatingPanelsController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(@UploadedFile() file: Express.Multer.File , @Body("inversorName") inversorName: string) {
     console.log("hola");
     
     if (!file) {
@@ -18,13 +19,22 @@ export class OperatingPanelsController {
     try {
       const data = await this.operatingPanelsService.readExcel(file.buffer);
       
-      const stats = await this.operatingPanelsService.extractData(data);
+      const stats = await this.operatingPanelsService.extractData(data , inversorName);
       console.log(stats);
       
       return { message: 'File processed successfully', stats };
     } catch (error) {
       return { error: `Failed to process file: ${error.message}` };
     }
+  }
+  @Get()
+  async getAllOperatingPanels() {
+    return await this.operatingPanelsService.getAllOperatingPanels();
+  }
+
+  @Get(':id')
+  async getOperatingPanelById(@Param('id') id: string) {
+    return await this.operatingPanelsService.getOperatingPanelById(id);
   }
 }
 
