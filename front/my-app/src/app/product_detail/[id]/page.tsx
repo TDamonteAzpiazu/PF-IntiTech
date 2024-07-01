@@ -42,8 +42,6 @@ const product_detail: React.FC<Idetail_props> = ({ params }) => {
             src={data_product.image}
             alt="Product Image"
             layout="fill"
-            height={100}
-            width={100}
           />
         </div>
 

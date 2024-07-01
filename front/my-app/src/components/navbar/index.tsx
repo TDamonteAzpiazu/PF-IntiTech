@@ -19,6 +19,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('UserSession');
+        localStorage.removeItem('DataUser');
         window.location.reload();
     }
     const handleClick = () => {

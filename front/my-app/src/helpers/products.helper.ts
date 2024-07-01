@@ -45,6 +45,8 @@ export async function product_by_id(id: string): Promise<Iproducts_props> {
     throw new Error(errorMessage);
   }
 }
+
+
 const product_by_id_prueba = async (
   id: string
 ): Promise<Iproducts_props | undefined> =>{
