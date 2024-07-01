@@ -21,12 +21,12 @@ export class AuthService {
     return await this.authRepository.login(email, password);
   }
 
-  async createToken(user, password) {
-    return await this.authRepository.createJwtToken(user, password);
+  async createToken(user) {
+    return await this.authRepository.createJwtToken(user);
   }
 
-  async googleLogin(req) {
-    return await this.authRepository.googleLogin(req);
+  async googleLogin(data: any) {
+    return await this.authRepository.googleLogin(data);
   }
 
   async sendEmail(user, jwt) {
