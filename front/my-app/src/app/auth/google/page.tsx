@@ -1,9 +1,10 @@
 'use client';
 import React, { useEffect } from "react";
-import { useSearchParams} from "next/navigation";
+import { useSearchParams, useRouter} from "next/navigation";
 
 const authSuccess = () => {
     const searchParams = useSearchParams();
+    const router = useRouter();
     
     useEffect(() => {
 
@@ -12,15 +13,16 @@ const authSuccess = () => {
         console.log(token)
         
         if (token) {
-            localStorage.setItem("token", token);
-            window.opener.postMessage({ token }, "*");
-            window.close();
+            localStorage.setItem("token", JSON.stringify({token}));
+            
         }
+
+        router.push('/');
     },[searchParams])
-  
+    
 
     return (
-        <div className="h-full">
+        <div className="h-screen mt-24">
             <h1>Auth Success</h1>
             <p>Code:</p>
         </div>

@@ -8,6 +8,7 @@ import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
 import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
+import GoogleButton from "../googlebuttom";
 
 
 const AuthForm = () => {
@@ -110,7 +111,6 @@ const AuthForm = () => {
           <form onSubmit={handleSubmitRegister}>
             <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
             <div className={styles['social-icons']}>
-              <a href="#" className={styles.icon}><i className="fa-brands fa-google-plus-g"></i></a>
               <a href="#" className={styles.icon}><i className="fa-brands fa-facebook-f"></i></a>
               <a href="#" className={styles.icon}><i className="fa-brands fa-linkedin-in"></i></a>
             </div>
@@ -158,6 +158,9 @@ const AuthForm = () => {
               placeholder='Phone' />
             <button type='submit'>Sign Up</button>
           </form>
+          <div className="absolute bottom-6 right-0">
+          <GoogleButton />
+          </div>
         </div>
         <div className={`${styles['form-container']} ${styles['sign-in']}`}>
           <form onSubmit={handleSubmitLogin}>
@@ -199,7 +202,7 @@ const AuthForm = () => {
             <div className={`${styles['toggle-panel']} ${styles['toggle-right']}`}>
               <h1 className={styles.welcome} >Hello, Friend!</h1>
               <p>Register with your personal details to use all of site features</p>
-              <button className={styles.hidden} onClick={toggleClass}>Sign Up</button>
+              <button className={`${styles.hidden} ${styles.botonExtra} `} onClick={toggleClass}>Sign Up</button>
             </div>
           </div>
         </div>
