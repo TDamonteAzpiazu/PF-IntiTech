@@ -15,7 +15,7 @@ const Product: React.FC<Iproducts_props> = ({
 }) => {
   return (
     <div className="flex justify-center items-center m-8">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden w-80">
+      <div className="bg-white rounded-lg shadow-lg overflow-hidden w-72 bg-gradient-to-r from-yellow-100 via-orange-200 to-yellow-100">
         <div className="relative h-48">
           <Image
             className="object-cover w-full h-full"
@@ -46,7 +46,7 @@ const Product: React.FC<Iproducts_props> = ({
           </div>
 
           <Link href={`product_detail/${id}`}>
-            <button className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105">
+            <button className="bg-gradient-to-r from-yellow-300 to-orange-400 text-white px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105">
               Ver detalles
             </button>
           </Link>
