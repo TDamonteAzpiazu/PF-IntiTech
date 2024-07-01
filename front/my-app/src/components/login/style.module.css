@@ -56,6 +56,7 @@
         radial-gradient(circle at 5% 5%, #FFED00, transparent  40%),
         radial-gradient(circle at 100% 110%, #FFED00, transparent  40%);
     color: #fff;
+
     font-size: 12px;
     padding: 10px 45px;
     background-size: 115%;
@@ -64,8 +65,12 @@
     letter-spacing: 0.5px;
     text-transform: uppercase;
     margin-top: 10px;
+    margin-left: -60px;
     cursor: pointer;
     transition: all .4s ease-in-out;
+}
+.botonExtra{
+    border: 1px solid red;
 }
 
 .container button:hover {
