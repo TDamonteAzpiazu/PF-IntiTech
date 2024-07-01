@@ -54,6 +54,8 @@ export class AuthController {
     if (isNew) {
       await this.authService.sendEmail(createdUser, jwt);
     }
-    res.redirect(`http://localhost:3001/auth/google/callback/${jwt}`);
+    res.redirect(`http://localhost:3001/auth/google/${jwt}`);
+    
+    return 
   }
 }

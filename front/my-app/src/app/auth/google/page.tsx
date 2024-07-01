@@ -6,9 +6,6 @@ const authSuccess = () => {
     const searchParams = useSearchParams();
     
     useEffect(() => {
-        import("ldrs").then((module) =>{
-            module.ring.register();
-        })
 
         const token = searchParams.get('token');
 
@@ -19,7 +16,7 @@ const authSuccess = () => {
             window.opener.postMessage({ token }, "*");
             window.close();
         }
-    },[])
+    },[searchParams])
   
 
     return (

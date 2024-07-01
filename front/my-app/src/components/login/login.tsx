@@ -22,12 +22,12 @@ const AuthForm = () => {
       const userData: Isession_active = JSON.parse(localStorage.getItem('UserSession')!)
       setUserData(userData)
       userData?.token && alert('You are already logged in')
-      userData?.token && router.push('/') 
-  }
+      userData?.token && router.push('/')
+    }
 
   }, [])
 
-  
+
 
   //* Logica del registro
 
@@ -88,10 +88,14 @@ const AuthForm = () => {
     event.preventDefault()
     try {
       const res = await login_auth(dataLogin);
-      console.log(res.token);
       const { token, user } = await res;
-      const decoded = jwtDecode(token)      
-      console.log(decoded);
+      const decoded = jwtDecode(token)
+      const { id }: any  = decoded
+      const dataUser1 = await fetch(`http://localhost:3000/users/${id}`,{
+        method: 'GET',
+      })
+      const dataUser = await dataUser1.json()
+      localStorage.setItem('DataUser', JSON.stringify(dataUser))
       document.cookie = `userToken=${token}`;
       localStorage.setItem('UserSession', JSON.stringify({ token, userData: user }));
       alert('Login successful');
@@ -100,41 +104,6 @@ const AuthForm = () => {
       throw new Error(error);
     }
   }
-
-  // const [data, setData] = useState<any | null>(null);
-
-  // useEffect(() => {
-  //   const get_data_google = async () => {
-  //     try {
-  //       if (!router.isReady) return; // Verificar que el router esté listo
-  //       const { token } = router.query;
-  //       if (token) {
-  //         const decode_token: Itoken = jwtDecode(token as string);
-  //         const autentication_data: Idata_google = {
-  //           email: decode_token.email,
-  //           name: decode_token.name,
-  //         };
-  //         const data = await auth_google(autentication_data);
-  //         setData(data);
-  //       }
-  //     } catch (error) {
-  //       console.error("error en funcion get_data_google:", error);
-  //     }
-  //   };
-
-  //   get_data_google();
-
-  // }, [router.isReady, router.query]);
-
-  // const post_data_google = async () => {
-  //   try {
-  //     if (data) {
-  //       await post_auth(data);
-  //     }
-  //   } catch (error) {
-  //     console.error("error en funcion post_data_google:", error);
-  //   }
-  // };
 
   return (
     <div className={styles.padre}>
@@ -147,7 +116,7 @@ const AuthForm = () => {
               <a href="#" className={styles.icon}><i className="fa-brands fa-facebook-f"></i></a>
               <a href="#" className={styles.icon}><i className="fa-brands fa-linkedin-in"></i></a>
             </div>
-            
+
             <span>or use your email for registration</span>
             {errorRegister.email && <q className={styles.error}>{errorRegister.email}</q>}
             <input
@@ -218,7 +187,7 @@ const AuthForm = () => {
               onChange={handleChangeLogin}
               type='password'
               placeholder='Password' />
-              <GoogleButton />
+            <GoogleButton />
             <a href="#">Forget Your Password?</a>
             <button className='btn-session' type='submit'>Sign In</button>
           </form>

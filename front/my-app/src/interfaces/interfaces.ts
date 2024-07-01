@@ -104,8 +104,19 @@ export interface Isession_active {
     password: string;
     address: string;
     phone: string;
+    image?: string;
   };
 }
+
+export interface DataUser {
+  name: string;
+  email: string;
+  password: string;
+  address: string;
+  phone: string;
+  image?: string;
+}
+
 export interface Iproducts_props{
     id?: string,
     brand: string,
