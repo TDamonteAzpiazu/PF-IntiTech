@@ -34,7 +34,7 @@ const Navbar = () => {
                 userData ? (
                     <div className="flex items-center justify-between h-full">
                         <div className="h-full w-24 ml-8">
-                            <img className="h-full" src="https://pbs.twimg.com/media/GRG86T6W0AA6TyU?format=png&name=medium" alt="" />
+                            <img className="h-full" src="/icon.png" alt="" />
                         </div>
                         <nav className="h-full">
                             <ul className="flex items-center w-full h-full ">
@@ -133,7 +133,7 @@ const Navbar = () => {
                 ) : (
                     <div className="flex items-center justify-between h-full">
                         <div className="h-full w-24 ml-8">
-                            <img className="h-full" src="https://pbs.twimg.com/media/GRG86T6W0AA6TyU?format=png&name=medium" alt="" />
+                            <img className="h-full" src="/icon.png" alt="" />
                         </div>
                         <nav className="h-full">
                             <ul className="flex items-center w-full h-full ">
