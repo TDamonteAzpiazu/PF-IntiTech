@@ -18,7 +18,8 @@ export const Panels : CreatePanelDto[] = [
         stock: 40,
         description: 'LG NeON 2 335W solar panel for residential and commercial use.',
         size: '1026 x 1638 mm',
-        dailyGeneration: 4.5
+        dailyGeneration: 4.5,
+        image: "http://res.cloudinary.com/dc8tneepi/image/upload/v1719842660/cw5u2hz7l18mdphc3mna.avif"
     },
     {
         brand: 'Canadian Solar',
@@ -27,7 +28,8 @@ export const Panels : CreatePanelDto[] = [
         stock: 60,
         description: 'High power output solar panel from Canadian Solar.',
         size: '992 x 2004 mm',
-        dailyGeneration: 4.2
+        dailyGeneration: 4.2,
+        image:"http://res.cloudinary.com/dc8tneepi/image/upload/v1719843157/ak2itzwyxedxqmstnpwj.avif"
     },
     {
         brand: 'Trina Solar',
@@ -36,7 +38,9 @@ export const Panels : CreatePanelDto[] = [
         stock: 45,
         description: 'Trina Solar TALLMAX M Plus series, 395W solar panel.',
         size: '1755 x 1038 mm',
-        dailyGeneration: 4.6
+        dailyGeneration: 4.6,
+        image:"http://res.cloudinary.com/dc8tneepi/image/upload/v1719843308/lxpvlc0e8rqdnb5teqww.webp"
+        
     },
     {
         brand: 'JA Solar',
@@ -45,7 +49,8 @@ export const Panels : CreatePanelDto[] = [
         stock: 55,
         description: 'High efficiency solar panel with 345W power output from JA Solar.',
         size: '1684 x 1002 mm',
-        dailyGeneration: 4.3
+        dailyGeneration: 4.3,
+        image:"http://res.cloudinary.com/dc8tneepi/image/upload/v1719843402/dzkj3g2ky6isygnkuaez.webp"
     },
     {
         brand: 'JinkoSolar',
@@ -54,7 +59,8 @@ export const Panels : CreatePanelDto[] = [
         stock: 48,
         description: 'JinkoSolar Cheetah HC 72M series, high efficiency solar panel.',
         size: '2008 x 1002 mm',
-        dailyGeneration: 4.7
+        dailyGeneration: 4.7,
+        image:"http://res.cloudinary.com/dc8tneepi/image/upload/v1719843469/gpnnkcjbrgflir8wczo3.webp"
     },
     {
         brand: 'Hanwha Q CELLS',
@@ -63,7 +69,8 @@ export const Panels : CreatePanelDto[] = [
         stock: 42,
         description: 'Hanwha Q CELLS Q.PEAK DUO-G9 355W solar panel for residential and commercial use.',
         size: '1755 x 1038 mm',
-        dailyGeneration: 4.4
+        dailyGeneration: 4.4,
+        image:"http://res.cloudinary.com/dc8tneepi/image/upload/v1719843545/fmxt0t5r88bjatmqnec6.webp"
     },
     {
         brand: 'REC Group',
@@ -72,7 +79,8 @@ export const Panels : CreatePanelDto[] = [
         stock: 38,
         description: 'REC Group Alpha Pure series, 380W solar panel with high power output.',
         size: '1755 x 1038 mm',
-        dailyGeneration: 4.9
+        dailyGeneration: 4.9,
+        image: "http://res.cloudinary.com/dc8tneepi/image/upload/v1719843609/zdlykxri68zgprnpjxxe.webp"
     },
     {
         brand: 'LONGi Solar',
@@ -81,7 +89,8 @@ export const Panels : CreatePanelDto[] = [
         stock: 30,
         description: 'LONGi Solar Hi-MO 4m series, high efficiency 420W solar panel.',
         size: '1765 x 1048 mm',
-        dailyGeneration: 5.1
+        dailyGeneration: 5.1,
+        image:"http://res.cloudinary.com/dc8tneepi/image/upload/v1719843717/ltmahwzsc2cm9xt3souu.webp"
     },
     {
         brand: 'First Solar',
@@ -90,7 +99,8 @@ export const Panels : CreatePanelDto[] = [
         stock: 35,
         description: 'First Solar Series 6, high efficiency 420-445W solar panel for utility-scale applications.',
         size: '2005 x 1002 mm',
-        dailyGeneration: 5.0
+        dailyGeneration: 5.0,
+        image:"http://res.cloudinary.com/dc8tneepi/image/upload/v1719843790/rtnolh2spme711ayuyya.webp"
     }
 ];
 
