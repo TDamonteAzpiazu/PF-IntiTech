@@ -56,8 +56,7 @@ export class AuthController {
     await this.authService.googleLogin(req.user);
     const user = await this.userService.findByEmail(req.user.email);
     const jwt = await this.authService.createToken(user);
-    res.status(HttpStatus.OK).redirect(`http://localhost:3001/?token=${jwt}`);
-
+    res.status(HttpStatus.OK).redirect(`http://localhost:3001/auth/google?token=${jwt}`);
     return;
   }
 }

@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/Context";
-import { AuthProvider } from "@/context/Context";
 
 
 const GoogleButton = () => {
@@ -35,11 +34,11 @@ const GoogleButton = () => {
     }
 
     return (
-        <AuthProvider>
-            <button onClick={handleLogin}>
-                Login with Google
-            </button>
-        </AuthProvider>
+
+        <button onClick={handleLogin}>
+            Login with Google
+        </button>
+
     );
 };
 
