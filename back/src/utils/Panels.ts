@@ -8,7 +8,8 @@ export const Panels : CreatePanelDto[] = [
         stock: 50,
         description: 'High efficiency solar panel with 400W power output.',
         size: '1046 x 1690 mm',
-        dailyGeneration: 4.8
+        dailyGeneration: 4.8,
+        image : "http://res.cloudinary.com/dc8tneepi/image/upload/v1719800020/cg5nf4alcswdkquxnyba.webp"
     },
     {
         brand: 'LG Electronics',
