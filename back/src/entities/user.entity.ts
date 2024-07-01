@@ -85,8 +85,7 @@ export class User {
     description: 'The status of the user',
     example: 'active',
   })
-  @Column()
+  @Column({ default: 'pending' })
   @IsEnum(["active" , "inactive" , "pending"])
-  @IsNotEmpty()
-  status: 'active' | 'inactive' | 'pending';
+  status?: 'active' | 'inactive' | 'pending';
 }
