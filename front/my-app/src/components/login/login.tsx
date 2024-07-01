@@ -8,6 +8,8 @@ import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
 import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
+
+
 const AuthForm = () => {
   const router = useRouter();
   const [active, setActive] = useState(false);
@@ -183,7 +185,6 @@ const AuthForm = () => {
               onChange={handleChangeLogin}
               type='password'
               placeholder='Password' />
-            <GoogleButton />
             <a href="#">Forget Your Password?</a>
             <button className='btn-session' type='submit'>Sign In</button>
           </form>
