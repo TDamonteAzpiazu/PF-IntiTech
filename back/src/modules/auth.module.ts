@@ -8,6 +8,8 @@ import { UserRepository } from 'src/repositories/user.repository';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/services/user.service';
 import { GoogleStrategy } from 'src/google.strategy/google.strategy';
+import { CartRepository } from 'src/repositories/cart.repository';
+
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
@@ -19,6 +21,8 @@ import { GoogleStrategy } from 'src/google.strategy/google.strategy';
     JwtService,
     UserService,
     GoogleStrategy,
+    CartRepository
+   
   ],
 })
 export class AuthModule {}
