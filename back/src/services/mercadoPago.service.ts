@@ -1,9 +1,10 @@
 // src/mercadopago/mercadopago.service.ts
 import { Injectable } from '@nestjs/common';
-import { Preference, MercadoPagoConfig } from 'mercadopago';
+import { Preference, MercadoPagoConfig, Response } from 'mercadopago';
 
 @Injectable()
 export class MercadopagoService {
+    
   private readonly backUrls = {
     success: process.env.MERCADOPAGO_BACK_URL_SUCCESS,
     failure: process.env.MERCADOPAGO_BACK_URL_FAILURE,
@@ -13,7 +14,7 @@ export class MercadopagoService {
   private readonly preference: Preference;
 
   constructor() {
-    const config = new MercadoPagoConfig({accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN});
+    const config = new MercadoPagoConfig({ accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN });
     this.preference = new Preference(config);
   }
 
@@ -26,8 +27,8 @@ export class MercadopagoService {
     };
 
     try {
-      const response = await this.preference.create(preference);
-      return response.body;
+      const response: Response = await this.preference.create(preference);
+      return response;
     } catch (error) {
       throw new Error(`Error creating preference: ${error.message}`);
     }
