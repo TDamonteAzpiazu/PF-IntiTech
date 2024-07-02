@@ -14,14 +14,14 @@ export class UserRepository implements OnModuleInit {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly cartRepository: CartRepository,
-  ) {}
+  ) { }
 
   async onModuleInit() {
     const user = await this.userRepository.findOne({
       where: { email: 'admin@example.com' },
     });
     if (!user) {
-      const cart= await this.cartRepository.createCart();
+      const cart = await this.cartRepository.createCart();
       const hashedPassword = await bcrypt.hash('Password1!', 10);
       const newUser = this.userRepository.create({
         name: 'Admin',
@@ -32,7 +32,7 @@ export class UserRepository implements OnModuleInit {
         role: Role.Admin,
         status: 'active',
         cart: cart,
-        
+
       });
 
       await this.userRepository.save(newUser);
@@ -67,6 +67,14 @@ export class UserRepository implements OnModuleInit {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+
+    if (data.password) {
+      const hashedPassword = await bcrypt.hash(data.password, 10);
+      data.password = hashedPassword;
+      const updatedUser = this.userRepository.merge(user, data);
+      return await this.userRepository.save(updatedUser);
+    }
+
     const updatedUser = this.userRepository.merge(user, data);
     return await this.userRepository.save(updatedUser);
   }
