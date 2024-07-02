@@ -13,6 +13,9 @@ import { GoogleStrategy } from './google.strategy/google.strategy';
 import { config as dotenvConfig } from 'dotenv';
 import { PanelForSaleModule } from './modules/panelForSale.module';
 import { CloudinaryModule } from './modules/cloudinary.module';
+import { OperatingPanelsModule } from './modules/operatingPanels.module';
+import { inversorModule } from './modules/inversor.module';
+import { CartModule } from './modules/cart.module';
 dotenvConfig({ path: '.env' });
 
 @Module({
@@ -33,6 +36,9 @@ dotenvConfig({ path: '.env' });
     UserModule,
     PanelForSaleModule,
     CloudinaryModule,
+    OperatingPanelsModule,
+    inversorModule,
+    CartModule
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy],

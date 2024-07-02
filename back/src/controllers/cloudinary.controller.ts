@@ -12,11 +12,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 import { UploadPanelImageSwagger, UploadUserImageSwagger } from 'src/decorators/cloudinary.decorator';
 import { CloudinaryService } from 'src/services/cloudinary.service';
 import { PanelForSaleService } from 'src/services/panelForSale.service';
 import { UserService } from 'src/services/user.service';
 
+@ApiTags('Cloudinary')
 @Controller('files')
 export class CloudinaryController {
   constructor(

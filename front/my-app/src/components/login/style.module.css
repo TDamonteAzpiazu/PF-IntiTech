@@ -68,6 +68,10 @@
     transition: all .4s ease-in-out;
 }
 
+.btn-session{
+    border: 1px solid red;
+}
+
 .container button:hover {
     background-position: right;
 }

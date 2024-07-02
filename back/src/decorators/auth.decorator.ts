@@ -1,7 +1,9 @@
 import { applyDecorators } from "@nestjs/common"
-import { ApiBearerAuth, ApiBody, ApiOperation } from "@nestjs/swagger"
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse } from "@nestjs/swagger"
 import { CreateUserDto } from "src/dto/createUser.dto"
 import { CredentialsDto } from "src/dto/credentials.dto"
+import { LoginResponseDto } from "src/dto/loginResponse.dto"
+import { User } from "src/entities/user.entity"
 
 export const RegisterSwagger = () => {
     return applyDecorators(
@@ -11,6 +13,11 @@ export const RegisterSwagger = () => {
         }),
         ApiBody({
             type: CreateUserDto
+        }),
+        ApiResponse({
+            status: 201,
+            description: 'Created',
+            type: User
         })
     )
 }
@@ -23,6 +30,11 @@ export const LoginSwagger = () => {
         }),
         ApiBody({
             type: CredentialsDto
+        }),
+        ApiResponse({
+            status: 201,
+            description: 'Created',
+            type: LoginResponseDto
         })
     )
 }

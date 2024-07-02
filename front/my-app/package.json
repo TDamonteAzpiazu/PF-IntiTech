@@ -11,10 +11,15 @@
   "dependencies": {
     "@headlessui/react": "^2.1.1",
     "chart.js": "^4.4.3",
+    "jwt-decode": "^4.0.0",
+    "ldrs": "^1.0.2",
     "next": "14.2.4",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "sweetalert2": "^11.12.1",
+    "sweetalert2-react-content": "^5.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",

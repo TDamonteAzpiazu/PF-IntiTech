@@ -8,9 +8,10 @@ import { UserRepository } from 'src/repositories/user.repository';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/services/user.service';
 import { GoogleStrategy } from 'src/google.strategy/google.strategy';
+import { CartModule } from './cart.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([User]), CartModule],
   controllers: [AuthController],
   providers: [
     AuthService,

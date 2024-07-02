@@ -1,8 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword, IsUUID } from 'class-validator';
 import { Role } from 'src/enum/role.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { Cart } from './cart.entity';
+
 
 @Entity({ name: 'users' })
 export class User {
@@ -11,6 +14,7 @@ export class User {
     example: '74a514f2-9c6c-4e72-a909-66aed6bfbd6f',
   })
   @PrimaryGeneratedColumn('uuid')
+  @IsUUID()
   id: string = uuid();
 
   @ApiProperty({
@@ -18,6 +22,8 @@ export class User {
     example: 'John Doe',
   })
   @Column({ length: 50 })
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty({
@@ -25,6 +31,8 @@ export class User {
     example: 'mail@example.com',
   })
   @Column({ length: 50, unique: true })
+  @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @ApiProperty({
@@ -32,6 +40,8 @@ export class User {
     example: '$2b$10$A59JWyTe0oDicM0iywzy9erbb9mi9.BsyXXGzbqbwQK3KAyw7BL06',
   })
   @Column()
+  @IsStrongPassword()
+  @IsNotEmpty()
   password: string;
 
   @ApiProperty({
@@ -39,6 +49,8 @@ export class User {
     example: 'Fake Street 123',
   })
   @Column({ length: 50 })
+  @IsString()
+  @IsNotEmpty()
   address: string;
 
   @ApiProperty({
@@ -46,6 +58,8 @@ export class User {
     example: '123456789',
   })
   @Column({ length: 50 })
+  @IsString()
+  @IsNotEmpty()
   phone: string;
 
   @ApiProperty({
@@ -53,6 +67,8 @@ export class User {
     example: 'user',
   })
   @Column({ default: Role.User })
+  @IsEnum(Role)
+  @IsNotEmpty()
   role: Role;
 
   @ApiProperty({
@@ -63,12 +79,20 @@ export class User {
     default:
       'https://res.cloudinary.com/dc8tneepi/image/upload/ztbuutsulfhoarq63xsh.jpg',
   })
+  @IsString()
+  @IsNotEmpty()
   image: string;
 
   @ApiProperty({
     description: 'The status of the user',
     example: 'active',
   })
-  @Column()
-  status: 'active' | 'inactive' | 'pending';
+  @Column({ default: 'pending' })
+  @IsEnum(["active" , "inactive" , "pending"])
+  status?: 'active' | 'inactive' | 'pending';
+
+  @OneToOne(()=> Cart)
+  @JoinColumn()
+  cart: Cart;
+  
 }

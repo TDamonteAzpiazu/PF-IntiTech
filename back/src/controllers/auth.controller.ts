@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Post,
   Req,
   Res,
@@ -13,14 +14,23 @@ import { config as dotenvConfig } from 'dotenv';
 import { CreateUserDto } from 'src/dto/createUser.dto';
 import { CredentialsDto } from 'src/dto/credentials.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { LoginSwagger, RegisterSwagger, googleCallbackSwagger, googleLoginSwagger } from 'src/decorators/auth.decorator';
+import {
+  LoginSwagger,
+  RegisterSwagger,
+  googleCallbackSwagger,
+  googleLoginSwagger,
+} from 'src/decorators/auth.decorator';
+import { UserService } from 'src/services/user.service';
 
 dotenvConfig({ path: '.env' });
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post('register')
   @RegisterSwagger()
@@ -43,12 +53,10 @@ export class AuthController {
   @googleCallbackSwagger()
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req, @Res() res) {
-    const { user, isNew } = await this.authService.googleLogin(req);
+    await this.authService.googleLogin(req.user);
+    const user = await this.userService.findByEmail(req.user.email);
     const jwt = await this.authService.createToken(user);
-
-    if (isNew) {
-      await this.authService.sendEmail(user, jwt);
-    }
-    res.redirect(`http://localhost:3001/`);
+    res.status(HttpStatus.OK).redirect(`http://localhost:3001/auth/google?token=${jwt}`);
+    return;
   }
 }

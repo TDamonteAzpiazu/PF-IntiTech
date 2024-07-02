@@ -1,4 +1,5 @@
 "use client"
+import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from 'react';
 import styles from './style.module.css';
 import { validateLoginForm, validateRegisterForm } from '@/helpers/formValidation';
@@ -7,6 +8,8 @@ import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
 import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
+import GoogleButton from "../googlebuttom";
+
 
 const AuthForm = () => {
   const router = useRouter();
@@ -19,10 +22,12 @@ const AuthForm = () => {
       const userData: Isession_active = JSON.parse(localStorage.getItem('UserSession')!)
       setUserData(userData)
       userData?.token && alert('You are already logged in')
-      userData?.token && router.push('/') 
-  }
+      userData?.token && router.push('/')
+    }
 
   }, [])
+
+
 
   //* Logica del registro
 
@@ -81,10 +86,17 @@ const AuthForm = () => {
   }
   const handleSubmitLogin = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log(23)
     try {
       const res = await login_auth(dataLogin);
       const { token, user } = await res;
+      const decoded = jwtDecode(token)
+      const { id }: any  = decoded
+      const dataUser1 = await fetch(`http://localhost:3000/users/${id}`,{
+        method: 'GET',
+      })
+      const dataUser = await dataUser1.json()
+      localStorage.setItem('DataUser', JSON.stringify(dataUser))
+      document.cookie = `userToken=${token}`;
       localStorage.setItem('UserSession', JSON.stringify({ token, userData: user }));
       alert('Login successful');
       router.push('/')
@@ -98,11 +110,6 @@ const AuthForm = () => {
         <div className={`${styles['form-container']} ${styles['sign-up']}`}>
           <form onSubmit={handleSubmitRegister}>
             <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
-            <div className={styles['social-icons']}>
-              <a href="#" className={styles.icon}><i className="fa-brands fa-google-plus-g"></i></a>
-              <a href="#" className={styles.icon}><i className="fa-brands fa-facebook-f"></i></a>
-              <a href="#" className={styles.icon}><i className="fa-brands fa-linkedin-in"></i></a>
-            </div>
             <span>or use your email for registration</span>
             {errorRegister.email && <q className={styles.error}>{errorRegister.email}</q>}
             <input
@@ -146,6 +153,9 @@ const AuthForm = () => {
               placeholder='Phone' />
             <button type='submit'>Sign Up</button>
           </form>
+          <div className="pruebaBTN absolute bottom-3 right-20">
+          <GoogleButton />
+          </div>
         </div>
         <div className={`${styles['form-container']} ${styles['sign-in']}`}>
           <form onSubmit={handleSubmitLogin}>
@@ -176,6 +186,9 @@ const AuthForm = () => {
             <a href="#">Forget Your Password?</a>
             <button className='btn-session' type='submit'>Sign In</button>
           </form>
+          <div className="pruebaBTN absolute bottom-6 right-20">
+          <GoogleButton />
+          </div>
         </div>
         <div className={styles['toggle-container']}>
           <div className={styles.toggle}>
@@ -187,11 +200,12 @@ const AuthForm = () => {
             <div className={`${styles['toggle-panel']} ${styles['toggle-right']}`}>
               <h1 className={styles.welcome} >Hello, Friend!</h1>
               <p>Register with your personal details to use all of site features</p>
-              <button className={styles.hidden} onClick={toggleClass}>Sign Up</button>
+              <button className={`${styles.hidden} ${styles.botonExtra} `} onClick={toggleClass}>Sign Up</button>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   );
 };

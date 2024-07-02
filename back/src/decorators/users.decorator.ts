@@ -1,5 +1,5 @@
 import { applyDecorators } from "@nestjs/common"
-import { ApiBody, ApiOperation, ApiQuery } from "@nestjs/swagger"
+import { ApiBody, ApiOperation, ApiQuery, ApiResponse } from "@nestjs/swagger"
 import { CreateUserDto } from "src/dto/createUser.dto"
 
 export const GetAllUsersSwagger = () => {
@@ -25,6 +25,7 @@ export const UpdateUserSwagger = () => {
 
 export const DeleteUserSwagger = () => {
     return applyDecorators(
-        ApiOperation({summary: 'Delete user', description: 'Receives the ID of a user as a parameter and changes their status to inactive in the database.'})
+        ApiOperation({summary: 'Delete user', description: 'Receives the ID of a user as a parameter and changes their status to inactive in the database.'}),
+        ApiResponse({status: 200, description: 'User deleted'})
     )
 }
