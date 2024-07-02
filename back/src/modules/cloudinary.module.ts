@@ -11,9 +11,10 @@ import { UserRepository } from 'src/repositories/user.repository';
 import { CloudinaryService } from 'src/services/cloudinary.service';
 import { PanelForSaleService } from 'src/services/panelForSale.service';
 import { UserService } from 'src/services/user.service';
+import { CartModule } from './cart.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, PanelForSale])],
+  imports: [TypeOrmModule.forFeature([User, PanelForSale]), CartModule],
   controllers: [CloudinaryController],
   providers: [
     PanelForSaleRepository,
