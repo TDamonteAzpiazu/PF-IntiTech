@@ -10,6 +10,7 @@ import { UserRepository } from './user.repository';
 import { Role } from 'src/enum/role.enum';
 import { config as dotenvConfig } from 'dotenv';
 import { transporter } from 'src/config/mailer';
+import { CartRepository } from './cart.repository';
 dotenvConfig({ path: '.env' });
 
 @Injectable()
@@ -17,10 +18,12 @@ export class AuthRepository {
   constructor(
     private readonly repository: UserRepository,
     private readonly jwtService: JwtService,
+    private readonly cartRepository:CartRepository
   ) {}
 
   async registerEmailAndPassword(email: string, password: string, rest: any) {
     try {
+      const cart= await this.cartRepository.createCart()
       const user = await this.repository.findByEmail(email);
       if (user) {
         throw new BadRequestException('User already exists');
@@ -31,6 +34,7 @@ export class AuthRepository {
         email,
         password: hashedPassword,
         ...rest,
+        cart: cart
       });
       
       return user;

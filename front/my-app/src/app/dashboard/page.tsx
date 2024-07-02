@@ -9,6 +9,7 @@ import NeonBarChart from "@/app/dashboard/neon_bar";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import 'tailwindcss/tailwind.css';
+import LinesChart from "@/components/chart_dynamic";
 
 const MySwal = withReactContent(Swal);
 
@@ -111,7 +112,7 @@ const Dashboard: React.FC = () => {
         </ul>
       </nav>
 
-      <main className="w-4/5 p-4 grid grid-cols-2 gap-2 mt-5 h-svh">
+      <main className="w-4/5 p-4 grid grid-cols-2 gap-2 mt-32 h-auto">
         <section className="bg-gray-100 p-1 rounded-lg shadow-md">
  
             <Lines_Chart />
@@ -128,6 +129,8 @@ const Dashboard: React.FC = () => {
             <Circular_Chart />
 
         </section>
+
+        <LinesChart/>
       </main>
     </div>
   );
