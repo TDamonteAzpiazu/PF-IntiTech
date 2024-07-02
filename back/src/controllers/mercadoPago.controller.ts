@@ -1,15 +1,12 @@
-// src/mercadopago/mercadopago.controller.ts
-import { Controller, Post, Body } from '@nestjs/common';
-import { MercadopagoService } from 'src/services/mercadoPago.service';
-import { CreatePreferenceDto } from './dto/create-preference.dto';
+import { Body, Controller, Post } from '@nestjs/common';
+import { MercadoPagoService } from 'src/services/mercadoPago.service';
 
 @Controller('mercadopago')
-export class MercadopagoController {
-  constructor(private readonly mercadopagoService: MercadopagoService) {}
+export class MercadoPagoController {
+  constructor(private readonly mercadoPagoService: MercadoPagoService) {}
 
-  @Post('create_preference')
-  async createPreference(@Body() createPreferenceDto: CreatePreferenceDto) {
-    const { items, payer } = createPreferenceDto;
-    return await this.mercadopagoService.createPreference(items, payer);
+  @Post()
+  createOrder(@Body() donation: any) {
+    return this.mercadoPagoService.createPreference(donation);
   }
 }
