@@ -1,4 +1,4 @@
-import { Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import {v4 as uuid } from "uuid";
 import { CartItem } from "./cartItem.entity";
 
@@ -11,5 +11,6 @@ export class Cart{
     id:string = uuid()
 
     @OneToMany( () =>  CartItem, cartItem => cartItem.cart) 
+    @JoinColumn()
     cartItems: CartItem[]
 }
