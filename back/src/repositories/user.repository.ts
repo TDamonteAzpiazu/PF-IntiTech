@@ -6,11 +6,14 @@ import { User } from 'src/entities/user.entity';
 import { Role } from 'src/enum/role.enum';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Cart } from 'src/entities/cart.entity';
+import { CartRepository } from './cart.repository';
 
 @Injectable()
 export class UserRepository implements OnModuleInit {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly cartRepository: CartRepository,
   ) {}
 
   async onModuleInit() {
@@ -18,6 +21,7 @@ export class UserRepository implements OnModuleInit {
       where: { email: 'admin@example.com' },
     });
     if (!user) {
+      const cart= await this.cartRepository.createCart();
       const hashedPassword = await bcrypt.hash('Password1!', 10);
       const newUser = this.userRepository.create({
         name: 'Admin',
@@ -27,6 +31,8 @@ export class UserRepository implements OnModuleInit {
         phone: '123456789',
         role: Role.Admin,
         status: 'active',
+        cart: cart,
+        
       });
 
       await this.userRepository.save(newUser);
