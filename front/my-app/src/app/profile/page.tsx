@@ -72,7 +72,6 @@ const Profile = () => {
                         <label className="text-white text-lg">Nombre:</label>
                         <input
                             name="name"
-                            
                             onChange={handleChange}
                             className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
                             placeholder={userData?.name || "Nombre"}
