@@ -3,7 +3,7 @@ import { config as dotenvconfig } from 'dotenv';
 
 dotenvconfig({ path: '.env' });
 
-const client = new MercadoPagoConfig({ 
+const client = new MercadoPagoConfig({
     accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN
 });
 
