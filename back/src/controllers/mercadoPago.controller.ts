@@ -6,7 +6,7 @@ export class MercadoPagoController {
   constructor(private readonly mercadoPagoService: MercadoPagoService) {}
 
   @Post()
-  createOrder(@Body() donation: any) {
-    return this.mercadoPagoService.createPreference(donation);
+  createOrder(@Body() body: any) {
+    return this.mercadoPagoService.createPreference(body);
   }
 }

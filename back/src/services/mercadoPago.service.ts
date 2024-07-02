@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { preference } from 'src/config/mercadopago';
 
 @Injectable()
 export class MercadoPagoService {
   constructor() {}
 
-  async createPreference(preference: any) {
+  async createPreference(body: any) {
     const preferenceData = {
       items: [
         {
+          id: '1',
           title: 'Mi producto',
           quantity: 1,
           unit_price: 2000,
@@ -16,10 +18,9 @@ export class MercadoPagoService {
     };
 
     try {
-      const response = await preference.create({ body: preferenceData });
-      console.log(response);
+      const response = await preference.create({body: preferenceData });
+      return { preferenceId: response.id }
     } catch (error) {
-      console.log(error);
       throw new Error(error.message);
     }
   }
