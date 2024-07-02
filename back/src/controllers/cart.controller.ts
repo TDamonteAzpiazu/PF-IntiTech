@@ -1,17 +1,28 @@
-import { Body, Controller, Param, ParseUUIDPipe, Post } from "@nestjs/common";
-import { CartItemDto } from "src/dto/cartitem.dto";
-import { CartService } from "src/services/cart.service";
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
+import { CartItemDto } from 'src/dto/cartitem.dto';
+import { CartService } from 'src/services/cart.service';
 
 @Controller('cart')
 export class CartController {
-    constructor(
-        private readonly cartService: CartService
-    ) {}
+  constructor(private readonly cartService: CartService) {}
 
-    @Post("add/:id")
-    async addProductToCart(@Param("id",ParseUUIDPipe) cart_id: string ,@Body() cart_item: CartItemDto) {
+  @Post('add/:id') // id de cart
+  async addProductToCart(
+    @Param('id', ParseUUIDPipe) cart_id: string,
+    @Body() cart_item: CartItemDto,
+  ) {
+    return await this.cartService.addProductToCart(cart_id, cart_item);
+  }
 
-        return await this.cartService.addProductToCart(cart_id, cart_item);
-
-    }
+  @Delete('delete/:id') // id de cart
+  async deleteItemFromCart(@Param('id', ParseUUIDPipe) cart_itemId: string) {
+    return await this.cartService.deleteItemFromCart(cart_itemId);
+  }
 }
