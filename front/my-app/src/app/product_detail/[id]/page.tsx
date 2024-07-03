@@ -3,6 +3,7 @@ import { product_by_id } from "@/helpers/products.helper";
 import { Iproducts_props } from "@/interfaces/interfaces";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { addOneToCartItem } from "@/components/cart/cartMenu";
 
 interface Idetail_props {
   params: {
@@ -10,7 +11,7 @@ interface Idetail_props {
   };
 }
 
-const product_detail: React.FC<Idetail_props> = ({ params }) => {
+const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   const [data_product, setData_product] = useState<Iproducts_props | undefined>(
     undefined
   );
@@ -79,7 +80,7 @@ const product_detail: React.FC<Idetail_props> = ({ params }) => {
                   </span>
                 </div>
                 <div>
-                  <button className="w-full outline-1 outline text-black bg-trasparent hover:bg-yellow-500 hover:text-white transition-all duration-300 font-medium py-2 px-4 rounded  ">
+                  <button onClick={addOneToCartItem} className="w-full outline-1 outline text-black bg-trasparent hover:bg-yellow-500 hover:text-white transition-all duration-300 font-medium py-2 px-4 rounded  ">
                     Añadir al carrito
                   </button>
                 </div>
@@ -92,4 +93,4 @@ const product_detail: React.FC<Idetail_props> = ({ params }) => {
   );
 };
 
-export default product_detail;
+export default Product_detail;
