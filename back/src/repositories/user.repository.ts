@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Cart } from 'src/entities/cart.entity';
 import { CartRepository } from './cart.repository';
+import { transporter } from 'src/config/mailer';
 
 @Injectable()
 export class UserRepository implements OnModuleInit {
@@ -97,5 +98,39 @@ export class UserRepository implements OnModuleInit {
 
   async findByEmail(email: string): Promise<User> {
     return await this.userRepository.findOneBy({ email });
+  }
+
+  async getNotifications(user: User) {
+    await transporter.sendMail({
+      from: '"Test 👻" <pablorodriguez6002@gmail.com>', // sender address
+      to: user.email, // list of receivers
+      subject: 'Gracias por subscribirte a las novedades!', // Subject line
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+          <h2 style="color: #FFA500;">¡Gracias por suscribirte a nuestras notificaciones, <span style="color: #FFD700;">${user.name}</span>!</h2>
+          <p>Estamos encantados de que hayas decidido mantenerte al día con nosotros. Aquí podrás estar al tanto de:</p>
+          <ul>
+            <li>Novedades y actualizaciones en nuestra página.</li>
+            <li>Información sobre nuevos productos.</li>
+            <li>Implementaciones y mejoras en nuestros servicios.</li>
+            <li>Un resumen de la generación y ahorro de energía y agua.</li>
+          </ul>
+          <p>Para más información, haz clic en el siguiente botón:</p>
+          <a href="${process.env.URL}" style="text-decoration: none;">
+            <button style="background: linear-gradient(90deg, #FFD700, #FFA500); color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+              Ver Novedades
+            </button>
+          </a>
+          <p>Si tienes alguna pregunta, no dudes en contactarnos respondiendo a este correo.</p>
+          <p>¡Gracias!</p>
+          <p>El equipo de Intitech 🧡</p>
+        </div>
+        <style>
+          a:hover button {
+            cursor: pointer;
+          }
+        </style>
+      `, // html body
+    });
   }
 }

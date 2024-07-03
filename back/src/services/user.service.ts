@@ -1,12 +1,14 @@
 /* eslint-disable prettier/prettier */
 
 import { Injectable } from '@nestjs/common';
+import { User } from 'src/entities/user.entity';
 import { CreateUserDto } from 'src/dto/createUser.dto';
 import { UserRepository } from 'src/repositories/user.repository';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+
+  constructor(private readonly userRepository: UserRepository) { }
 
   async getAllusers(page: number, limit: number) {
     return await this.userRepository.getAllUsers(page, limit);
@@ -26,5 +28,9 @@ export class UserService {
 
   async findByEmail(email: string) {
     return await this.userRepository.findByEmail(email);
+  }
+
+  async getNotifications(user: User) {
+    return await this.userRepository.getNotifications(user);
   }
 }

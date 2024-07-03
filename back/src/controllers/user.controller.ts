@@ -19,7 +19,7 @@ import { UserService } from 'src/services/user.service';
 @ApiTags('Users')
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Get()
   @GetAllUsersSwagger()
@@ -31,7 +31,7 @@ export class UserController {
   }
 
   @Get(':id')
-  @GetUserByIdSwagger() 
+  @GetUserByIdSwagger()
   async getUserById(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
     return await this.userService.getUserById(id);
   }
@@ -49,5 +49,11 @@ export class UserController {
   @DeleteUserSwagger()
   async deleteUser(@Param('id', ParseUUIDPipe) id: string): Promise<string> {
     return await this.userService.deleteUser(id);
+  }
+
+  @Get("notifications")
+  async getNotifications(@Body() email: string) {
+    const user = await this.userService.findByEmail(email);
+    return await this.userService.getNotifications(user);
   }
 }
