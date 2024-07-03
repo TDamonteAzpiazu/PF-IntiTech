@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   ParseUUIDPipe,
   Post,
@@ -13,6 +14,11 @@ import { CartService } from 'src/services/cart.service';
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) { }
+
+  @Get('getAllItems/:id') // id de cart
+  async getCartItems(@Param('id', ParseUUIDPipe) cart_id: string) {
+    return await this.cartService.getCartItems(cart_id);
+  }
 
   @Post('add/:id') // id de cart
   async addProductToCart(

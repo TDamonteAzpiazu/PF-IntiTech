@@ -6,6 +6,10 @@ import { CartRepository } from 'src/repositories/cart.repository';
 export class CartService {
   constructor(private readonly cartRepository: CartRepository) { }
 
+  async getCartItems(cart_id: string) {
+    return await this.cartRepository.getCartItems(cart_id);
+  }
+
   async addProductToCart(cart_id: string, cart_item: CartItemDto) {
     return await this.cartRepository.addProductToCart(cart_id, cart_item);
   }
