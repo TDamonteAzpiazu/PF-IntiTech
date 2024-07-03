@@ -101,6 +101,7 @@ export class AuthRepository {
           role: Role.User,
           image: data.picture,
           status: 'pending',
+          cart: cart
         };
         const createdUser = await this.repository.create(newUser);
         return { createdUser, isNew: true };

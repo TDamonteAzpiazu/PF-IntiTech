@@ -4,6 +4,7 @@ import { CartItemDto } from 'src/dto/cartitem.dto';
 import { Cart } from 'src/entities/cart.entity';
 import { CartItem } from 'src/entities/cartItem.entity';
 import { PanelForSale } from 'src/entities/panelForSale.entity';
+import { Record } from 'src/entities/record.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -14,6 +15,7 @@ export class CartRepository {
         private readonly cartItemRepository: Repository<CartItem>,
         @InjectRepository(PanelForSale)
         private readonly panelForSaleRepository: Repository<PanelForSale>,
+        @InjectRepository(Record) private readonly recordRepository: Repository<Record>,
     ) { }
 
     async getCartItems(cart_id: string) {
@@ -161,5 +163,13 @@ export class CartRepository {
         cart.totalPrice += product.price;
         await this.cartRepository.save(cart);
         return cartItem;
+    }
+
+    async createRecord(cart_id: string) {
+        const cart = await this.cartRepository.findOneBy({ id: cart_id });
+
+        const items = await this.cartItemRepository.find({ where: { cart } });
+
+        const record = this.recordRepository.create({ totalPrice: cart.totalPrice, });
     }
 }
