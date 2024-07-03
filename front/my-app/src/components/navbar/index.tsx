@@ -5,11 +5,18 @@ import { Transition } from '@headlessui/react';
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import cartLogo from "../../../public/images/cart.png";
+import Cart from "../cart/cartMenu";
 
 const Navbar = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [userSession, setUserSession] = useState<Isession_active>();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const toggleCart = () => {
+    setIsCartOpen(!isCartOpen);
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -49,8 +56,14 @@ const Navbar = () => {
             </nav>
             {
               userSession.token && (
-                <div>
-                  <button className="flex items-center mr-5" onClick={handleClick} >Welcome back!
+                <div className="flex items-center">
+                  <div>
+                    <button onClick={toggleCart} className="flex items-center mr-5" >
+                      <Image src={cartLogo} alt="cart" width={30} height={30} />
+                    </button>
+                    <Cart isOpen={isCartOpen} toggleCart={toggleCart} />
+                  </div>
+                <button className="flex items-center mr-5" onClick={handleClick}>Welcome back!
                     {
                       !open ? (
                         <svg
