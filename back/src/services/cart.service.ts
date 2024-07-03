@@ -10,12 +10,16 @@ export class CartService {
     return await this.cartRepository.getCartItems(cart_id);
   }
 
-  async addProductToCart(cart_id: string, cart_item: CartItemDto) {
-    return await this.cartRepository.addProductToCart(cart_id, cart_item);
+  async addItemToCart(cart_id: string, cart_item: CartItemDto) {
+    return await this.cartRepository.addItemToCart(cart_id, cart_item);
   }
 
   async deleteItemFromCart(cart_itemId: string) {
     return await this.cartRepository.deleteItemFromCart(cart_itemId);
+  }
+
+  async clearCart(cart_id: string) {
+    return await this.cartRepository.clearCart(cart_id);
   }
 
   async substractOneFromCartItem(cart_itemId: string) {
