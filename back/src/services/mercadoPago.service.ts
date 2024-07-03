@@ -9,15 +9,16 @@ export class MercadoPagoService {
     const preferenceData = {
       items: [
         {
-          id: '1',
-          title: 'Mi producto',
-          quantity: 1,
-          unit_price: 2000,
+          id: body.items[0].id ,
+          title: body.items[0].title,
+          quantity: body.items[0].quantity,
+          unit_price: body.items[0].unit_price,
         },
       ],
     };
 
     try {
+      console.log(body.items[0].title);
       const response = await preference.create({body: preferenceData });
       return { preferenceId: response.id }
     } catch (error) {
