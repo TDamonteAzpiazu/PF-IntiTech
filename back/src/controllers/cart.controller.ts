@@ -21,15 +21,21 @@ export class CartController {
   }
 
   @Post('add/:id') // id de cart
-  async addProductToCart(
+  async addItemToCart(
     @Param('id', ParseUUIDPipe) cart_id: string,
     @Body() cart_item: CartItemDto,
   ) {
-    return await this.cartService.addProductToCart(cart_id, cart_item);
+    return await this.cartService.addItemToCart(cart_id, cart_item);
   }
 
-  @Delete('delete/:id') // id de cart
+  @Delete('clearCart/:id') // id de cart
+  async clearCart(@Param('id', ParseUUIDPipe) cart_id: string) {
+    return await this.cartService.clearCart(cart_id);
+  }
+
+  @Delete(':id') // id de cart
   async deleteItemFromCart(@Param('id', ParseUUIDPipe) cart_itemId: string) {
+    console.log("funciono")
     return await this.cartService.deleteItemFromCart(cart_itemId);
   }
 

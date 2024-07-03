@@ -29,12 +29,9 @@ export class CartRepository {
         return await this.cartRepository.save(cart);
     }
 
-    async addProductToCart(cart_id: string, cart_item: CartItemDto) {
+    async addItemToCart(cart_id: string, cart_item: CartItemDto) {
         let totalPricePerItem = 0;
         const cart = await this.cartRepository.findOneBy({ id: cart_id });
-        if (!cart) {
-            throw new NotFoundException('Cart not found');
-        }
 
         const panel = await this.panelForSaleRepository.findOneBy({
             id: cart_item.panel_id,
@@ -44,6 +41,8 @@ export class CartRepository {
         }
 
         panel.stock -= cart_item.quantity;
+        const panel_image = panel.image;
+        const panel_name = panel.model;
         totalPricePerItem += panel.price * cart_item.quantity;
         await this.panelForSaleRepository.save(panel);
 
@@ -62,6 +61,8 @@ export class CartRepository {
         const newCartItem = this.cartItemRepository.create({
             panel_id: cart_item.panel_id,
             quantity: cart_item.quantity,
+            panel_image: panel_image,
+            panel_model: panel_name,
             totalPrice: totalPricePerItem,
             cart: cart,
         });
@@ -72,9 +73,12 @@ export class CartRepository {
 
 
     async deleteItemFromCart(cart_itemId: string) {
-        const cartItem = await this.cartItemRepository.findOneBy({
-            id: cart_itemId,
-        });
+        console.log("Hola");
+
+        const cartItem = await this.cartItemRepository.findOne({ where: { id: cart_itemId }, relations: ['cart'] });
+
+        console.log(cartItem);
+        console.log("Hola2");
 
         const product = await this.panelForSaleRepository.findOne({
             where: { id: cartItem.panel_id },
@@ -93,7 +97,7 @@ export class CartRepository {
         return 'Item deleted successfully';
     }
 
-    async deleteAllItemsFromCart(cart_id: string) {
+    async clearCart(cart_id: string) {
         const cart = await this.cartRepository.findOneBy({ id: cart_id });
         const items = await this.cartItemRepository.find({ where: { cart } });
         for (const item of items) {
@@ -110,9 +114,11 @@ export class CartRepository {
     }
 
     async substractOneFromCartItem(cart_itemId: string) {
-        const cartItem = await this.cartItemRepository.findOneBy({
-            id: cart_itemId,
-        });
+        const cartItem = await this.cartItemRepository.findOne({ where: { id: cart_itemId }, relations: ['cart'] });
+
+        if (!cartItem) {
+            throw new NotFoundException('Cart item not found');
+        }
 
         const cart = await this.cartRepository.findOneBy({
             id: cartItem.cart.id,
@@ -133,9 +139,11 @@ export class CartRepository {
     }
 
     async addOneToCartItem(cart_itemId: string) {
-        const cartItem = await this.cartItemRepository.findOneBy({
-            id: cart_itemId,
-        });
+        const cartItem = await this.cartItemRepository.findOne({ where: { id: cart_itemId }, relations: ['cart'] });
+
+        if (!cartItem) {
+            throw new NotFoundException('Cart item not found');
+        }
 
         const product = await this.panelForSaleRepository.findOne({
             where: { id: cartItem.panel_id }

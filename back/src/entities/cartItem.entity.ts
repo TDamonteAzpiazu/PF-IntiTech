@@ -25,6 +25,12 @@ export class CartItem {
   @Column({ nullable: false })
   quantity: number;
 
+  @Column({ nullable: false })
+  panel_image: string;
+
+  @Column({ nullable: false })
+  panel_model: string;
+
   @ManyToOne(() => Cart, (cart) => cart.cartItems)
   @JoinColumn()
   cart: Cart;
