@@ -1,24 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { preference } from 'src/config/mercadopago';
+import { ItemDto } from 'src/dto/item.dto';
 
 @Injectable()
 export class MercadoPagoService {
   constructor() {}
 
   async createPreference(body: any) {
+    
     const preferenceData = {
-      items: [
-        {
-          id: body.items[0].id ,
-          title: body.items[0].title,
-          quantity: body.items[0].quantity,
-          unit_price: body.items[0].unit_price,
-        },
-      ],
+      items: body.items.map(item => ({
+        id: item.id,
+        title: item.title,
+        quantity: item.quantity,
+        unit_price: item.unit_price,
+      })),
     };
 
     try {
-      console.log(body.items[0].title);
       const response = await preference.create({body: preferenceData });
       return { preferenceId: response.id }
     } catch (error) {
