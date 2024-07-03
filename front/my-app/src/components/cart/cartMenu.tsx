@@ -1,30 +1,21 @@
 import { useState } from 'react';
 
-const Cart = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleCart = () => {
-    setIsOpen(!isOpen);
-  };
-
+const Cart = ({ isOpen, toggleCart }: { isOpen: boolean, toggleCart: () => void }) => {
   return (
     <>
       <div
-        className={`fixed top-0 right-0 h-full w-1/4 bg-black shadow-lg transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-1/4 bg-white shadow-lg transform transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <button onClick={toggleCart} className="absolute top-4 right-4 z-50 text-black p-2 rounded-md">
-          Close
-        </button>
         <div className="p-4">
-          <h2 className="text-2xl mb-4">Shopping Cart</h2>
-          {/* nashe */}
-          {/* logica de carrito */}
+          <h2 className="text-2xl mb-4 text-black">Shopping Cart</h2>
+          {/* Aquí puedes agregar la lógica y el contenido del carrito de compras */}
           <ul>
-            <li className="py-2">Producto 1</li>
-            <li className="py-2">Producto 2</li>
-            <li className="py-2">Producto 3</li>
+            <li className="py-2">Product 1</li>
+            <li className="py-2">Product 2</li>
+            <li className="py-2">Product 3</li>
+
           </ul>
         </div>
       </div>
