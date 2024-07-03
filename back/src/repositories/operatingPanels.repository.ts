@@ -21,29 +21,20 @@ export class OperatingPanelsRepository {
   ) {}
 
   async readExcel(buffer: Buffer): Promise<string> {
-    const book = XLSX.read(buffer, { type: 'buffer' });
-    const sheets = book.SheetNames;
-    const sheet = sheets[0];
-    const dataExcel = XLSX.utils.sheet_to_json(book.Sheets[sheet]);
-    return JSON.stringify(dataExcel, null, 2);
+    const workbook = XLSX.read(buffer, { type: 'buffer', raw: true });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const dataExcel = XLSX.utils.sheet_to_json(sheet);
+
+    return dataExcel;
   }
 
-  async extractData(data: string , inversorName : string): Promise<StatsDto[]> {
-    const parseData = JSON.parse(data);
-
-    function excelSerialToDate(serial: number): Date {
-      const excelEpoch = new Date('1899-12-30').getTime();
-      const millisecondsPerDay = 24 * 60 * 60 * 1000;
-      const date = new Date(excelEpoch + serial * millisecondsPerDay);
-      return date;
-    }
-
-
-    const stats: StatsDto[] = parseData.map((dato) => ({
-      date: excelSerialToDate(dato['dateTime']),
+  async extractData(data  , inversorName : string): Promise<StatsDto[]> {
+    
+    const stats: StatsDto[] = data.map((dato) => ({
+      date: dato['dateTime'],
       energyGenerated: dato['pvGeneration(kWh)'],
     }));
-
+    
     const arrayStats = [];
 
     for (const stat of stats) {
