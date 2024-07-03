@@ -17,4 +17,8 @@ export class CartService {
   async substractOneFromCartItem(cart_itemId: string) {
     return await this.cartRepository.substractOneFromCartItem(cart_itemId);
   }
+
+  async addOneToCartItem(cart_itemId: string) {
+    return await this.cartRepository.addOneToCartItem(cart_itemId);
+  }
 }

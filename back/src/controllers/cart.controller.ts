@@ -31,4 +31,9 @@ export class CartController {
   async substractOneFromCartItem(@Param('id', ParseUUIDPipe) cart_itemId: string) {
     return await this.cartService.substractOneFromCartItem(cart_itemId);
   }
+
+  @Put('add/:id') // id de cartItem
+  async addOneToCartItem(@Param('id', ParseUUIDPipe) cart_itemId: string) {
+    return await this.cartService.addOneToCartItem(cart_itemId);
+  }
 }
