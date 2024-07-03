@@ -85,5 +85,65 @@ export class CartRepository {
         return 'Item deleted successfully';
     }
 
+    async deleteAllItemsFromCart(cart_id: string) {
+        const cart = await this.cartRepository.findOneBy({ id: cart_id });
+        const items = await this.cartItemRepository.find({ where: { cart } });
+        for (const item of items) {
+            const product = await this.panelForSaleRepository.findOne({
+                where: { id: item.panel_id },
+            });
+            product.stock += item.quantity;
+            await this.panelForSaleRepository.save(product);
+        }
+        cart.totalPrice = 0;
+        await this.cartRepository.save(cart);
+        await this.cartItemRepository.remove(items);
+        return 'All items deleted successfully';
+    }
 
+    async substractOneFromCartItem(cart_itemId: string) {
+        const cartItem = await this.cartItemRepository.findOneBy({
+            id: cart_itemId,
+        });
+
+        const cart = await this.cartRepository.findOneBy({
+            id: cartItem.cart.id,
+        })
+
+        const product = await this.panelForSaleRepository.findOne({
+            where: { id: cartItem.panel_id }
+        })
+
+        product.stock += 1;
+        await this.panelForSaleRepository.save(product);
+        cartItem.quantity -= 1;
+        cartItem.totalPrice -= product.price;
+        await this.cartItemRepository.save(cartItem);
+        cart.totalPrice -= product.price;
+        await this.cartRepository.save(cart);
+        return cartItem;
+    }
+
+    async addOneToCartItem(cart_itemId: string) {
+        const cartItem = await this.cartItemRepository.findOneBy({
+            id: cart_itemId,
+        });
+
+        const product = await this.panelForSaleRepository.findOne({
+            where: { id: cartItem.panel_id }
+        });
+
+        const cart = await this.cartRepository.findOneBy({
+            id: cartItem.cart.id
+        })
+
+        product.stock -= 1;
+        await this.panelForSaleRepository.save(product);
+        cartItem.quantity += 1;
+        cartItem.totalPrice += product.price;
+        await this.cartItemRepository.save(cartItem);
+        cart.totalPrice += product.price;
+        await this.cartRepository.save(cart);
+        return cartItem;
+    }
 }
