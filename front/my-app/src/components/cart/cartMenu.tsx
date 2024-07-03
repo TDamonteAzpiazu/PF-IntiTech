@@ -15,6 +15,7 @@ const Cart = ({ isOpen, toggleCart }: { isOpen: boolean, toggleCart: () => void 
             <li className="py-2">Product 1</li>
             <li className="py-2">Product 2</li>
             <li className="py-2">Product 3</li>
+
           </ul>
         </div>
       </div>

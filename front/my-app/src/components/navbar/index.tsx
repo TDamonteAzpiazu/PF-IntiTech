@@ -56,6 +56,7 @@ const Navbar = () => {
             </nav>
             {
               userSession.token && (
+
                 <div className="flex items-center">
                   <div>
                     <button onClick={toggleCart} className="flex items-center mr-5" >
@@ -63,7 +64,7 @@ const Navbar = () => {
                     </button>
                     <Cart isOpen={isCartOpen} toggleCart={toggleCart} />
                   </div>
-                <button className="flex items-center mr-5" onClick={handleClick}>Welcome back!
+                <button className="flex items-center mr-5" onClick={handleClick}>Welcome back!  
                     {
                       !open ? (
                         <svg
