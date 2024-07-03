@@ -15,7 +15,7 @@ import { CartService } from 'src/services/cart.service';
 export class CartController {
   constructor(private readonly cartService: CartService) { }
 
-  @Get('getAllItems/:id') // id de cart
+  @Get('getItems/:id') // id de cart
   async getCartItems(@Param('id', ParseUUIDPipe) cart_id: string) {
     return await this.cartService.getCartItems(cart_id);
   }

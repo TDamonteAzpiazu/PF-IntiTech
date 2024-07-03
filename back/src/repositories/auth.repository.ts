@@ -11,6 +11,7 @@ import { Role } from 'src/enum/role.enum';
 import { config as dotenvConfig } from 'dotenv';
 import { transporter } from 'src/config/mailer';
 import { CartRepository } from './cart.repository';
+import { User } from 'mercadopago';
 dotenvConfig({ path: '.env' });
 
 @Injectable()
@@ -30,13 +31,16 @@ export class AuthRepository {
       }
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      await this.repository.create({
+
+      const createdUser = await this.repository.create({
         email,
         password: hashedPassword,
         ...rest,
+        status: 'pending',
         cart: cart
       });
 
+      await this.sendEmailWhenUserIsCreated(createdUser)
       return user;
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -96,25 +100,73 @@ export class AuthRepository {
           phone: '',
           role: Role.User,
           image: data.picture,
-          status: 'active',
-          cart: cart,
+          status: 'pending',
         };
         const createdUser = await this.repository.create(newUser);
-        return createdUser;
+        return { createdUser, isNew: true };
       } else {
-        return user;
+        return { createdUser: user, isNew: false };
       }
     });
   }
 
-  async sendEmail(user, jwt) {
+  async sendEmail(user: any, jwt: string) {
     await transporter.sendMail({
-      from: '"Example email 👻" <pablorodriguez6002@gmail.com>', // sender address
+      from: '"Test 👻" <pablorodriguez6002@gmail.com>', // sender address
       to: user.email, // list of receivers
-      subject: 'Test ✔', // Subject line
-      html: `<p>Esta es tu contraseña hasheada ${user.password} </p> <br > <br ><p>Please click on the link below</p> <a href= ${process.env.URL}?token=${jwt}>Test</a>`, // html body
+      subject: 'Bienvenido a Intitech!', // Subject line
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+          <h2 style="color: #FFA500;">¡Gracias por registrarte, <span style="color: #FFD700;">${user.name}</span>!</h2>
+          <p>Estamos emocionados de tenerte con nosotros. Nuestra empresa se dedica a ofrecer paneles solares y robots de alta calidad para la venta de los mismos.</p>
+          <p>Para completar tu registro, por favor haz clic en el siguiente botón:</p>
+          <a href="${process.env.URL}?token=${jwt}" style="text-decoration: none;">
+            <button style="background: linear-gradient(90deg, #FFD700, #FFA500); color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+              Activa tu cuenta
+            </button>
+          </a>
+          <p>Si tienes alguna pregunta, no dudes en contactarnos respondiendo a este correo.</p>
+          <p>¡Gracias!</p>
+          <p>El equipo de Intitech 🧡</p>
+        </div>
+        <style>
+          a:hover button {
+            cursor: pointer;
+          }
+        </style>
+      `, // html body
     });
   }
+
+  async sendEmailWhenUserIsCreated(user: any) {
+    await transporter.sendMail({
+      from: '"Test 👻" <pablorodriguez6002@gmail.com>', // sender address
+      to: user.email, // list of receivers
+      subject: 'Bienvenido a Intitech!', // Subject line
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+          <h2 style="color: #FFA500;">¡Gracias por registrarte, <span style="color: #FFD700;">${user.name}</span>!</h2>
+          <p>Estamos emocionados de tenerte con nosotros. Nuestra empresa se dedica a ofrecer paneles solares y robots de alta calidad para la venta de los mismos.</p>
+          <p>Para completar tu registro, por favor haz clic en el siguiente botón:</p>
+          <a href="${process.env.URL}" style="text-decoration: none;">
+            <button style="background: linear-gradient(90deg, #FFD700, #FFA500); color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+              Activa tu cuenta
+            </button>
+          </a>
+          <p>Si tienes alguna pregunta, no dudes en contactarnos respondiendo a este correo.</p>
+          <p>¡Gracias!</p>
+          <p>El equipo de Intitech 🧡</p>
+        </div>
+        <style>
+          a:hover button {
+            cursor: pointer;
+          }
+        </style>
+      `, // html body
+    });
+  }
+
+
 }
 
 async function runWithTryCatchBadRequest<T>(fn: () => Promise<T>) {

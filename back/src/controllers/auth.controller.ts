@@ -30,7 +30,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
-  ) {}
+  ) { }
 
   @Post('register')
   @RegisterSwagger()
@@ -47,15 +47,18 @@ export class AuthController {
   @Get('googleLogin')
   @googleLoginSwagger()
   @UseGuards(AuthGuard('google'))
-  async googleAuth(@Req() req, @Res() res) {}
+  async googleAuth(@Req() req, @Res() res) { }
 
   @Get('google/callback')
   @googleCallbackSwagger()
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req, @Res() res) {
-    await this.authService.googleLogin(req.user);
+    const { createdUser, isNew } = await this.authService.googleLogin(req.user);
     const user = await this.userService.findByEmail(req.user.email);
     const jwt = await this.authService.createToken(user);
+    if (isNew) {
+      await this.authService.sendEmail(createdUser, jwt);
+    }
     res.status(HttpStatus.OK).redirect(`http://localhost:3001/auth/google?token=${jwt}`);
     return;
   }
