@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import 'tailwindcss/tailwind.css';
 import LinesChart from "@/components/chart_dynamic";
-
+import Input from "@/components/input_dashboard";
 const MySwal = withReactContent(Swal);
 
 const Dashboard: React.FC = () => {
@@ -131,9 +131,19 @@ const Dashboard: React.FC = () => {
         </section>
 
         <LinesChart/>
+
+          <section className="bg-gray-100 p-4 rounded-lg shadow-md h-60">
+            <Input/>
+          </section>
       </main>
     </div>
   );
 };
 
 export default Dashboard;
+
+
+
+
+
+
