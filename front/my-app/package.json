@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.1.1",
-    "axios": "^1.7.2",
+    "@reduxjs/toolkit": "^2.2.6",
     "chart.js": "^4.4.3",
     "jwt-decode": "^4.0.0",
     "ldrs": "^1.0.2",
@@ -19,6 +19,7 @@
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
+    "react-redux": "^9.1.2",
     "sweetalert2": "^11.12.1",
     "sweetalert2-react-content": "^5.0.7"
   },
