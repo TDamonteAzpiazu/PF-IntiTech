@@ -31,6 +31,7 @@ export class AuthRepository {
       }
       const hashedPassword = await bcrypt.hash(password, 10);
 
+
       const createdUser = await this.repository.create({
         email,
         password: hashedPassword,
@@ -40,7 +41,6 @@ export class AuthRepository {
       });
 
       await this.sendEmailWhenUserIsCreated(createdUser)
-
       return user;
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -89,6 +89,7 @@ export class AuthRepository {
     return runWithTryCatchBadRequest(async () => {
       const user = await this.repository.findByEmail(data.email);
       if (!user) {
+        const cart = await this.cartRepository.createCart();
         const name = data.firstName + ' ' + data.LastName;
         const email = data.email;
         const newUser = {
