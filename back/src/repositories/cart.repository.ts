@@ -16,6 +16,14 @@ export class CartRepository {
         private readonly panelForSaleRepository: Repository<PanelForSale>,
     ) { }
 
+    async getCartItems(cart_id: string) {
+        const cart = await this.cartRepository.findOneBy({ id: cart_id });
+        if (!cart) {
+            throw new NotFoundException('Cart not found');
+        }
+        return await this.cartItemRepository.find({ where: { cart } });
+    }
+
     async createCart(): Promise<Cart> {
         const cart = this.cartRepository.create();
         return await this.cartRepository.save(cart);
