@@ -18,25 +18,25 @@ export class AuthRepository {
   constructor(
     private readonly repository: UserRepository,
     private readonly jwtService: JwtService,
-    private readonly cartRepository:CartRepository
-  ) {}
+    private readonly cartRepository: CartRepository
+  ) { }
 
   async registerEmailAndPassword(email: string, password: string, rest: any) {
     try {
-      const cart= await this.cartRepository.createCart()
+      const cart = await this.cartRepository.createCart()
       const user = await this.repository.findByEmail(email);
       if (user) {
         throw new BadRequestException('User already exists');
       }
       const hashedPassword = await bcrypt.hash(password, 10);
-      
+
       await this.repository.create({
         email,
         password: hashedPassword,
         ...rest,
         cart: cart
       });
-      
+
       return user;
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -50,7 +50,7 @@ export class AuthRepository {
   async login(email: string, password: string) {
     try {
       const user = await this.repository.findByEmail(email);
-      
+
       if (!user) {
         throw new NotFoundException('Invalid credentials');
       }
@@ -85,6 +85,7 @@ export class AuthRepository {
     return runWithTryCatchBadRequest(async () => {
       const user = await this.repository.findByEmail(data.email);
       if (!user) {
+        const cart = await this.cartRepository.createCart();
         const name = data.firstName + ' ' + data.LastName;
         const email = data.email;
         const newUser = {
@@ -96,6 +97,7 @@ export class AuthRepository {
           role: Role.User,
           image: data.picture,
           status: 'active',
+          cart: cart,
         };
         const createdUser = await this.repository.create(newUser);
         return createdUser;
