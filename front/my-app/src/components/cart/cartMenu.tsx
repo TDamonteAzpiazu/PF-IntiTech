@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-let hola = 0
+
 
 type CartProps = {
   isOpen: boolean;
