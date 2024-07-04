@@ -1,4 +1,4 @@
-import { applyDecorators } from "@nestjs/common"
+import { applyDecorators, HttpCode, HttpStatus } from "@nestjs/common"
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse } from "@nestjs/swagger"
 import { CreateUserDto } from "src/dto/createUser.dto"
 
@@ -27,5 +27,25 @@ export const DeleteUserSwagger = () => {
     return applyDecorators(
         ApiOperation({summary: 'Delete user', description: 'Receives the ID of a user as a parameter and changes their status to inactive in the database.'}),
         ApiResponse({status: 200, description: 'User deleted'})
+    )
+}
+
+export const NotificationSwagger = () => {
+    return applyDecorators(
+        HttpCode(HttpStatus.NO_CONTENT),
+        ApiOperation({summary: 'Send notification', description: 'Receives the email of a user as a parameter and sends an email with news from IntiTech.'}),
+        ApiResponse({status: 204, description: 'Notification sent'}),
+        ApiBody({
+            schema: {
+              type: 'object',
+              properties: {
+                email: {
+                  type: 'string',
+                  example: 'user@example.com',
+                  description: 'The email of the user'
+                }
+              }
+            }
+          })
     )
 }
