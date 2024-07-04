@@ -1,13 +1,16 @@
 import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Inversor } from 'src/entities/inversor.entity';
+import { ApiTags } from '@nestjs/swagger';
+import { GetAllOperatingPanelsSwagger, GetOperatingPanelByIdSwagger, UploadFileSwagger } from 'src/decorators/operatingPanels.decorator';
 import { OperatingPanelsService } from 'src/services/operatingPanels.service';
 
+@ApiTags('Operating Panels')
 @Controller('panels')
 export class OperatingPanelsController {
   constructor(private readonly operatingPanelsService: OperatingPanelsService) {}
 
   @Post('upload')
+  @UploadFileSwagger()
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Express.Multer.File , @Body("inversorName") inversorName: string) {
     console.log("hola");
@@ -47,14 +50,15 @@ export class OperatingPanelsController {
       return { error: `Failed to process file: ${error.message}` };
     }
   }
-
   
   @Get()
+  @GetAllOperatingPanelsSwagger()
   async getAllOperatingPanels() {
     return await this.operatingPanelsService.getAllOperatingPanels();
   }
 
   @Get(':id')
+  @GetOperatingPanelByIdSwagger()
   async getOperatingPanelById(@Param('id') id: string) {
     return await this.operatingPanelsService.getOperatingPanelById(id);
   }

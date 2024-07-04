@@ -25,7 +25,7 @@ export class CloudinaryController {
     private readonly cloudinaryService: CloudinaryService,
     private readonly userService: UserService,
     private readonly panelForSaleService: PanelForSaleService
-  ) {}
+  ) { }
 
   @Post('uploadUserImage/:id')
   @UploadUserImageSwagger()
@@ -37,9 +37,9 @@ export class CloudinaryController {
         // Validación del tipo de archivo
         validators: [
           new MaxFileSizeValidator({
-            maxSize: 2000000000, // 200KB
+            maxSize: 20000000000000, // 200KB
 
-            message: 'El tamaño máximo es de 200KB',
+            message: 'El tamaño máximo es de 200000KB',
           }),
           new FileTypeValidator({ fileType: /.(jpg|jpeg|png|gif|webp|avif)$/ }), // Validación del tipo de archivo
         ],

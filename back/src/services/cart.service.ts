@@ -29,4 +29,8 @@ export class CartService {
   async addOneToCartItem(cart_itemId: string) {
     return await this.cartRepository.addOneToCartItem(cart_itemId);
   }
+
+  async createRecord(cart_id: string) {
+    return await this.cartRepository.createRecord(cart_id);
+  }
 }
