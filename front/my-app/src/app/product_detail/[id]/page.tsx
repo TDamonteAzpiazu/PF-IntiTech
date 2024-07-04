@@ -3,7 +3,6 @@ import { product_by_id } from "@/helpers/products.helper";
 import { Iproducts_props } from "@/interfaces/interfaces";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { addOneToCartItem } from "@/components/cart/cartMenu";
 
 interface Idetail_props {
   params: {
@@ -11,23 +10,70 @@ interface Idetail_props {
   };
 }
 
+
 const Product_detail: React.FC<Idetail_props> = ({ params }) => {
-  const [data_product, setData_product] = useState<Iproducts_props | undefined>(
-    undefined
-  );
+  const [data_product, setData_product] = useState<Iproducts_props | undefined>(undefined);
+  const [productID , setProductID] = useState<string>("");
+  const [cartID, setCartID] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const dataUser = localStorage.getItem("DataUser");
+      if (!dataUser) {
+        throw new Error("DataUser not found in localStorage");
+      }
+  
+      const dataCartID = JSON.parse(dataUser);
+      if (!dataCartID || !dataCartID.cart || !dataCartID.cart.id) {
+        throw new Error("Invalid data structure in DataUser");
+      }
+  
+      setCartID(dataCartID.cart.id);
+    } catch (error) {
+      console.error("Failed to load cart ID:", error);
+    }
+  }, []);
 
   useEffect(() => {
     const get_product_by_id = async () => {
       try {
         const product = await product_by_id(params.id);
         setData_product(product);
+        setProductID(product.id!);
+        console.log(product);
       } catch (error) {
         console.error("Error en product_detail", error);
       }
     };
     get_product_by_id();
   }, [params.id]);
-  console.log(data_product);
+  
+  const handleAddToCart = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/cart/add/${cartID}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          panel_id: productID,
+          quantity: 1,
+        }),
+      })
+
+      if (!response.ok) {
+        alert ("Debes iniciar sesión para agregar items al carrito");
+        
+      }
+
+      const data = await response.json();
+
+      window.location.reload();
+    
+    } catch (error:any) {
+      throw new Error(error);
+    }
+  }
 
   if (!data_product) {
     return <div className="h-screen mt-32 text-4xl text-center bg-custom-image bg-no-repeat bg-size-200">...Cargando</div>;
@@ -80,7 +126,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
                   </span>
                 </div>
                 <div>
-                  <button onClick={addOneToCartItem} className="w-full outline-1 outline text-black bg-trasparent hover:bg-yellow-500 hover:text-white transition-all duration-300 font-medium py-2 px-4 rounded  ">
+                  <button onClick={handleAddToCart} className="w-full outline-1 outline text-black bg-trasparent hover:bg-yellow-500 hover:text-white transition-all duration-300 font-medium py-2 px-4 rounded  ">
                     Añadir al carrito
                   </button>
                 </div>

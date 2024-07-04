@@ -26,26 +26,26 @@ const authSuccess = () => {
 
         if (token) {
             localStorage.setItem("UserSession", JSON.stringify({ token }));
-            document.cookie = `userToken=${token}`;
-        }
-        const decoded = jwtDecode(token!);
-        const { id }: any = decoded;
-        console.log(id)
-        const dataUser = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/users/${id}`, {
-                    method: 'GET',
-                })
-                const data = await response.json();
-                localStorage.setItem('DataUser', JSON.stringify(data));
+            const decoded = jwtDecode(token!);
+            const { id }: any = decoded;
+            console.log(id)
+            const dataUser = async () => {
+                try {
+                    const response = await fetch(`http://localhost:3000/users/${id}`, {
+                        method: 'GET',
+                    })
+                    const data = await response.json();
+                    localStorage.setItem('DataUser', JSON.stringify(data));
 
-            } catch (error: any) {
-                throw new Error(error);
+                } catch (error: any) {
+                    throw new Error(error);
+                }
+
+
             }
-
-
+            dataUser()
         }
-        dataUser()
+
         router.push('/profile');
     }, [searchParams])
 

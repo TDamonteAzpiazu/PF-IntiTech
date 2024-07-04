@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^2.1.1",
     "@reduxjs/toolkit": "^2.2.6",
+    "axios": "^1.7.2",
     "chart.js": "^4.4.3",
     "jwt-decode": "^4.0.0",
     "ldrs": "^1.0.2",
