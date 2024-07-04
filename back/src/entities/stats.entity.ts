@@ -24,7 +24,7 @@ import {
       description: 'The date and time when the stats were recorded',
       example: '2024-07-01T12:00:00Z',
       type: 'string',
-      format: 'date-time',
+      format: 'date-time',}) 
     @Column({ type: 'timestamp', nullable: true })
     @IsDate()
     date: Date;
