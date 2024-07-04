@@ -35,7 +35,6 @@ import {
     })
     @Column({ type: 'numeric', nullable: true})
     @IsNumber()
-    @IsNotEmpty()
     energyGenerated: number;
   
     @ApiProperty({
