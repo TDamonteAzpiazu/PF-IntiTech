@@ -9,7 +9,6 @@ import {
 import { v4 as uuid } from 'uuid';
 import { PanelForSale } from './panelForSale.entity';
 import { Cart } from './cart.entity';
-import { Record } from './record.entity';
 
 //esta entity representa los elementos del carrito de compras
 @Entity({ name: 'cartitem' })
@@ -35,8 +34,4 @@ export class CartItem {
   @ManyToOne(() => Cart, (cart) => cart.cartItems)
   @JoinColumn()
   cart: Cart;
-
-  // @ManyToOne(() => Record, (record) => record.cartItems)
-  // @JoinColumn()
-  // record: Record;
 }

@@ -22,7 +22,6 @@ export class UserRepository implements OnModuleInit {
       where: { email: 'admin@example.com' },
     });
     if (!user) {
-      const cart = await this.cartRepository.createCart();
       const hashedPassword = await bcrypt.hash('Password1!', 10);
       const newUser = this.userRepository.create({
         name: 'Admin',
@@ -32,10 +31,10 @@ export class UserRepository implements OnModuleInit {
         phone: '123456789',
         role: Role.Admin,
         status: 'active',
-        cart: cart,
-
       });
-
+      await this.userRepository.save(newUser);
+      const cart = await this.cartRepository.createCart(newUser);
+      newUser.cart = cart;
       await this.userRepository.save(newUser);
     }
   }

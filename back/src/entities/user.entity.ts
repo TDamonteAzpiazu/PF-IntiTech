@@ -2,9 +2,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword, IsUUID } from 'class-validator';
 import { Role } from 'src/enum/role.enum';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { Cart } from './cart.entity';
+import { Record } from './record.entity';
 
 
 @Entity({ name: 'users' })
@@ -88,11 +89,14 @@ export class User {
     example: 'active',
   })
   @Column({ default: 'pending' })
-  @IsEnum(["active" , "inactive" , "pending"])
+  @IsEnum(["active", "inactive", "pending"])
   status?: 'active' | 'inactive' | 'pending';
 
-  @OneToOne(()=> Cart)
+  @OneToMany(() => Record, (record) => record.user)
+  records: Record[]
+
+  @OneToOne(() => Cart)
   @JoinColumn()
   cart: Cart;
-  
+
 }
