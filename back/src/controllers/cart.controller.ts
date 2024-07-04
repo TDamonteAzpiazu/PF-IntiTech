@@ -8,19 +8,24 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { AddItemToCartSwagger, ClearCartSwagger, CreateRecordSwagger, GetCartItemsSwagger } from 'src/decorators/cart.decorator';
 import { CartItemDto } from 'src/dto/cartitem.dto';
 import { CartService } from 'src/services/cart.service';
 
+@ApiTags('Cart')
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) { }
 
   @Get('getItems/:id') // id de cart
+  @GetCartItemsSwagger()
   async getCartItems(@Param('id', ParseUUIDPipe) cart_id: string) {
     return await this.cartService.getCartItems(cart_id);
   }
 
   @Post('add/:id') // id de cart
+  @AddItemToCartSwagger()
   async addItemToCart(
     @Param('id', ParseUUIDPipe) cart_id: string,
     @Body() cart_item: CartItemDto,
@@ -29,6 +34,7 @@ export class CartController {
   }
 
   @Delete('clearCart/:id') // id de cart
+  @ClearCartSwagger()
   async clearCart(@Param('id', ParseUUIDPipe) cart_id: string) {
     return await this.cartService.clearCart(cart_id);
   }
@@ -50,6 +56,7 @@ export class CartController {
   }
 
   @Post('createRecord/:id') // id de cart
+  @CreateRecordSwagger()
   async createRecord(@Param('id', ParseUUIDPipe) cart_id: string) {
     return await this.cartService.createRecord(cart_id);
   }

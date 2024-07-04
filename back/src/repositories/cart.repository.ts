@@ -197,6 +197,6 @@ export class CartRepository {
         cart.totalPrice = 0;
         await this.cartRepository.save(cart);
         await this.cartItemRepository.remove(items);
-        return 'All items deleted successfully';
+        return 'All items deleted and record created successfully';
     }
 }

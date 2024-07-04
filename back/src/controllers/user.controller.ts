@@ -11,7 +11,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { DeleteUserSwagger, GetAllUsersSwagger, GetUserByIdSwagger, UpdateUserSwagger } from 'src/decorators/users.decorator';
+import { DeleteUserSwagger, GetAllUsersSwagger, GetUserByIdSwagger, NotificationSwagger, UpdateUserSwagger } from 'src/decorators/users.decorator';
 import { CreateUserDto } from 'src/dto/createUser.dto';
 import { User } from 'src/entities/user.entity';
 import { UserService } from 'src/services/user.service';
@@ -52,6 +52,7 @@ export class UserController {
   }
 
   @Get("notifications")
+  @NotificationSwagger()
   async getNotifications(@Body() email: string) {
     const user = await this.userService.findByEmail(email);
     return await this.userService.getNotifications(user);
