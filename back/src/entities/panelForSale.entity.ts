@@ -89,6 +89,4 @@ export class PanelForSale {
   @IsString()
   @IsNotEmpty()
   image: string;
-
-  //un panel puede estar en varios carritos
 }
