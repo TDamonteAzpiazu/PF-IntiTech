@@ -16,6 +16,10 @@ export class OperatingPanelsService {
         return await this.OperatingPanelsRepository.extractData(data , inversorName);
     }
 
+    async extractDataSunnyPortal(data: any) {
+        return await this.OperatingPanelsRepository.extractDataSunnyPortal(data);
+    }
+
     async getAllOperatingPanels() {
         return await this.OperatingPanelsRepository.getAllOperatingPanels();
     }
