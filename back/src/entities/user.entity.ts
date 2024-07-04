@@ -92,9 +92,15 @@ export class User {
   @IsEnum(["active", "inactive", "pending"])
   status?: 'active' | 'inactive' | 'pending';
 
+  @ApiProperty({
+    description: 'The records of the user',
+  })
   @OneToMany(() => Record, (record) => record.user)
   records: Record[]
 
+  @ApiProperty({
+    description: 'The cart of the user',
+  })
   @OneToOne(() => Cart)
   @JoinColumn()
   cart: Cart;
