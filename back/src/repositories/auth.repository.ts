@@ -11,12 +11,15 @@ import { Role } from 'src/enum/role.enum';
 import { config as dotenvConfig } from 'dotenv';
 import { transporter } from 'src/config/mailer';
 import { CartRepository } from './cart.repository';
-import { User } from 'mercadopago';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/entities/user.entity';
+import { Repository } from 'typeorm';
 dotenvConfig({ path: '.env' });
 
 @Injectable()
 export class AuthRepository {
   constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly repository: UserRepository,
     private readonly jwtService: JwtService,
     private readonly cartRepository: CartRepository
@@ -24,21 +27,21 @@ export class AuthRepository {
 
   async registerEmailAndPassword(email: string, password: string, rest: any) {
     try {
-      const cart = await this.cartRepository.createCart()
       const user = await this.repository.findByEmail(email);
       if (user) {
         throw new BadRequestException('User already exists');
       }
       const hashedPassword = await bcrypt.hash(password, 10);
 
-
       const createdUser = await this.repository.create({
         email,
         password: hashedPassword,
         ...rest,
         status: 'pending',
-        cart: cart
       });
+      const cart = await this.cartRepository.createCart(createdUser)
+      createdUser.cart = cart
+      await this.userRepository.save(createdUser)
 
       await this.sendEmailWhenUserIsCreated(createdUser)
       return user;
@@ -89,7 +92,7 @@ export class AuthRepository {
     return runWithTryCatchBadRequest(async () => {
       const user = await this.repository.findByEmail(data.email);
       if (!user) {
-        const cart = await this.cartRepository.createCart();
+
         const name = data.firstName + ' ' + data.LastName;
         const email = data.email;
         const newUser = {
@@ -101,9 +104,11 @@ export class AuthRepository {
           role: Role.User,
           image: data.picture,
           status: 'pending',
-          cart: cart
         };
         const createdUser = await this.repository.create(newUser);
+        const cart = await this.cartRepository.createCart(createdUser);
+        createdUser.cart = cart;
+        await this.userRepository.save(createdUser);
         return { createdUser, isNew: true };
       } else {
         return { createdUser: user, isNew: false };

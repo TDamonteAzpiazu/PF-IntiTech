@@ -48,4 +48,9 @@ export class CartController {
   async addOneToCartItem(@Param('id', ParseUUIDPipe) cart_itemId: string) {
     return await this.cartService.addOneToCartItem(cart_itemId);
   }
+
+  @Post('createRecord/:id') // id de cart
+  async createRecord(@Param('id', ParseUUIDPipe) cart_id: string) {
+    return await this.cartService.createRecord(cart_id);
+  }
 }
