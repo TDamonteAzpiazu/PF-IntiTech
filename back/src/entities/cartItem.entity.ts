@@ -3,11 +3,9 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { PanelForSale } from './panelForSale.entity';
 import { Cart } from './cart.entity';
 
 //esta entity representa los elementos del carrito de compras
