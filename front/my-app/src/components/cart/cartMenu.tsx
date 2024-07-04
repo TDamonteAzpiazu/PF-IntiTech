@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
+
 type CartProps = {
   isOpen: boolean;
   toggleCart: () => void;
@@ -12,55 +14,32 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const storedDataUser = localStorage.getItem('DataUser');
-    if (storedDataUser) {
-      const dataUser = JSON.parse(storedDataUser);
-      const cartId = dataUser.cart?.id;
-      if (cartId) {
-        setCartId(cartId);
-        console.log('este es el cartId', cartId);
-      } else {
-        console.error('Cart ID not found in user data');
-      }
-    } else {
-      console.error('No user data found in localStorage');
-    }
-  }, []);
-
-  useEffect(() => {
-    if (cartId) {
-      const fetchCartData = async () => {
-        setLoading(true);
-        try {
+    const fetchCart = async () => {
+      setLoading(true);
+      try {
+        if (!cartId) {
+          const cart = await createCart();
+          setCartId(cart.id);
+        } else {
           const cartItems = await getCartItems(cartId);
           setItems(cartItems);
-        } catch (error) {
-          console.error('Error fetching cart data:', error);
-        } finally {
-          setLoading(false);
         }
-      };
-      fetchCartData();
-    }
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCart();
   }, [cartId]);
 
   const getCartItems = async (cartId: string) => {
     try {
-      console.log('Fetching cart items for cartId:', cartId);
-      const response = await axios.get(`http://localhost:3000/cart/getItems/${cartId}`);
-      console.log('Response status:', response.status);
-      console.log('Response data:', response.data);
+      const response = await axios.get(`http://localhost:3000/cart/${cartId}`);
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error('Axios error:', error.message);
-        if (error.response) {
-          console.error('Response status:', error.response.status);
-          console.error('Response data:', error.response.data);
-        }
-      } else {
-        console.error('Unexpected error:', error);
-      }
+      console.error('Error fetching cart items:', error);
       throw error;
     }
   };
@@ -77,7 +56,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const deleteAllItemsFromCart = async (cartId: string) => {
     try {
-      await axios.delete(`http://localhost:3000/cart/clearCart/${cartId}`);
+      await axios.delete(`http://localhost:3000/cart/${cartId}`);
       setItems([]);
     } catch (error) {
       console.error('Error deleting all items from cart:', error);
@@ -87,7 +66,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const subtractOneFromCartItem = async (itemId: string) => {
     try {
-      const response = await axios.put(`http://localhost:3000/cart/substract/${itemId}`);
+      const response = await axios.put(`http://localhost:3000/cart/subtract/${itemId}`);
       return response.data;
     } catch (error) {
       console.error('Error subtracting item from cart:', error);
@@ -145,19 +124,9 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   );
 };
 
-export const createCart = async () => {
-  try {
-    const response = await axios.post('http://localhost:3000/cart');
-    return response.data;
-  } catch (error) {
-    console.error('Error creating cart:', error);
-    throw error;
-  }
-};
-
 export const subtractOneFromCartItem = async (itemId: string) => {
   try {
-    const response = await axios.put(`http://localhost:3000/cart/items/${itemId}/subtract`);
+    const response = await axios.put(`http://localhost:3000/cart/subtract/${itemId}`);
     return response.data;
   } catch (error) {
     console.error('Error subtracting item from cart:', error);
@@ -165,20 +134,22 @@ export const subtractOneFromCartItem = async (itemId: string) => {
   }
 };
 
-export const addToCartItem = async (cartId: string, itemId: string, quantity: number) => {
+export const addOneToCartItem = async (itemId: string) => {
   try {
-    const response = await axios.post(`http://localhost:3000/cart/add/${cartId}`, {
-      panel_Id: itemId,
-      quantity: quantity
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    console.log(response)
+    const response = await axios.put(`http://localhost:3000/cart/add/${itemId}`);
     return response.data;
   } catch (error) {
     console.error('Error adding item to cart:', error);
+    throw error;
+  }
+};
+
+ export const createCart = async () => {
+  try {
+    const response = await axios.post('http://localhost:3000/cart');
+    return response.data;
+  } catch (error) {
+    console.error('Error creating cart:', error);
     throw error;
   }
 };
