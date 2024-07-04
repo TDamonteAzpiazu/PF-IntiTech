@@ -1,4 +1,4 @@
 export class StatsDto {
-    date: number;
+    date: Date;
     pvGeneration: number;
 }

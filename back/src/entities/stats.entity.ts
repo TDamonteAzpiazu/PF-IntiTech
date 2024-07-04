@@ -9,12 +9,11 @@ export class Stats {
     @IsUUID()
     id: string = uuid()
 
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'timestamp' , nullable: true})
     @IsDate()
-    @IsNotEmpty()
     date: Date;
 
-    @Column({ type: 'numeric' })
+    @Column({ type: 'numeric' , nullable: true})
     @IsNumber()
     @IsNotEmpty()
     energyGenerated: number;
