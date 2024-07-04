@@ -17,26 +17,24 @@ import {
     })
     @PrimaryGeneratedColumn('uuid')
     @IsUUID()
-    id: string = uuid();
-  
+    id: string = uuid()
+
+ 
     @ApiProperty({
       description: 'The date and time when the stats were recorded',
       example: '2024-07-01T12:00:00Z',
       type: 'string',
       format: 'date-time',
-    })
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'timestamp', nullable: true })
     @IsDate()
-    @IsNotEmpty()
     date: Date;
   
     @ApiProperty({
       description: 'The amount of energy generated, measured in kilowatt-hours (kWh)',
       example: 123.45,
     })
-    @Column({ type: 'numeric' })
+    @Column({ type: 'numeric', nullable: true})
     @IsNumber()
-    @IsNotEmpty()
     energyGenerated: number;
   
     @ApiProperty({
