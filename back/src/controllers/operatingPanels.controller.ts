@@ -27,7 +27,6 @@ export class OperatingPanelsController {
       return { error: `Failed to process file: ${error.message}` };
     }
   }
-
   @Get()
   async getAllOperatingPanels() {
     return await this.operatingPanelsService.getAllOperatingPanels();
