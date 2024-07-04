@@ -57,6 +57,37 @@ export class OperatingPanelsRepository {
     return stats;
   }
 
+  async extractDataSunnyPortal(data: any[]) {
+
+    const arrayStats = [{}]
+    const updatedData  = data.map((dato) => {
+      
+      const rawDate = dato['dateTime'] || dato[" "];
+      const dateMatch = rawDate.match(/(\d{2})\/(\d{2})/);
+      let date: Date | null = null;
+      if (dateMatch) {
+        const day = dateMatch[1];
+        const month = dateMatch[2];
+        const year = new Date().getFullYear(); // Asumiendo el año actual
+        date = new Date(year, parseInt(month) - 1, parseInt(day));
+      }
+  
+      const energyGenerated = dato['pvGeneration(kWh)'] || dato["SODIMAC HC NUEVA LA FLORIDA / Rendimiento total / Promedios [kWh]"];
+      const energyGeneratedNumber = energyGenerated ? parseFloat(energyGenerated.replace('.', '').replace(',', '.')) : 0;
+
+      arrayStats.push({
+        date,
+        pvGeneration: energyGeneratedNumber,
+      })
+      });
+
+   
+      this.statsRepository.save(arrayStats);
+    
+
+  }  
+  
+
   async getAllOperatingPanels(): Promise<OperatingPanels[]> {
     try {
       const panels = this.operatingPanelsRepository.find();
