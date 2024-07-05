@@ -6,9 +6,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OperatingPanels } from 'src/entities/operatingPanels.entity';
-import { Stats } from 'src/entities/stats.entity';
+import { Stats } from 'src/entities/stats.entity'; // Asegúrate de importar la entidad correcta
 import { StatsDto } from 'src/dto/stats.dto';
 import { Inversor } from 'src/entities/inversor.entity';
+import { InversorsIngecon } from 'src/utils/inversorsIngecon';
+import { InversorsSunnyPortal } from 'src/utils/inversorsSunnyPortal';
 
 const XLSX = require('xlsx');
 
@@ -31,7 +33,7 @@ export class OperatingPanelsRepository {
     return dataExcel;
   }
 
-  async extractData(data, inversorName: string): Promise<StatsDto[]> {
+  async extractDataIngecon(data, inversorName: string): Promise<StatsDto[]> {
     const stats: StatsDto[] = data.map((dato) => ({
       date: dato['dateTime'],
       energyGenerated: dato['pvGeneration(kWh)'],
@@ -40,13 +42,14 @@ export class OperatingPanelsRepository {
     const arrayStats = [];
 
     for (const stat of stats) {
-      const createdStats = this.statsRepository.save(stat);
+      const createdStats = await this.statsRepository.save(stat);
       arrayStats.push(createdStats);
     }
 
     const inversor = await this.inversorRepository.findOneBy({
       name: inversorName,
     });
+
     if (!inversor) {
       throw new BadRequestException('Inversor does not exist');
     }
@@ -77,7 +80,6 @@ export class OperatingPanelsRepository {
       }
 
       const energyGenerated =
-        dato['pvGeneration(kWh)'] ||
         dato[
           'SODIMAC HC NUEVA LA FLORIDA / Rendimiento total / Promedios [kWh]'
         ];
@@ -90,7 +92,8 @@ export class OperatingPanelsRepository {
         pvGeneration: energyGeneratedNumber,
       });
     });
-
+    
+    
     for (const stat of arrayStats) {
       const newStat = this.statsRepository.create({
         date: stat.date,
@@ -117,16 +120,40 @@ export class OperatingPanelsRepository {
     const stats = await this.statsRepository.find();
 
     for (const stat of stats) {
-      stat.operatingPanel = savedPanelData
-      await this.statsRepository.save(stat)
+      stat.operatingPanel = savedPanelData;
+      await this.statsRepository.save(stat);
     }
 
     return arrayStats;
   }
 
+  async extracDataByInversor(
+    data: any,
+    inversorName: string
+  ): Promise<StatsDto[]>  {
+    
+    
+    for (const inversor of InversorsIngecon) {
+    
+      if (inversor.name === inversorName) {
+      
+        return this.extractDataIngecon(data, inversorName);
+      }
+    }
+
+    for (const inversor of InversorsSunnyPortal) {
+      if (inversor.name === inversorName) {
+        return this.extractDataSunnyPortal(data, inversorName);
+      }
+    }
+
+  }
+
   async getAllOperatingPanels(): Promise<OperatingPanels[]> {
     try {
-      const panels = this.operatingPanelsRepository.find({relations : ['inversor','stats']});
+      const panels = this.operatingPanelsRepository.find({
+        relations: ['inversor', 'stats'],
+      });
 
       if (!panels) {
         throw new NotFoundException('No operating panels were found.');
@@ -142,6 +169,6 @@ export class OperatingPanelsRepository {
   }
 
   async getOperatingPanelById(id: string): Promise<OperatingPanels> {
-    return await this.operatingPanelsRepository.findOneBy({ id });
+    return await this.operatingPanelsRepository.findOne({where: {id: id} , relations : ["inversor" , "stats"] } );
   }
 }
