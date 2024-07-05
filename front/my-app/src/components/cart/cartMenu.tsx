@@ -24,9 +24,21 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   const [selectedItem, setSelectedItem] = useState<Icart | null>(null);
 
   useEffect(() => {
-    const dataCartID = JSON.parse(localStorage.getItem('DataUser')!);
-    const { cart } = dataCartID;
-    setCartId(cart.id);
+    try {
+      const dataUser = localStorage.getItem("DataUser");
+      if (!dataUser) {
+        throw new Error("DataUser not found in localStorage");
+      }
+  
+      const dataCartID = JSON.parse(dataUser);
+      if (!dataCartID || !dataCartID.cart || !dataCartID.cart.id) {
+        throw new Error("Invalid data structure in DataUser");
+      }
+  
+      setCartId(dataCartID.cart.id);
+    } catch (error) {
+      console.error("Failed to load cart ID:", error);
+    }
   }, []);
 
   useEffect(() => {

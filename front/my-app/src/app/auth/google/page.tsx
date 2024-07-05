@@ -26,6 +26,7 @@ const authSuccess = () => {
 
         if (token) {
             localStorage.setItem("UserSession", JSON.stringify({ token }));
+            document.cookie = `userToken=${token}; path=/; secure; samesite=strict`;
             const decoded = jwtDecode(token!);
             const { id }: any = decoded;
             console.log(id)
