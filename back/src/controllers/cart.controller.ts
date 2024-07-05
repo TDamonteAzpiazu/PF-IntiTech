@@ -41,7 +41,6 @@ export class CartController {
 
   @Delete(':id') // id de cart
   async deleteItemFromCart(@Param('id', ParseUUIDPipe) cart_itemId: string) {
-    console.log("funciono")
     return await this.cartService.deleteItemFromCart(cart_itemId);
   }
 
