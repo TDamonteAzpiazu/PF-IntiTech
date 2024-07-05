@@ -27,7 +27,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    document.cookie = 'userToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+    document.cookie = 'userToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; samesite=strict';
     localStorage.removeItem('UserSession');
     localStorage.removeItem('DataUser');
     window.location.reload();
