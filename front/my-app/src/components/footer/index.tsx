@@ -1,14 +1,70 @@
-import React from 'react';
-
-
-
+import React, { useState, useEffect } from 'react';
 
 const Footer: React.FC = () => {
+  const [userId, setUserId] = useState<string | null>(null);
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 
+  useEffect(() => {
+    const storedDataUser = localStorage.getItem('DataUser');
+    if (storedDataUser) {
+      const dataUser = JSON.parse(storedDataUser);
+      setUserId(dataUser.id);
+      console.log("este es el id", dataUser.id);
+    }
+  }, []);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubscribe = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Lógica para enviar el formulario
+    if (!userId) {
+      console.error("User ID is not available");
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:3000/users/suscriptUser/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to subscribe');
+      } else {
+        console.log('Successfully subscribed');
+        setIsSubscribed(true);
+      }
+    } catch (error) {
+      console.error('Error subscribing:', error);
+    }
+  };
+
+  const handleUnsubscribe = async () => {
+    if (!userId) {
+      console.error("User ID is not available");
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:3000/users/unsuscriptUser/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to unsubscribe');
+      } else {
+        console.log('Successfully unsubscribed');
+        setIsSubscribed(false);
+      }
+    } catch (error) {
+      console.error('Error unsubscribing:', error);
+    }
   };
 
   return (
@@ -18,33 +74,15 @@ const Footer: React.FC = () => {
           {/* Formulario */}
           <div>
             <h2 className="text-xl font-bold mb-4 border-b border-black h-8 w-64">Suscríbete</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label htmlFor="name" className="block mb-2">Nombre</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="w-9/12 px-3 py-2 text-gray-900 rounded-xl"
-                  placeholder="Tu nombre"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="email" className="block mb-2">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="w-9/12 px-3 py-2 text-gray-900 rounded-xl"
-                  placeholder="Tu email"
-                />
-              </div>
-              <button type='submit' className="bg-lightorangeinti text-white mr-4 px-4 py-2 rounded-lg">
-                Suscribirse
+            <form onSubmit={isSubscribed ? handleUnsubscribe : handleSubscribe}>
+              <button
+                type='submit'
+                className={`w-64 px-4 py-2 rounded-lg ${isSubscribed ? 'bg-red-500 text-white' : 'bg-lightorangeinti text-white'}`}
+              >
+                {isSubscribed ? 'Darse de baja' : 'Suscribirse'}
               </button>
             </form>
           </div>
-
           {/* Nuestros servicios */}
           <div>
             <h2 className="text-xl font-bold mb-4 border-b border-black h-8 w-64">Nuestros Servicios</h2>
@@ -66,8 +104,13 @@ const Footer: React.FC = () => {
 
           {/* Imagen */}
           <div>
-            <h2 className="text-xl font-bold mb-4 border-b border-black h-8 w-64">Encuentranos</h2>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3330.7251368142765!2d-70.58366331973544!3d-33.40433447097393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662cf250de7f841%3A0xf9f838a245f24075!2sAlonso%20de%20C%C3%B3rdova%2C%20Vitacura%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile!5e0!3m2!1ses-419!2sar!4v1719588903935!5m2!1ses-419!2sar" width="325" height="225"  loading="lazy" ></iframe>
+            <h2 className="text-xl font-bold mb-4 border-b border-black h-8 w-64">Encuéntranos</h2>
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3330.7251368142765!2d-70.58366331973544!3d-33.40433447097393!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662cf250de7f841%3A0xf9f838a245f24075!2sAlonso%20de%20C%C3%B3rdova%2C%20Vitacura%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile!5e0!3m2!1ses-419!2sar!4v1719588903935!5m2!1ses-419!2sar" 
+              width="325" 
+              height="225" 
+              loading="lazy">
+            </iframe>
           </div>
         </div>
       </div>
