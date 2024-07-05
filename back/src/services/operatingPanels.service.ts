@@ -11,13 +11,8 @@ export class OperatingPanelsService {
     async readExcel(buffer: Buffer) {
        return await this.OperatingPanelsRepository.readExcel(buffer);
     }
-
-    async extractData(data: string , inversorName : string) {
-        return await this.OperatingPanelsRepository.extractData(data , inversorName);
-    }
-
-    async extractDataSunnyPortal(data: any , inversorName : string) {
-        return await this.OperatingPanelsRepository.extractDataSunnyPortal(data , inversorName);
+    async extractDataByInversor(inversorName: string, data: any) {
+        return await this.OperatingPanelsRepository.extracDataByInversor(inversorName, data);
     }
 
     async getAllOperatingPanels() {

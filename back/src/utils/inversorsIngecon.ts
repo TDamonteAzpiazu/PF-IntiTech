@@ -1,6 +1,6 @@
 import { InversorDto } from "src/dto/inversor.dto";
 
-export const Inversors : InversorDto[] = [
+export const InversorsIngecon : InversorDto[] = [
     {
         name : "Bodegas salcobrand"
     } , 
