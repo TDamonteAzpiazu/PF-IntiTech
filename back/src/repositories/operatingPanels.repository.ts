@@ -6,9 +6,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OperatingPanels } from 'src/entities/operatingPanels.entity';
-import { Stats } from 'src/entities/stats.entity'; // Asegúrate de importar la entidad correcta
+import { Stats } from 'src/entities/stats.entity';
 import { StatsDto } from 'src/dto/stats.dto';
-import * as moment from 'moment';
 import { Inversor } from 'src/entities/inversor.entity';
 
 const XLSX = require('xlsx');

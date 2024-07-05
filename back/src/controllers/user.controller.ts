@@ -45,16 +45,14 @@ export class UserController {
     return await this.userService.updateUser(id, data);
   }
 
+  @Put('suscriptUser/:id')
+  async suscriptUser(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.userService.suscriptUser(id);
+  }
+
   @Delete(':id')
   @DeleteUserSwagger()
   async deleteUser(@Param('id', ParseUUIDPipe) id: string): Promise<string> {
     return await this.userService.deleteUser(id);
-  }
-
-  @Get("notifications")
-  @NotificationSwagger()
-  async getNotifications(@Body() email: string) {
-    const user = await this.userService.findByEmail(email);
-    return await this.userService.getNotifications(user);
   }
 }
