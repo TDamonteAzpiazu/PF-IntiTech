@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const Footer: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -19,7 +20,7 @@ const Footer: React.FC = () => {
       console.error("User ID is not available");
       return;
     }
-
+  
     try {
       const res = await fetch(`http://localhost:3000/users/suscriptUser/${userId}`, {
         method: 'PUT',
@@ -30,24 +31,42 @@ const Footer: React.FC = () => {
           userId
         }),
       });
-
+  
       if (!res.ok) {
         throw new Error('Failed to subscribe');
       } else {
-        console.log('Successfully subscribed');
+        Swal.fire({
+          title: 'Success',
+          text: 'Successfully subscribed',
+          icon: 'success',
+          customClass: {
+            confirmButton: 'bg-[#f7a90e] text-white px-4 py-2 rounded',
+          },
+          buttonsStyling: false,
+        });
         setIsSubscribed(true);
       }
     } catch (error) {
       console.error('Error subscribing:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Error subscribing',
+        icon: 'error',
+        customClass: {
+          confirmButton: 'bg-[#f7a90e] text-white px-4 py-2 rounded',
+        },
+        buttonsStyling: false,
+      });
     }
   };
-
-  const handleUnsubscribe = async () => {
+  
+  const handleUnsubscribe = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!userId) {
       console.error("User ID is not available");
       return;
     }
-
+  
     try {
       const res = await fetch(`http://localhost:3000/users/unsuscriptUser/${userId}`, {
         method: 'PUT',
@@ -55,15 +74,32 @@ const Footer: React.FC = () => {
           'Content-Type': 'application/json',
         },
       });
-
+  
       if (!res.ok) {
         throw new Error('Failed to unsubscribe');
       } else {
-        console.log('Successfully unsubscribed');
+        Swal.fire({
+          title: 'Success',
+          text: 'Successfully unsubscribed',
+          icon: 'info',
+          customClass: {
+            confirmButton: 'bg-[#f7a90e] text-white px-4 py-2 rounded',
+          },
+          buttonsStyling: false,
+        });
         setIsSubscribed(false);
       }
     } catch (error) {
       console.error('Error unsubscribing:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Error unsubscribing',
+        icon: 'error',
+        customClass: {
+          confirmButton: 'bg-[#f7a90e] text-white px-4 py-2 rounded',
+        },
+        buttonsStyling: false,
+      });
     }
   };
 
@@ -79,6 +115,7 @@ const Footer: React.FC = () => {
                 type='submit'
                 className={`w-64 px-4 py-2 rounded-lg ${isSubscribed ? 'bg-red-500 text-white' : 'bg-lightorangeinti text-white'}`}
               >
+                
                 {isSubscribed ? 'Darse de baja' : 'Suscribirse'}
               </button>
             </form>
