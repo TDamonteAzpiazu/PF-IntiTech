@@ -25,6 +25,10 @@ export class UserService {
     return await this.userRepository.suscriptUser(id);
   }
 
+  async unsuscriptUser(id: string) {
+    return await this.userRepository.unsuscriptUser(id);
+  }
+
   async deleteUser(id: string) {
     return await this.userRepository.delete(id);
   }
