@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePanelDto } from 'src/dto/createPanel.dto';
-// import { PanelForSale } from "src/entities/panelForSale.entity"; Utilizar mas adelante
 import { PanelForSaleRepository } from 'src/repositories/panelForSale.repository';
+// import { PanelForSale } from "src/entities/panelForSale.entity"; Utilizar mas adelante
 
 @Injectable()
 export class PanelForSaleService {
