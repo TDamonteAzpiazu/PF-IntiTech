@@ -50,6 +50,11 @@ export class UserController {
     return await this.userService.suscriptUser(id);
   }
 
+  @Put('unsuscriptUser/:id')
+  async unsuscriptUser(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.userService.unsuscriptUser(id);
+  }
+
   @Delete(':id')
   @DeleteUserSwagger()
   async deleteUser(@Param('id', ParseUUIDPipe) id: string): Promise<string> {

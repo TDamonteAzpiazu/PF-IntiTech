@@ -87,6 +87,15 @@ export class UserRepository implements OnModuleInit {
     return await this.userRepository.save(user);
   }
 
+  async unsuscriptUser(id: string) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    user.subscribed = false;
+    return await this.userRepository.save(user);
+  }
+
   async delete(id: string): Promise<string> {
     const user = await this.userRepository.findOneBy({ id });
     if (!user) {
