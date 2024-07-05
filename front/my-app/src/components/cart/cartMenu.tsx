@@ -29,12 +29,11 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
       if (!dataUser) {
         throw new Error("DataUser not found in localStorage");
       }
-  
       const dataCartID = JSON.parse(dataUser);
       if (!dataCartID || !dataCartID.cart || !dataCartID.cart.id) {
         throw new Error("Invalid data structure in DataUser");
       }
-  
+
       setCartId(dataCartID.cart.id);
     } catch (error) {
       console.error("Failed to load cart ID:", error);

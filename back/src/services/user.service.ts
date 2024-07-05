@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from 'src/dto/createUser.dto';
 import { UserRepository } from 'src/repositories/user.repository';
