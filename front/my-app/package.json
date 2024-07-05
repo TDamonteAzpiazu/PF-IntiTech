@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.1.1",
+    "@mercadopago/sdk-react": "^0.0.19",
     "@reduxjs/toolkit": "^2.2.6",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
