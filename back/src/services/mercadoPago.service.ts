@@ -15,6 +15,11 @@ export class MercadoPagoService {
         quantity: item.quantity,
         unit_price: item.unit_price,
       })),
+      back_urls: {
+        success: "http://localhost:3000/mercadopago/success",
+        failure: "http://localhost:3000/mercadopago/failure",
+      },
+      auto_return: 'approved',
     };
 
     try {

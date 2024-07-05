@@ -3,6 +3,7 @@ import trash from '../../../public/images/trash.png';
 import axios from 'axios';
 import Image from 'next/image';
 import ItemDetails from '../cartView';
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 
 type CartProps = {
   isOpen: boolean;
@@ -22,6 +23,12 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   const [cartId, setCartId] = useState<string | null>(null);
   const [items, setItems] = useState<Icart[]>([]);
   const [selectedItem, setSelectedItem] = useState<Icart | null>(null);
+  const [preferenceId, setPreferenceId] = useState<string | null>(null);
+
+  useEffect(() => {
+    initMercadoPago('TEST-fa93dbfd-43ff-4ad0-b01f-9fbd39faeafc', { locale: 'es-AR' });
+
+  }, []);
 
   useEffect(() => {
     try {
@@ -121,6 +128,45 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   };
 
   const totalPrice = items.reduce((total, item) => total + item.totalPrice, 0);
+  const createPreference = async () => {
+    try {
+        const res = await fetch('http://localhost:3000/mercadopago', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                items: [
+                    {
+                        id: items[0].id,
+                        title: items[0].panel_model,
+                        quantity: items[0].quantity,
+                        unit_price: items[0].totalPrice,
+                    },
+                ],
+            }),
+        });
+
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        return data;
+    } catch (error: any) {
+        console.error('Error creating preference:', error.message);
+        throw error;
+    }
+};
+
+const handleClick = async () => {
+    try {
+        const preference = await createPreference();
+        setPreferenceId(preference.preferenceId);
+    } catch (error: any) {
+        console.error('Error handling click:', error.message);
+    }
+};
 
   return (
     <>
@@ -197,10 +243,9 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
             <p className="text-xl font-bold text-black">${totalPrice.toFixed(2)}</p>
           </div>
         <button
-            className="w-full h-10 bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-3xl transition-all duration-500 flex justify-center items-center"
-          >
-            Buy
-          </button>
+            onClick={handleClick}
+            className="w-full h-10 bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-3xl transition-all duration-500 flex justify-center items-center">Buy</button>
+            {preferenceId && <Wallet initialization={{ preferenceId }} />}
         <button onClick={deleteAllItemsFromCart} className="w-full h-10 bg-white cursor-pointer rounded-3xl border-2 border-red-500 shadow-[inset_0px_-2px_0px_1px_red-500] group hover:bg-red-500 transition duration-300 ease-in-out">
         <span className="font-medium text-[#000] group-hover:text-white">
             Clear Cart
