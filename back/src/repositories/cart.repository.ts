@@ -79,12 +79,7 @@ export class CartRepository {
 
 
     async deleteItemFromCart(cart_itemId: string) {
-        console.log("Hola");
-
         const cartItem = await this.cartItemRepository.findOne({ where: { id: cart_itemId }, relations: ['cart'] });
-
-        console.log(cartItem);
-        console.log("Hola2");
 
         const product = await this.panelForSaleRepository.findOne({
             where: { id: cartItem.panel_id },
@@ -179,8 +174,7 @@ export class CartRepository {
         const items = await this.cartItemRepository.find({ where: { cart } });
 
         const record = this.recordRepository.create({ totalPrice: cart.totalPrice, user: cart.user });
-        console.log(record);
-
+        
         await this.recordRepository.save(record);
 
         for (const item of items) {
