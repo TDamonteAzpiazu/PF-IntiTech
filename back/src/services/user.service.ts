@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 
 import { Injectable } from '@nestjs/common';
-import { User } from 'src/entities/user.entity';
 import { CreateUserDto } from 'src/dto/createUser.dto';
 import { UserRepository } from 'src/repositories/user.repository';
 
@@ -22,6 +21,11 @@ export class UserService {
     return await this.userRepository.updateUser(id, data);
   }
 
+
+  async suscriptUser(id: string) {
+    return await this.userRepository.suscriptUser(id);
+  }
+
   async deleteUser(id: string) {
     return await this.userRepository.delete(id);
   }
@@ -30,7 +34,5 @@ export class UserService {
     return await this.userRepository.findByEmail(email);
   }
 
-  async getNotifications(user: User) {
-    return await this.userRepository.getNotifications(user);
-  }
+
 }

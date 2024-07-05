@@ -2,10 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from 'src/dto/createUser.dto';
 import { CredentialsDto } from 'src/dto/credentials.dto';
 import { AuthRepository } from 'src/repositories/auth.repository';
+import { sendEmail } from '../sendMails/sendMails';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly authRepository: AuthRepository) {}
+  constructor(private readonly authRepository: AuthRepository,
+  ) { }
 
   async registerEmailAndPassword(body: CreateUserDto) {
     const { email, password, name, address, phone } = body;
@@ -30,6 +32,6 @@ export class AuthService {
   }
 
   async sendEmail(user, jwt) {
-    return await this.authRepository.sendEmail(user, jwt);
+    return await sendEmail(user, jwt);
   }
 }

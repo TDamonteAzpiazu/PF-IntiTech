@@ -99,6 +99,12 @@ export class User {
   records: Record[]
 
   @ApiProperty({
+
+  })
+  @Column({ default: false })
+  subscribed: boolean
+
+  @ApiProperty({
     description: 'The cart of the user',
   })
   @OneToOne(() => Cart)
