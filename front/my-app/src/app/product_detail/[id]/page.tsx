@@ -80,26 +80,24 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   }
 
   return (
-    <div className="bg-black bg-opacity-10">
-      <div className="flex justify-center items-center ">
-        <div className="my-32  rounded-lg shadow-lg w-full max-w-4xl">
-          <div className="bg-gradient-to-r from-yellow-300 via-orange-200 to-yellow-300 rounded-lg shadow-lg w-full max-w-4xl flex">
-            <div className="relative w-1/2 h-[450px]">
+        <div className="grid grid-cols-2 shadow-2xl sha rounded-lg justify-center gap-1 mt-40 mb-20 ml-8 mr-10 ">
+          
+            <div className="relative sm:60 sm:w-60">
               <Image
-                className="object-cover w-full h-full"
+                className="rounded-l-md"
                 src={data_product.image}
                 alt="Product Image"
                 layout="fill"
               />
             </div>
 
-            <div className="w-1/2 p-6 flex flex-col justify-between">
+            <div className="px-4 py-4 bg-gradient-to-r from-orange-400  to-orange-200 bg-transparent opacity-85 rounded-r-md justify-center">
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <h1 className="text-2xl py-5 font-semibold text-gray-900">
                     {data_product.brand}
                   </h1>
-                  <span className="text-gray-600 text-sm">
+                  <span className="text-gray-900 text-sm">
                     Stock: {data_product.stock}
                   </span>
                 </div>
@@ -108,7 +106,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
                   {data_product.model}
                 </h2>
 
-                <p className="text-sm text-gray-700 mb-4">
+                <p className="text-sm text-gray-900 mb-4">
                   {data_product.description}
                 </p>
               </div>
@@ -121,21 +119,19 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
                 </div>
 
                 <div className="flex items-center mb-4">
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-900">
                     Daily Generation: {data_product.dailyGeneration}
                   </span>
                 </div>
                 <div>
-                  <button onClick={handleAddToCart} className="w-full outline-1 outline text-black bg-trasparent hover:bg-yellow-500 hover:text-white transition-all duration-300 font-medium py-2 px-4 rounded  ">
+                  <button onClick={handleAddToCart} className="bg-gradient-to-r from-yellow-300 to-orange-400 opacity-95 hover:shadow-xl text-gray-900  px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105">
                     Añadir al carrito
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+
   );
 };
 
