@@ -1,5 +1,4 @@
 import { Ilogin_props, Iregister_props } from '@/interfaces/interfaces'
-import { Iauth_response } from '@/interfaces/interfaces'
 
 const api_url = process.env.NEXT_PUBLIC_API_URL
 

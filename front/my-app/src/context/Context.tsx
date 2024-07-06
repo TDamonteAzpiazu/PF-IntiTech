@@ -1,5 +1,5 @@
 'use client'
-import { IAuthContext, IAuthProviderProps, Icontext_props, Icontext_provider, Isession_active } from "@/interfaces/interfaces"
+import { Icontext_props, Icontext_provider, Isession_active } from "@/interfaces/interfaces"
 import { createContext, useContext, useState, useEffect} from "react"
 
 

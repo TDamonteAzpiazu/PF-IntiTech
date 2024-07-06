@@ -18,6 +18,8 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   const [data_product, setData_product] = useState<Iproducts_props | any>(null);
   const [productID, setProductID] = useState<string>("");
   const [cartID, setCartID] = useState<string | null>(null);
+  const [data, setData ] = useState<any>(null);
+
 
   useEffect(() => {
     try {
@@ -27,11 +29,13 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
       }
 
       const dataCartID = JSON.parse(dataUser);
+      setData(dataCartID);
       if (!dataCartID || !dataCartID.cart || !dataCartID.cart.id) {
         throw new Error("Invalid data structure in DataUser");
       }
 
       setCartID(dataCartID.cart.id);
+
     } catch (error) {
       console.error("Failed to load cart ID:", error);
     }
@@ -52,11 +56,18 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   }, [params.id]);
 
   const handleAddToCart = async () => {
+    if(data.status === "pending") {
+      alert("Debes activar tu cuenta para agregar items al carrito");
+      router.push("/profile");
+      return;
+    }
+    
     if (!cartID || !productID) {
       alert("Debes iniciar sesion para agregar items al carrito");
       router.push("/login");
       return;
     }
+
 
     try {
       const response = await fetch(`http://localhost:3000/cart/add/${cartID}`, {
