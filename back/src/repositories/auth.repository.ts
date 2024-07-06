@@ -18,6 +18,7 @@ import { Repository } from 'typeorm';
 import { sendWeeklyEmails } from '../sendMails/sendMails';
 import { sendEmailWhenUserIsCreated } from '../sendMails/sendMails';
 import { Cart } from 'src/entities/cart.entity';
+import { Status } from 'src/enum/status.enum';
 dotenvConfig({ path: '.env' });
 
 @Injectable()
@@ -126,7 +127,7 @@ export class AuthRepository implements OnModuleInit {
           phone: '',
           role: Role.User,
           image: data.picture,
-          status: 'pending',
+          status: Status.Active,
         };
         const createdUser: User = await this.repository.create(newUser);
         const cart: Cart = await this.cartRepository.createCart(createdUser);
