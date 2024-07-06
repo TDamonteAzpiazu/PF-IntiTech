@@ -127,7 +127,7 @@ export class AuthRepository implements OnModuleInit {
           phone: '',
           role: Role.User,
           image: data.picture,
-          status: Status.Active,
+          status: Status.Pending,
         };
         const createdUser: User = await this.repository.create(newUser);
         const cart: Cart = await this.cartRepository.createCart(createdUser);
