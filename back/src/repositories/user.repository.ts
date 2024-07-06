@@ -74,6 +74,10 @@ export class UserRepository implements OnModuleInit {
       const updatedUser = this.userRepository.merge(user, data);
       return await this.userRepository.save(updatedUser);
     }
+    else if (data.status) {
+      const updatedUser = this.userRepository.merge(user, data);
+      return await this.userRepository.save(updatedUser);
+    }
 
     const updatedUser: User = this.userRepository.merge(user, data);
     return await this.userRepository.save(updatedUser);
