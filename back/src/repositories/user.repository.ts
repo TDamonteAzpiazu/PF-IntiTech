@@ -7,6 +7,7 @@ import { Role } from 'src/enum/role.enum';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CartRepository } from './cart.repository';
+import { Cart } from 'src/entities/cart.entity';
 
 @Injectable()
 export class UserRepository implements OnModuleInit {
@@ -16,8 +17,8 @@ export class UserRepository implements OnModuleInit {
     private readonly cartRepository: CartRepository,
   ) { }
 
-  async onModuleInit() {
-    const user = await this.userRepository.findOne({
+  async onModuleInit(): Promise<void> {
+    const user: User = await this.userRepository.findOne({
       where: { email: 'admin@example.com' },
     });
     if (!user) {
@@ -32,14 +33,14 @@ export class UserRepository implements OnModuleInit {
         status: 'active',
       });
       await this.userRepository.save(newUser);
-      const cart = await this.cartRepository.createCart(newUser);
+      const cart: Cart = await this.cartRepository.createCart(newUser);
       newUser.cart = cart;
       await this.userRepository.save(newUser);
     }
   }
 
   async getAllUsers(page: number, limit: number): Promise<User[]> {
-    const [users] = await this.userRepository.findAndCount({
+    const [users]: [User[], number] = await this.userRepository.findAndCount({
       skip: (page - 1) * limit,
       take: limit,
     });
@@ -54,7 +55,7 @@ export class UserRepository implements OnModuleInit {
   }
 
   async getUserById(id: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { id }, relations: { cart: true } });
+    const user: User = await this.userRepository.findOne({ where: { id }, relations: { cart: true } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -62,7 +63,7 @@ export class UserRepository implements OnModuleInit {
   }
 
   async updateUser(id: string, data: Partial<CreateUserDto>): Promise<User> {
-    const user = await this.userRepository.findOneBy({ id });
+    const user: User = await this.userRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -74,12 +75,12 @@ export class UserRepository implements OnModuleInit {
       return await this.userRepository.save(updatedUser);
     }
 
-    const updatedUser = this.userRepository.merge(user, data);
+    const updatedUser: User = this.userRepository.merge(user, data);
     return await this.userRepository.save(updatedUser);
   }
 
-  async suscriptUser(id: string) {
-    const user = await this.userRepository.findOneBy({ id });
+  async suscriptUser(id: string): Promise<User> {
+    const user: User = await this.userRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -87,8 +88,8 @@ export class UserRepository implements OnModuleInit {
     return await this.userRepository.save(user);
   }
 
-  async unsuscriptUser(id: string) {
-    const user = await this.userRepository.findOneBy({ id });
+  async unsuscriptUser(id: string): Promise<User> {
+    const user: User = await this.userRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -97,7 +98,7 @@ export class UserRepository implements OnModuleInit {
   }
 
   async delete(id: string): Promise<string> {
-    const user = await this.userRepository.findOneBy({ id });
+    const user: User = await this.userRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -106,7 +107,7 @@ export class UserRepository implements OnModuleInit {
   }
 
   async create(data: CreateUserDto): Promise<User> {
-    const newUser = this.userRepository.create({
+    const newUser: User = this.userRepository.create({
       ...data,
     });
     return await this.userRepository.save(newUser);

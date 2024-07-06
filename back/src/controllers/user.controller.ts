@@ -41,17 +41,17 @@ export class UserController {
   async updateUser(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() data: Partial<CreateUserDto>,
-  ) {
+  ): Promise<User> {
     return await this.userService.updateUser(id, data);
   }
 
   @Put('suscriptUser/:id')
-  async suscriptUser(@Param('id', ParseUUIDPipe) id: string) {
+  async suscriptUser(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
     return await this.userService.suscriptUser(id);
   }
 
   @Put('unsuscriptUser/:id')
-  async unsuscriptUser(@Param('id', ParseUUIDPipe) id: string) {
+  async unsuscriptUser(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
     return await this.userService.unsuscriptUser(id);
   }
 

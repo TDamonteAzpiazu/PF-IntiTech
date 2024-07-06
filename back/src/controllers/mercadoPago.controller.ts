@@ -3,10 +3,10 @@ import { MercadoPagoService } from 'src/services/mercadoPago.service';
 
 @Controller('mercadopago')
 export class MercadoPagoController {
-  constructor(private readonly mercadoPagoService: MercadoPagoService) {}
+  constructor(private readonly mercadoPagoService: MercadoPagoService) { }
 
   @Post()
-  createOrder(@Body() body: any) {
+  createOrder(@Body() body: any): Promise<any> {
     return this.mercadoPagoService.createPreference(body);
   }
 

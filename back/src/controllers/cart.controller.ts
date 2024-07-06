@@ -10,7 +10,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AddItemToCartSwagger, ClearCartSwagger, CreateRecordSwagger, GetCartItemsSwagger } from 'src/decorators/cart.decorator';
+import { AllRecordDto } from 'src/dto/allRecords.dto';
 import { CartItemDto } from 'src/dto/cartitem.dto';
+import { CartItem } from 'src/entities/cartItem.entity';
 import { CartService } from 'src/services/cart.service';
 
 @ApiTags('Cart')
@@ -20,7 +22,7 @@ export class CartController {
 
   @Get('getItems/:id') // id de cart
   @GetCartItemsSwagger()
-  async getCartItems(@Param('id', ParseUUIDPipe) cart_id: string) {
+  async getCartItems(@Param('id', ParseUUIDPipe) cart_id: string): Promise<CartItem[]> {
     return await this.cartService.getCartItems(cart_id);
   }
 
@@ -29,34 +31,39 @@ export class CartController {
   async addItemToCart(
     @Param('id', ParseUUIDPipe) cart_id: string,
     @Body() cart_item: CartItemDto,
-  ) {
+  ): Promise<CartItem> {
     return await this.cartService.addItemToCart(cart_id, cart_item);
   }
 
   @Delete('clearCart/:id') // id de cart
   @ClearCartSwagger()
-  async clearCart(@Param('id', ParseUUIDPipe) cart_id: string) {
+  async clearCart(@Param('id', ParseUUIDPipe) cart_id: string): Promise<string> {
     return await this.cartService.clearCart(cart_id);
   }
 
   @Delete(':id') // id de cart
-  async deleteItemFromCart(@Param('id', ParseUUIDPipe) cart_itemId: string) {
+  async deleteItemFromCart(@Param('id', ParseUUIDPipe) cart_itemId: string): Promise<string> {
     return await this.cartService.deleteItemFromCart(cart_itemId);
   }
 
   @Put('substract/:id') // id de cartItem
-  async substractOneFromCartItem(@Param('id', ParseUUIDPipe) cart_itemId: string) {
+  async substractOneFromCartItem(@Param('id', ParseUUIDPipe) cart_itemId: string): Promise<CartItem> {
     return await this.cartService.substractOneFromCartItem(cart_itemId);
   }
 
   @Put('add/:id') // id de cartItem
-  async addOneToCartItem(@Param('id', ParseUUIDPipe) cart_itemId: string) {
+  async addOneToCartItem(@Param('id', ParseUUIDPipe) cart_itemId: string): Promise<CartItem> {
     return await this.cartService.addOneToCartItem(cart_itemId);
   }
 
   @Post('createRecord/:id') // id de cart
   @CreateRecordSwagger()
-  async createRecord(@Param('id', ParseUUIDPipe) cart_id: string) {
+  async createRecord(@Param('id', ParseUUIDPipe) cart_id: string): Promise<string> {
     return await this.cartService.createRecord(cart_id);
+  }
+
+  @Get('getAllRecords/:id') // id de user
+  async getAllRecords(@Param('id', ParseUUIDPipe) user_id: string): Promise<AllRecordDto[]> {
+    return await this.cartService.getAllRecords(user_id);
   }
 }

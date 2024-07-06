@@ -1,12 +1,12 @@
 import { transporter } from "src/config/mailer";
 import { User } from "src/entities/user.entity";
 
-export async function sendWeeklyEmails(user: User) {
-    await transporter.sendMail({
-        from: '"Intitech 👻" <pablorodriguez6002@gmail.com>', // sender address
-        to: user.email, // list of receivers
-        subject: 'Descubre las Novedades de Intitech!', // Subject line
-        html: `
+export async function sendWeeklyEmails(user: User): Promise<void> {
+  await transporter.sendMail({
+    from: '"Intitech 👻" <pablorodriguez6002@gmail.com>', // sender address
+    to: user.email, // list of receivers
+    subject: 'Descubre las Novedades de Intitech!', // Subject line
+    html: `
         <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
           <h2 style="color: #FFA500;">¡Hola, <span style="color: #FFD700;">${user.name}</span>!</h2>
           <p>Nos enorgullece ofrecerte una amplia variedad de <strong>paneles solares</strong> de alta calidad, diseñados para maximizar la generación de energía y proporcionar una solución sostenible para tu hogar o negocio.</p>
@@ -29,15 +29,15 @@ export async function sendWeeklyEmails(user: User) {
           }
         </style>
       `,
-    });
+  });
 }
 
-export async function sendEmail(user: any, jwt: string) {
-    await transporter.sendMail({
-        from: '"Test 👻" <pablorodriguez6002@gmail.com>', // sender address
-        to: user.email, // list of receivers
-        subject: 'Bienvenido a Intitech!', // Subject line
-        html: `
+export async function sendEmail(user: User, jwt: string): Promise<void> {
+  await transporter.sendMail({
+    from: '"Test 👻" <pablorodriguez6002@gmail.com>', // sender address
+    to: user.email, // list of receivers
+    subject: 'Bienvenido a Intitech!', // Subject line
+    html: `
         <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
           <h2 style="color: #FFA500;">¡Gracias por registrarte, <span style="color: #FFD700;">${user.name}</span>!</h2>
           <p>Estamos emocionados de tenerte con nosotros. Nuestra empresa se dedica a ofrecer paneles solares y robots de alta calidad para la limpeieza de los mismos.</p>
@@ -57,15 +57,15 @@ export async function sendEmail(user: any, jwt: string) {
           }
         </style>
       `, // html body
-    });
+  });
 }
 
-export async function sendEmailWhenUserIsCreated(user: any) {
-    await transporter.sendMail({
-        from: '"Test 👻" <pablorodriguez6002@gmail.com>', // sender address
-        to: user.email, // list of receivers
-        subject: 'Bienvenido a Intitech!', // Subject line
-        html: `
+export async function sendEmailWhenUserIsCreated(user: User): Promise<void> {
+  await transporter.sendMail({
+    from: '"Test 👻" <pablorodriguez6002@gmail.com>', // sender address
+    to: user.email, // list of receivers
+    subject: 'Bienvenido a Intitech!', // Subject line
+    html: `
         <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
           <h2 style="color: #FFA500;">¡Gracias por registrarte, <span style="color: #FFD700;">${user.name}</span>!</h2>
           <p>Estamos emocionados de tenerte con nosotros. Nuestra empresa se dedica a ofrecer paneles solares y robots de alta calidad para la venta de los mismos.</p>
@@ -85,5 +85,5 @@ export async function sendEmailWhenUserIsCreated(user: any) {
           }
         </style>
       `, // html body
-    });
+  });
 }
