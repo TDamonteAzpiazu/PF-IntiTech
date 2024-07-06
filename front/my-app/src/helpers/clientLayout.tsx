@@ -10,9 +10,9 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <>
-            {pathname !== "/login" && <Navbar />}
+            {pathname !== "/login" && pathname !== "/profile/activate" && pathname !== "/payOk" && pathname !== "/payWrong"  && <Navbar />}
             {children}
-            {pathname !== "/login" && <Footer />}
+            {pathname !== "/login" && pathname !== "/profile/activate" && pathname !== "/payOk" && pathname !== "/payWrong" && <Footer />}
         </>
     );
 }
