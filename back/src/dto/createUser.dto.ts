@@ -21,25 +21,27 @@ export class CreateUserDto {
     example: 'Password1!',
   })
   password: string;
-  
+
   @ApiProperty({
     description: 'The address of the user',
     example: 'Fake Street 123',
   })
   address: string;
-  
+
   @ApiProperty({
     description: 'The phone of the user',
     example: '123456789',
   })
   phone: string;
-  
+
   @ApiPropertyOptional({
     description: 'The image of the user'
   })
   @IsOptional()
   image?: string;
-  
+
+  status?: 'active' | 'inactive' | 'pending';
+
   @ApiProperty({
     description: 'The role of the user',
     example: 'user',
