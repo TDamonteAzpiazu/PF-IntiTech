@@ -13,7 +13,6 @@ const Input: React.FC = () => {
 
   const handle_button = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // XMLHttpRequest.send()
     const formData = new FormData();
     formData.append("inversor", data_form.inversor);
     if (data_form.file) {
