@@ -33,6 +33,8 @@ export class OperatingPanelsController {
       throw new Error('No file uploaded');
     }
 
+    console.log(file);
+    console.log(inversorName);
     try {
       const data = await this.operatingPanelsService.readExcel(file.buffer);
 
