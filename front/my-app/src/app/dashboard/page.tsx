@@ -122,14 +122,14 @@ const Dashboard: React.FC = () => {
         </section>
 
         <section className="bg-gray-100 p-4 rounded-lg shadow-md">
-            <Bar_Chart />
+            <Bar_Chart/>
 
           <div className="w-56 -mt-10 overflow-hidden bg-gray-100 rounded-lg shadow-lg md:w-64 dark:bg-gray-800"></div>
         </section>
 
         <section className="bg-gray-100 p-4 rounded-lg shadow-md h-60">
 
-            <Circular_Chart />
+            <Circular_Chart stats={stats} />
 
         </section>
 

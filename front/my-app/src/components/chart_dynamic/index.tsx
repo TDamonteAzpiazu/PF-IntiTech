@@ -30,7 +30,7 @@ ChartJS.register(
   ArcElement
 );
 
-//ARRAY CON INFO DE LA PETICION
+
 const energyData: EnergyData[] = [
   {
     date: "2024-06-23T23:59:15.000Z",
