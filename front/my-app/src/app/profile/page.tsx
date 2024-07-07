@@ -121,7 +121,7 @@ const Profile = () => {
         <div className="h-screen pt-28 flex justify-center gap-16 mb-10">
             <form className="flex flex-col" onSubmit={handleFileChange}>
                 <h1 className="text-3xl text-white font-medium pt-4 px-4 pb-6">
-                    Change profile image
+                    Cambiar imagen de perfil
                 </h1>
                 <div className="flex flex-col p-5">
                     <img src={newUser?.image} alt="imagen" className="flex mx-auto w-36 h-36 rounded-full" />
