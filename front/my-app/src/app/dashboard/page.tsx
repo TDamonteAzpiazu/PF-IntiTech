@@ -17,7 +17,7 @@ const Dashboard: React.FC = () => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
 
   const [stats , setStats] = useState<any>([
-    50 , 130 , 210 , 120 , 290 , 380 , 480
+    0 , 0 , 0 , 0 , 0 , 0 , 0
   ])
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
