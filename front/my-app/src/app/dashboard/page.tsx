@@ -16,6 +16,9 @@ const MySwal = withReactContent(Swal);
 const Dashboard: React.FC = () => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
 
+  const [stats , setStats] = useState<any>([
+    0 , 0 , 0 , 0 , 0 , 0 , 0
+  ])
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setProfileImage(event.target.files[0]);
@@ -115,25 +118,25 @@ const Dashboard: React.FC = () => {
       <main className="w-4/5 p-4 grid grid-cols-2 gap-2 mt-32 h-auto">
         <section className="bg-gray-100 p-1 rounded-lg shadow-md">
  
-            <Lines_Chart />
+            <Lines_Chart stats={stats}/>
         </section>
 
         <section className="bg-gray-100 p-4 rounded-lg shadow-md">
-            <Bar_Chart />
+            <Bar_Chart/>
 
           <div className="w-56 -mt-10 overflow-hidden bg-gray-100 rounded-lg shadow-lg md:w-64 dark:bg-gray-800"></div>
         </section>
 
         <section className="bg-gray-100 p-4 rounded-lg shadow-md h-60">
 
-            <Circular_Chart />
+            <Circular_Chart stats={stats} />
 
         </section>
 
-        <LinesChart/>
+        <LinesChart stats={stats} />
 
           <section className="bg-gray-100 p-4 rounded-lg shadow-md h-60">
-            <Input/>
+            <Input stats={stats} setStats={setStats} />
           </section>
       </main>
     </div>
