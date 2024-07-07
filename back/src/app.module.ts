@@ -17,6 +17,9 @@ import { OperatingPanelsModule } from './modules/operatingPanels.module';
 import { inversorModule } from './modules/inversor.module';
 import { CartModule } from './modules/cart.module';
 import { MercadopagoModule } from './modules/mercadoPago.module';
+import { FaqService } from './services/chatbot.service';
+import { FaqRepository } from './repositories/faq.repository';
+import { ChatbotController } from './controllers/chatbot.controller';
 dotenvConfig({ path: '.env' });
 
 @Module({
@@ -40,9 +43,11 @@ dotenvConfig({ path: '.env' });
     OperatingPanelsModule,
     inversorModule,
     CartModule,
-    MercadopagoModule
+    MercadopagoModule,
+    FaqService,
+    FaqRepository
   ],
-  controllers: [AppController],
+  controllers: [AppController,ChatbotController],
   providers: [AppService, GoogleStrategy],
 })
 export class AppModule {}
