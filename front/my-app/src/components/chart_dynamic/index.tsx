@@ -177,7 +177,7 @@ const doughnutOptions: ChartOptions<"doughnut"> = {
   },
 };
 
-const LinesChart: React.FC = () => {
+export function LinesChart({stats} : any) {
   const [chartType, setChartType] = useState<"line" | "bar" | "doughnut">(
     "line"
   );
@@ -230,7 +230,7 @@ const LinesChart: React.FC = () => {
     const labels = energyData.map((item) =>
       new Date(item.date).toLocaleDateString()
     );
-    const data = energyData.map((item) => item.energyGenerated);
+    const data = stats;
 
     setLineChartData({
       labels,
@@ -261,7 +261,7 @@ const LinesChart: React.FC = () => {
         },
       ],
     });
-  }, []);
+  }, [stats]);
 
   return (
     <div>
