@@ -26,7 +26,7 @@ const Input: React.FC = () => {
     formDataToSend.append("file", selectedFile);
 
     try {
-      const response = await fetch(`http://localhost:3000/panels/upload`, {
+      const response = await fetch(`https://pf-intitech.onrender.com/panels/upload`, {
         method: "POST",
         body: formDataToSend,
       });
