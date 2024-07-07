@@ -18,6 +18,7 @@ import { Repository } from 'typeorm';
 import { sendWeeklyEmails } from '../sendMails/sendMails';
 import { sendEmailWhenUserIsCreated } from '../sendMails/sendMails';
 import { Cart } from 'src/entities/cart.entity';
+import { Status } from 'src/enum/status.enum';
 dotenvConfig({ path: '.env' });
 
 @Injectable()
@@ -60,14 +61,14 @@ export class AuthRepository implements OnModuleInit {
         email,
         password: hashedPassword,
         ...rest,
-        status: 'pending',
+        status: Status.Pending,
       });
       const cart: Cart = await this.cartRepository.createCart(createdUser)
       createdUser.cart = cart
       await this.userRepository.save(createdUser)
 
       await sendEmailWhenUserIsCreated(createdUser)
-      return user;
+      return createdUser;
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
@@ -126,7 +127,7 @@ export class AuthRepository implements OnModuleInit {
           phone: '',
           role: Role.User,
           image: data.picture,
-          status: 'pending',
+          status: Status.Pending,
         };
         const createdUser: User = await this.repository.create(newUser);
         const cart: Cart = await this.cartRepository.createCart(createdUser);

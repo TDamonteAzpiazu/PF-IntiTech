@@ -8,7 +8,7 @@ const products_db: React.FC = async () => {
   return (
     <div className="mt-40 mb-36">
       <div className="text-white text-center">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold">
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-4xl font-bold py-5 px-10">
         Haz clic para ver sus detalles y encontrar la opción perfecta. ¡Transforma tu hogar o negocio con energía solar hoy mismo!
         </h1>
       </div>

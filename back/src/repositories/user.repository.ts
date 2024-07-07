@@ -63,20 +63,22 @@ export class UserRepository implements OnModuleInit {
   }
 
   async updateUser(id: string, data: Partial<CreateUserDto>): Promise<User> {
-    const user: User = await this.userRepository.findOneBy({ id });
+    const user: User = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-
+  
     if (data.password) {
       const hashedPassword = await bcrypt.hash(data.password, 10);
       data.password = hashedPassword;
-      const updatedUser = this.userRepository.merge(user, data);
-      return await this.userRepository.save(updatedUser);
     }
-
-    const updatedUser: User = this.userRepository.merge(user, data);
-    return await this.userRepository.save(updatedUser);
+  
+    const updatedUser = this.userRepository.merge(user, data);
+    await this.userRepository.save(updatedUser);
+  
+    // Refetch the user to include the cart relation
+    const completeUser = await this.userRepository.findOne({ where: { id }, relations: { cart: true } });
+    return completeUser;
   }
 
   async suscriptUser(id: string): Promise<User> {
