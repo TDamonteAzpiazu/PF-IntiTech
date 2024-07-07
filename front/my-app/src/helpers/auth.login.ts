@@ -33,13 +33,17 @@ export async function register_auth(data_register: Iregister_props) {
       },
       body: JSON.stringify(data_register),
     })
-    console.log(data_register)
+    console.log(res)
     if (res.ok) {
-      alert()
+      Swal.fire({
+        icon: 'success',
+        title: 'Registered successfully',
+        showConfirmButton: false,
+        timer: 2000
+      })
       return res.json();
     } else {
       alert('Failed to register')
-      throw new Error('Failed to register')
     }
   } catch (error: any) {
     throw new Error(error.message || 'se produjo un error durante el registro')
