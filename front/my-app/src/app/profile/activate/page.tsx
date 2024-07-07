@@ -2,7 +2,7 @@
 import { DataUser } from "@/interfaces/interfaces";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
+import Swal from "sweetalert2";
 export interface User {
     id: string;
     name: string;
@@ -24,7 +24,7 @@ const Activate = () => {
             if (storedUserData) {
                 setNewUser(storedUserData);
                 if (storedUserData.status === 'active') {
-                    alert('Usuario ya activado');
+                    Swal.fire('Este usuario ya fue activado');
                     router.push('/profile');
                 }
             }

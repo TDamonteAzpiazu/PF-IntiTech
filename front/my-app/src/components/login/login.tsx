@@ -10,13 +10,9 @@ import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
 import GoogleButton from "../googlebuttom";
 import Swal from "sweetalert2";
-import { ring2 } from 'ldrs'
-
-
 
 
 const AuthForm = () => {
-  ring2.register()
   const router = useRouter();
   const [active, setActive] = useState(false);
   const [userData, setUserData] = useState<Isession_active>();
@@ -56,34 +52,19 @@ const AuthForm = () => {
     setActive(!active);
   };
 
-  const handleLoading = () => {
-    if (dataRegister) {
-      return (<div>
-        <l-ring-2
-          size="40"
-          stroke="5"
-          stroke-length="0.25"
-          bg-opacity="0.1"
-          speed="0.8"
-          color="black"
-        ></l-ring-2>
-      </div>)
-    }
-  }
-
   const handleChangeRegister = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setdataRegister({ ...dataRegister, [name]: value });
     const errors = validateRegisterForm(dataRegister)
     setErrorRegister(errors)
   }
-  const handleSubmitRegister = async (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmitRegister = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
-      const res = await register_auth(dataRegister);
+      const res = register_auth(dataRegister);
       console.log(res);
-    } catch (error: any) {
-      throw new Error(error);
+    } catch (error) {
+      console.log(error)
     }
 
   }
@@ -111,15 +92,20 @@ const AuthForm = () => {
       const res = await login_auth(dataLogin);
       const { token, user } = await res;
       const decoded = jwtDecode(token)
-      const { id }: any = decoded
-      const dataUser1 = await fetch(`http://localhost:3000/users/${id}`, {
+      const { id }: any  = decoded
+      const dataUser1 = await fetch(`http://localhost:3000/users/${id}`,{
         method: 'GET',
       })
       const dataUser = await dataUser1.json()
       localStorage.setItem('DataUser', JSON.stringify(dataUser))
       document.cookie = `userToken=${token}`;
       localStorage.setItem('UserSession', JSON.stringify({ token, userData: user }));
-      alert('Login successful');
+      Swal.fire({
+        icon: 'success',
+        title: 'Inicio de sesion exitoso',
+        showConfirmButton: false,
+        timer: 2000
+      })
       router.push('/')
     } catch (error: any) {
       throw new Error(error);
@@ -175,7 +161,7 @@ const AuthForm = () => {
             <button type='submit'>Sign Up</button>
           </form>
           <div className="pruebaBTN absolute bottom-3 right-20">
-            <GoogleButton />
+          <GoogleButton />
           </div>
         </div>
         <div className={`${styles['form-container']} ${styles['sign-in']}`}>
@@ -205,10 +191,10 @@ const AuthForm = () => {
               type='password'
               placeholder='Password' />
             <a href="#">Forget Your Password?</a>
-            <button  className='btn-session' type='submit'>Sign In</button>
+            <button className='btn-session' type='submit'>Sign In</button>
           </form>
           <div className="pruebaBTN absolute bottom-6 right-20">
-            <GoogleButton />
+          <GoogleButton />
           </div>
         </div>
         <div className={styles['toggle-container']}>
