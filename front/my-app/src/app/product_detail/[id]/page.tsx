@@ -24,16 +24,16 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
     try {
       const dataUser = localStorage.getItem("DataUser");
       if (!dataUser) {
-        throw new Error("DataUser not found in localStorage");
+        throw new Error("Usuario no encontrado en localStorage");
       }
 
-      const dataCartID = JSON.parse(dataUser);
-      setData(dataCartID);
-      if (!dataCartID || !dataCartID.cart || !dataCartID.cart.id) {
+      const storageUser = JSON.parse(dataUser);
+      setData(storageUser);
+      if (!storageUser || !storageUser.cart || !storageUser.cart.id) {
         throw new Error("Invalid data structure in DataUser");
       }
 
-      setCartID(dataCartID.cart.id);
+      setCartID(storageUser.cart.id);
 
     } catch (error) {
       console.error("Failed to load cart ID:", error);
@@ -42,10 +42,10 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
 
   useEffect(() => {
     console.log("llega hasta aqui")
-    const get_product_by_id = async () => {
+    const get_product_by_id = async (): Promise<void> => {
       try {
         const product = await product_by_id(params.id);
-        
+        console.log(product)
         setData_product(product);
         setProductID(product?.id!);
       } catch (error) {
@@ -70,7 +70,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
 
 
     try {
-      const response = await fetch(`https://pf-intitech.onrender.com/cart/add/${cartID}`, {
+      const response = await fetch(`http://localhost:3000/cart/add/${cartID}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

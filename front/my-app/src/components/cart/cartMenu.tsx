@@ -53,7 +53,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   useEffect(() => {
     const getCartItems = async () => {
       try {
-        const res = await fetch(`https://pf-intitech.onrender.com/cart/getItems/${cartId}`, {
+        const res = await fetch(`http://localhost:3000/cart/getItems/${cartId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const deleteItemFromCart = async (itemId: string) => {
     try {
-      await axios.delete(`https://pf-intitech.onrender.com/cart/${itemId}`);
+      await axios.delete(`http://localhost:3000/cart/${itemId}`);
       setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
     } catch (error) {
       console.error('Error deleting item from cart:', error);
@@ -86,7 +86,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const deleteAllItemsFromCart = async () => {
     try {
-      await axios.delete(`https://pf-intitech.onrender.com/cart/clearCart/${cartId}`);
+      await axios.delete(`http://localhost:3000/cart/clearCart/${cartId}`);
       setItems([]); // Vacía el carrito en el estado
     } catch (error) {
       console.error('Error deleting all items from cart:', error);
@@ -96,7 +96,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const subtractOneFromCartItem = async (itemId: string) => {
     try {
-      const response = await axios.put(`https://pf-intitech.onrender.com/cart/substract/${itemId}`);
+      const response = await axios.put(`http://localhost:3000/cart/substract/${itemId}`);
       const updatedItem = response.data;
 
       setItems((prevItems) =>
@@ -114,7 +114,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const addOneToCartItem = async (itemId: string) => {
     try {
-      const response = await axios.put(`https://pf-intitech.onrender.com/cart/add/${itemId}`);
+      const response = await axios.put(`http://localhost:3000/cart/add/${itemId}`);
       const updatedItem = response.data;
 
       setItems((prevItems) =>
@@ -134,7 +134,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const createPreference = async () => {
     try {
-      const res = await fetch('https://pf-intitech.onrender.com/mercadopago', {
+      const res = await fetch('http://localhost:3000/mercadopago', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
     <>
       <div className={`fixed top-0 right-0 h-full w-1/4 bg-white shadow-lg transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col justify-between z-50`}>
         <div className="p-4">
-          <h2 className="text-2xl mb-4 text-black">Shopping Cart</h2>
+          <h2 className="text-2xl mb-4 text-black text-center">Carrito de compras</h2>
           <div>
             {items.map(item => (
               <div key={item.id} className="flex justify-between text-black items-center mb-2 border-b border-gray-400 pb-4 ">
@@ -251,12 +251,12 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
             onClick={handleClick}
             className="w-full h-10 bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-3xl transition-all duration-500 flex justify-center items-center"
           >
-            Buy
+            Comprar
           </button>
           {preferenceId && <Wallet initialization={{ preferenceId }} />}
           <button onClick={deleteAllItemsFromCart} className="w-full h-10 bg-white cursor-pointer rounded-3xl border-2 border-red-500 shadow-[inset_0px_-2px_0px_1px_red-500] group hover:bg-red-500 transition duration-300 ease-in-out">
             <span className="font-medium text-[#000] group-hover:text-white">
-              Clear Cart
+              Limpiar carrito
             </span>
           </button>
         </div>
