@@ -2,11 +2,9 @@
 import React, { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
-import { lineWobble } from 'ldrs'
+// import { lineWobble } from 'ldrs'
 
 
-
-// Default values shown
 
 
 
@@ -16,7 +14,7 @@ const AuthSuccess = () => {
     const router = useRouter();
   
     useEffect(() => {
-      lineWobble.register();
+    //   lineWobble.register();
   
       const token = searchParams.get('token');
       console.log(token);
@@ -52,13 +50,13 @@ const AuthSuccess = () => {
 
     return (
         <div className="h-screen mt-24 text-center text-black text-3xl">
-            <l-line-wobble
+            {/* <l-line-wobble
                 size="80"
                 stroke="5"
                 bg-opacity="0.1"
                 speed="1.75"
                 color="black"
-            ></l-line-wobble>
+            ></l-line-wobble> */}
         </div>
     )
 }
