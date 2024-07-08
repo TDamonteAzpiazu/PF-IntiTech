@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 export interface ID {
     id: number
 }
-export const api_url = process.env.NEXT_PUBLIC_API_URL;
+
 
 
 const AuthSuccess = () => {
@@ -26,7 +26,7 @@ const AuthSuccess = () => {
 
             const dataUser = async () => {
                 try {
-                    const response = await fetch(`${api_url}/users/${id}`, {
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
                         method: 'GET',
                     });
                     const data = await response.json();
