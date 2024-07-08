@@ -25,7 +25,7 @@ const config: Config = {
         'nose': '#F4F2EE',
       },
       backgroundSize: {
-        'size-200': '115%',
+        'size-200': '120%',
       },
       boxShadow: {
         'custom': '0px 10px 35px -5px rgba(0, 0, 0, 0.1)',

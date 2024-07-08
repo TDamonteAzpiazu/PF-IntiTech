@@ -9,7 +9,10 @@
     justify-content: center;
 }
 .title{
-    font-size: 25px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: 500;
 }
 .welcome{
     font-size: 30px;
@@ -22,7 +25,7 @@
 }
 
 .container {
-    background-color: #fff;
+    background-color: #fbf8f8;
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
@@ -50,20 +53,20 @@
     margin: 15px 0 10px;
 }
 
-.container button {
+.btnRegister, .btnLogin {
+    width: 185px;
     background: #F7A90E;
     background-image: 
         radial-gradient(circle at 5% 5%, #FFED00, transparent  40%),
         radial-gradient(circle at 100% 110%, #FFED00, transparent  40%);
     color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
+    font-size: 13px;
+    padding: 10px;
     background-size: 115%;
     border-radius: 8px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-top: 10px;
+    margin-top: 20px;
     cursor: pointer;
     transition: all .4s ease-in-out;
 }
@@ -76,15 +79,20 @@
     background-position: right;
 }
 
-.container button.hidden {
-    background-color: none;
-    background-image: none;
+.btnToggle {
+    background: #F7A90E;
+    color: #fff;
+    padding: 7px 35px;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
     border: 1px solid transparent;
     border-color: #fff;
 }
 
 .container form {
-    background-color: #fff;
+    background-color: #fbf8f8;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -147,25 +155,10 @@
 }
 
 .logo {
-    margin-top: -15px;
+    margin-top: 0;
 }
 .logoLogin {
-    margin-top: -30px; 
-}
-
-.social-icons {
-    margin: 10px 0 20px 0;
-}
-
-.social-icons a {
-    border: 1px solid #ccc;
-    border-radius: 20%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 3px;
-    width: 40px;
-    height: 40px;
+    margin-top: -70px; 
 }
 
 .toggle-container {

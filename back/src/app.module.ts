@@ -43,9 +43,7 @@ dotenvConfig({ path: '.env' });
     OperatingPanelsModule,
     inversorModule,
     CartModule,
-    MercadopagoModule,
-    FaqService,
-    FaqRepository
+    MercadopagoModule
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy],

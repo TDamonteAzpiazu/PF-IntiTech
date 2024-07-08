@@ -6,9 +6,10 @@ import { validateLoginForm, validateRegisterForm } from '@/helpers/formValidatio
 import { LoginErrorProps, RegisterErrorProps, Isession_active } from '@/interfaces/interfaces';
 import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
-import logo from '@/../../public/images/logonegro.png'
+import logo from '@/../../public/images/logo.png'
 import Image from 'next/image';
-import GoogleButton from "../googlebuttom";
+import GoogleLoginButton from "../botonesGoogle/login";
+import GoogleRegisterButton from "../botonesGoogle/register";
 import Swal from "sweetalert2";
 
 
@@ -27,8 +28,6 @@ const AuthForm = () => {
     }
 
   }, [])
-
-
 
   //* Logica del registro
 
@@ -58,15 +57,30 @@ const AuthForm = () => {
     const errors = validateRegisterForm(dataRegister)
     setErrorRegister(errors)
   }
-  const handleSubmitRegister = (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    try {
-      const res = register_auth(dataRegister);
-      console.log(res);
-    } catch (error) {
-      console.log(error)
-    }
 
+
+  const handleSubmitRegister = async (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const errors = validateRegisterForm(dataRegister);
+    setErrorRegister(errors);
+
+    if (Object.keys(errors).length === 0) {
+      try {
+        const res = await register_auth(dataRegister);
+        console.log(res);
+        if (res) {
+          router.push('/');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Debes llenar todos los campos',
+      })
+    }
   }
 
   //* Logica del login
@@ -107,8 +121,8 @@ const AuthForm = () => {
         timer: 2000
       })
       router.push('/')
-    } catch (error: any) {
-      throw new Error(error);
+    } catch (error) {
+      console.log(error)
     }
   }
   return (
@@ -116,8 +130,8 @@ const AuthForm = () => {
       <div className={`${styles.container} ${active ? styles.active : ''}`} id="container">
         <div className={`${styles['form-container']} ${styles['sign-up']}`}>
           <form onSubmit={handleSubmitRegister}>
-            <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
-            <span>or use your email for registration</span>
+            <h1 className={styles.title}>Registrate</h1>
+            <span className="mb-4">Ingresa tus datos para registrarte</span>
             {errorRegister.email && <q className={styles.error}>{errorRegister.email}</q>}
             <input
               id='email'
@@ -133,7 +147,7 @@ const AuthForm = () => {
               value={dataRegister.password}
               onChange={handleChangeRegister}
               type='password'
-              placeholder='Password' />
+              placeholder='Contraseña' />
             {errorRegister.name && <q className={styles.error}>{errorRegister.name}</q>}
             <input
               id='name'
@@ -141,7 +155,7 @@ const AuthForm = () => {
               value={dataRegister.name}
               onChange={handleChangeRegister}
               type='text'
-              placeholder='Name' />
+              placeholder='Nombre' />
             {errorRegister.address && <q className={styles.error}>{errorRegister.address}</q>}
             <input
               id='address'
@@ -149,7 +163,7 @@ const AuthForm = () => {
               value={dataRegister.address}
               onChange={handleChangeRegister}
               type='text'
-              placeholder='Address' />
+              placeholder='Dirección' />
             {errorRegister.phone && <q className={styles.error}>{errorRegister.phone}</q>}
             <input
               id='phone'
@@ -157,23 +171,15 @@ const AuthForm = () => {
               value={dataRegister.phone}
               onChange={handleChangeRegister}
               type='tel'
-              placeholder='Phone' />
-            <button type='submit'>Sign Up</button>
+              placeholder='Telefono' />
+            <button className={styles.btnRegister} type='submit'>Registrarse</button>
+            <GoogleRegisterButton />
           </form>
-          <div className="pruebaBTN absolute bottom-3 right-20">
-          <GoogleButton />
-          </div>
         </div>
         <div className={`${styles['form-container']} ${styles['sign-in']}`}>
           <form onSubmit={handleSubmitLogin}>
-            <Image className={styles.logoLogin} src={logo} alt="logo" width={100} height={100} />
-            <h1 className={styles.title}>Sign In</h1>
-            <div className={styles['social-icons']}>
-              <a href="#" className={styles.icon}><i className="fa-brands fa-google-plus-g"></i></a>
-              <a href="#" className={styles.icon}><i className="fa-brands fa-facebook-f"></i></a>
-              <a href="#" className={styles.icon}><i className="fa-brands fa-linkedin-in"></i></a>
-            </div>
-            <span>or use your email for password</span>
+            <h1 className={styles.title}>Iniciar Sesion</h1>
+            <span className="mb-4">Ingresa tus credenciales para iniciar sesión</span>
             {error.email && <q className={styles.error}>{error.email}</q>}
             <input
               id='emailLogin'
@@ -189,25 +195,25 @@ const AuthForm = () => {
               value={dataLogin.password}
               onChange={handleChangeLogin}
               type='password'
-              placeholder='Password' />
-            <a href="#">Forget Your Password?</a>
-            <button className='btn-session' type='submit'>Sign In</button>
+              placeholder='Constraseña' />
+            <a href="#">Olvidaste tu contraseña?</a>
+            <button className={styles.btnLogin} type='submit'>Iniciar Sesion</button>
+            <GoogleLoginButton/>
           </form>
-          <div className="pruebaBTN absolute bottom-6 right-20">
-          <GoogleButton />
-          </div>
         </div>
         <div className={styles['toggle-container']}>
           <div className={styles.toggle}>
             <div className={`${styles['toggle-panel']} ${styles['toggle-left']}`}>
-              <h1 className={styles.welcome}>Welcome Back!</h1>
-              <p>Enter your personal details to use all of site features</p>
-              <button className={styles.hidden} onClick={toggleClass}>Sign In</button>
+           <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
+              <h1 className={styles.welcome}>Bienvenido de nuevo!</h1>
+              <p>Ingresa con tus credenciales personales para continuar</p>
+              <button className={styles.btnToggle} onClick={toggleClass}>Iniciar Sesion</button>
             </div>
             <div className={`${styles['toggle-panel']} ${styles['toggle-right']}`}>
-              <h1 className={styles.welcome} >Hello, Friend!</h1>
-              <p>Register with your personal details to use all of site features</p>
-              <button className={`${styles.hidden} ${styles.botonExtra} `} onClick={toggleClass}>Sign Up</button>
+            <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
+              <h1 className={styles.welcome}>Hola, Bienvenid@!</h1>
+              <p>Registrate con tus datos para comenzar a usar la plataforma</p>
+              <button className={`${styles.btnToggle} ${styles.botonExtra} `} onClick={toggleClass}>Registrarme</button>
             </div>
           </div>
         </div>
