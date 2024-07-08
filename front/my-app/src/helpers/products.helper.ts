@@ -5,7 +5,7 @@ export const api_url = process.env.NEXT_PUBLIC_API_URL;
 export async function get_product_DB(): Promise<Iproducts_props[]> {
   try {
     // cambiamos el .env
-    const res = await fetch(`https://pf-intitech.onrender.com//panelForSale`, {
+    const res = await fetch(`https://pf-intitech.onrender.com/panelForSale`, {
       method: "GET",
       next: { revalidate: 0 },
     });
