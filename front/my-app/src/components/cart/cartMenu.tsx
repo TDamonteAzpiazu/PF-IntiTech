@@ -18,7 +18,6 @@ export interface Icart {
   panel_image: string;
   panel_model: string;
 }
-export const api_url = process.env.NEXT_PUBLIC_API_URL;
 
 
 const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
@@ -54,7 +53,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   useEffect(() => {
     const getCartItems = async () => {
       try {
-        const res = await fetch(`${api_url}/cart/getItems/${cartId}`, {
+        const res = await fetch(`https://pf-intitech.onrender.com/cart/getItems/${cartId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -77,7 +76,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const deleteItemFromCart = async (itemId: string) => {
     try {
-      await axios.delete(`${api_url}/cart/${itemId}`);
+      await axios.delete(`https://pf-intitech.onrender.com/cart/${itemId}`);
       setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
     } catch (error) {
       console.error('Error deleting item from cart:', error);
@@ -87,7 +86,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const deleteAllItemsFromCart = async () => {
     try {
-      await axios.delete(`${api_url}/cart/clearCart/${cartId}`);
+      await axios.delete(`https://pf-intitech.onrender.com/cart/clearCart/${cartId}`);
       setItems([]); // Vacía el carrito en el estado
     } catch (error) {
       console.error('Error deleting all items from cart:', error);
@@ -97,7 +96,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const subtractOneFromCartItem = async (itemId: string) => {
     try {
-      const response = await axios.put(`${api_url}/cart/substract/${itemId}`);
+      const response = await axios.put(`https://pf-intitech.onrender.com/cart/substract/${itemId}`);
       const updatedItem = response.data;
 
       setItems((prevItems) =>
@@ -115,7 +114,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const addOneToCartItem = async (itemId: string) => {
     try {
-      const response = await axios.put(`${api_url}/cart/add/${itemId}`);
+      const response = await axios.put(`https://pf-intitech.onrender.com/cart/add/${itemId}`);
       const updatedItem = response.data;
 
       setItems((prevItems) =>
@@ -135,7 +134,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const createPreference = async () => {
     try {
-      const res = await fetch(`${api_url}/mercadopago` , {
+      const res = await fetch('https://pf-intitech.onrender.com/mercadopago', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

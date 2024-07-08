@@ -19,7 +19,6 @@ interface Record {
 interface ResponseData {
   record: Record;
 }
-export const api_url = process.env.NEXT_PUBLIC_API_URL;
 
 const Orders: React.FC = () => {
   const [orders, setOrders] = useState<ResponseData[]>([]);
@@ -39,7 +38,7 @@ const Orders: React.FC = () => {
       const getOrders = async () => {
         console.log('llego hasta aqui');
         try {
-          const res = await fetch(`${api_url}/cart/getAllRecords/${dataUser.id}`, {
+          const res = await fetch(`https://pf-intitech.onrender.com/cart/getAllRecords/${dataUser.id}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
