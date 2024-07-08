@@ -13,7 +13,7 @@ const YourComponent: React.FC = () => {
 
   const createPreference = async () => {
     try {
-      const res = await fetch('http://localhost:3000/mercadopago', {
+      const res = await fetch('https://pf-intitech.onrender.com/mercadopago', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
