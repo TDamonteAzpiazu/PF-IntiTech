@@ -14,7 +14,7 @@ export class ChatbotService {
         if (answer) {
             return answer;
         } else {
-            return 'For further inquiries, please contact us at contact@yourcompany.com';
+            return 'For further inquiries, please contact us at maximosquera@Inti-Tech.com';
         }
     }
 }
