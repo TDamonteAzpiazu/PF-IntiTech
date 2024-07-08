@@ -4,6 +4,8 @@ import { DataUser } from "@/interfaces/interfaces";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
+export const api_url = process.env.NEXT_PUBLIC_API_URL;
+
 const Profile = () => {
     const [userData, setUserData] = useState<DataUser | null>(null);
     const [newUser, setNewUser] = useState<DataUser | null>(null);
@@ -30,7 +32,7 @@ const Profile = () => {
             formData.append('file', selectedFile);
         }
         try {
-            const res = await fetch(`https://pf-intitech.onrender.com/files/uploadUserImage/${userData?.id}`, {
+            const res = await fetch(`${api_url}/files/uploadUserImage/${userData?.id}`, {
                 method: 'POST',
                 body: formData
             });
@@ -88,7 +90,7 @@ const Profile = () => {
             password: password || undefined,
         };
         try {
-            const res = await fetch(`https://pf-intitech.onrender.com/users/${userData?.id}`, {
+            const res = await fetch(`${api_url}/users/${userData?.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -4,7 +4,8 @@ import { Iproducts_props } from "@/interfaces/interfaces";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-// import { ring2 } from 'ldrs'
+
+export const api_url = process.env.NEXT_PUBLIC_API_URL;
 
 interface Idetail_props {
   params: {
@@ -13,9 +14,8 @@ interface Idetail_props {
 }
 
 const Product_detail: React.FC<Idetail_props> = ({ params }) => {
-  // ring2.register();
   const router = useRouter();
-  const [data_product, setData_product] = useState<Iproducts_props | any>(null);
+  const [data_product, setData_product] = useState<Iproducts_props | any>();
   const [productID, setProductID] = useState<string>("");
   const [cartID, setCartID] = useState<string | null>(null);
   const [data, setData ] = useState<any>(null);
@@ -42,12 +42,13 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   }, []);
 
   useEffect(() => {
+    console.log("llega hasta aqui")
     const get_product_by_id = async () => {
       try {
         const product = await product_by_id(params.id);
+        
         setData_product(product);
-        setProductID(product.id!);
-        console.log(product);
+        setProductID(product?.id!);
       } catch (error) {
         console.error("Error en product_detail", error);
       }
@@ -70,7 +71,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
 
 
     try {
-      const response = await fetch(`https://pf-intitech.onrender.com/cart/add/${cartID}`, {
+      const response = await fetch(`${api_url}}/cart/add/${cartID}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,21 +94,15 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
       console.error("Error adding to cart:", error);
     }
   };
+  console.log(data_product)
 
-  // if (!data_product) {
-  //   return (
-  //     <div className="h-screen mt-32 text-center bg-custom-image bg-no-repeat bg-size-200">
-  //       <l-ring-2
-  //         size="80"
-  //         stroke="5"
-  //         stroke-length="0.25"
-  //         bg-opacity="0.1"
-  //         speed="0.8"
-  //         color="black"
-  //       ></l-ring-2>
-  //     </div>
-  //   );
-  // }
+  if (!data_product) {
+    return (
+      <div className="h-screen mt-32 text-center bg-custom-image bg-no-repeat bg-size-200">
+        <h1 className="text-4xl font-bold text-white">Loading...</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen">
