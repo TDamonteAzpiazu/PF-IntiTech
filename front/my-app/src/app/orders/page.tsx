@@ -38,7 +38,7 @@ const Orders: React.FC = () => {
       const getOrders = async () => {
         console.log('llego hasta aqui');
         try {
-          const res = await fetch(`https://pf-intitech.onrender.com/cart/getAllRecords/${dataUser.id}`, {
+          const res = await fetch(`http://localhost:3000/cart/getAllRecords/${dataUser.id}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -59,22 +59,22 @@ const Orders: React.FC = () => {
   }, [dataUser]);
 
   return (
-    <div className="h-screen mt-32 px-4">
-      <h1 className="text-3xl font-semibold mb-6 text-center">Orders</h1>
+    <div className="mb-10 mt-32 px-4">
+      <h1 className="text-4xl font-medium mb-6 text-center">Historial de pedidos</h1>
       {orders.length > 0 ? (
         orders.map((order, index) => (
           <div
             key={order.record.id}
-            className="grid grid-cols-2 mt-2 transition-all hover:shadow-2xl rounded-lg justify-center gap-1 h-60 bg-gradient-to-r from-orangeinti to-lightorangeinti opacity-85"
+            className="grid grid-cols-2 mt-2 mb-10 transition-all hover:shadow-2xl rounded-lg justify-center gap-1 bg-gradient-to-r from-orangeinti to-lightorangeinti opacity-85"
           >
             <div className="px-4 py-4 bg-transparent rounded-l-md">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Order {index + 1}</h2>
-              <p className="text-lg text-gray-900 mb-1">Order ID: {order.record.id}</p>
-              <p className="text-lg text-gray-900 mb-1">Total Price: ${order.record.totalPrice}</p>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Items:</h3>
+              <h2 className="text-2xl font-medium text-gray-900 mb-2">Numero de compra: {index + 1}</h2>
+              <p className="text-sm text-gray-900 mb-2">ID de transacción: {order.record.id}</p>
+              <p className="text-lg font-medium text-gray-900 mb-2">Total pagado: ${order.record.totalPrice}</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Productos:</h3>
               <ul>
                 {order.record.items.map((item) => (
-                  <li key={item.id} className="flex items-center mb-2">
+                  <li key={item.id} className="flex items-center mb-10 border-b ">
                     <div className="relative h-16 w-16 mr-4">
                       <Image
                         src={item.panel_image}
@@ -84,9 +84,9 @@ const Orders: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <p className="text-lg text-gray-900">Model: {item.panel_model}</p>
-                      <p className="text-md text-gray-900">Quantity: {item.quantity}</p>
-                      <p className="text-md text-gray-900">Total Price: ${item.totalPrice}</p>
+                      <p className="text-lg text-gray-900">Nombre: {item.panel_model}</p>
+                      <p className="text-md text-gray-900">Cantidad: {item.quantity}</p>
+                      <p className="text-md text-gray-900">Precio total: ${item.totalPrice}</p>
                     </div>
                   </li>
                 ))}
@@ -95,7 +95,7 @@ const Orders: React.FC = () => {
           </div>
         ))
       ) : (
-        <p className="text-center text-lg text-gray-900">No orders found</p>
+        <p className="text-center text-lg h-screen text-gray-900">No hay ordenes realizadas</p>
       )}
     </div>
   );

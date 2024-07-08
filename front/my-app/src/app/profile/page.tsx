@@ -30,7 +30,7 @@ const Profile = () => {
             formData.append('file', selectedFile);
         }
         try {
-            const res = await fetch(`https://pf-intitech.onrender.com/files/uploadUserImage/${userData?.id}`, {
+            const res = await fetch(`http://localhost:3000/files/uploadUserImage/${userData?.id}`, {
                 method: 'POST',
                 body: formData
             });
@@ -88,7 +88,7 @@ const Profile = () => {
             password: password || undefined,
         };
         try {
-            const res = await fetch(`https://pf-intitech.onrender.com/users/${userData?.id}`, {
+            const res = await fetch(`http://localhost:3000/users/${userData?.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -101,12 +101,11 @@ const Profile = () => {
                 console.log(updatedUser);
                 localStorage.setItem('DataUser', JSON.stringify(updatedUser));
                 setUserData(updatedUser);
-
                 setInputs({
-                    name: updatedUser.name,
-                    email: updatedUser.email,
-                    address: updatedUser.address,
-                    phone: updatedUser.phone,
+                    name: '',
+                    email: '',
+                    address: '',
+                    phone: '',
                 });
                 setPassword('');
             } else {
@@ -121,11 +120,11 @@ const Profile = () => {
         <div className="h-screen pt-28 flex justify-center gap-16 mb-10">
             <form className="flex flex-col" onSubmit={handleFileChange}>
                 <h1 className="text-3xl text-white font-medium pt-4 px-4 pb-6">
-                    Change profile image
+                    Cambiar foto de perfil
                 </h1>
                 <div className="flex flex-col p-5">
                     <img src={newUser?.image} alt="imagen" className="flex mx-auto w-36 h-36 rounded-full" />
-                    <label className="text-white text-lg pt-5">Change image:</label>
+                    <label className="text-white text-lg pt-5">Cambiar imagen:</label>
                     <input
                         onChange={handle_FileChange}
                         className="text-white  py-5"
