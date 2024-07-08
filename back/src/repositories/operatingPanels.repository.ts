@@ -48,6 +48,8 @@ export class OperatingPanelsRepository {
     inversorName: string,
   ): Promise<StatsDto[]> {
     try {
+      console.log("hola");
+      
       const stats: StatsDto[] = data.map((dato: any) => ({
         date: dato['dateTime'],
         energyGenerated:
@@ -59,19 +61,40 @@ export class OperatingPanelsRepository {
       }
 
       const inversor: Inversor = await this.inversorRepository.findOneBy({
-        name: inversorName,
+        name: inversorName, 
       });
 
       if (!inversor) {
         throw new BadRequestException('Inversor does not exist');
       }
 
-      const panelData: OperatingPanels = this.operatingPanelsRepository.create({
-        stats: stats,
-        inversor: inversor,
+      const findPanel = await this.operatingPanelsRepository.findOne({
+        where: { inversor: inversor },
+        relations: ['stats'],
       });
+  
 
-      await this.operatingPanelsRepository.save(panelData);
+      
+      
+      if (!findPanel) {
+        const panelData: OperatingPanels =
+          this.operatingPanelsRepository.create({
+            stats: stats,
+            inversor: inversor,
+          });
+        console.log('estamos aca');
+
+        await this.operatingPanelsRepository.save(panelData);
+
+        return stats;
+      }
+
+      const dataStats = this.statsRepository.create(stats);
+      await this.statsRepository.save(dataStats);
+      
+      await findPanel.stats.push(...dataStats);
+      
+      this.operatingPanelsRepository.save(findPanel);
 
       return stats;
     } catch (error) {
@@ -149,13 +172,25 @@ export class OperatingPanelsRepository {
     inversorName: string,
   ): Promise<StatsDto[] | string> {
     try {
+      console.log("hola");
+      
       for (const inversor of InversorsIngecon) {
+        console.log(inversorName);
+        
+        
         if (inversor.name === inversorName) {
+          console.log(inversor.name);
+          
+          
+          
+          
           if (!data[0]['pvGeneration(kWh)']) {
             throw new BadRequestException(
               'Incorrect uploaded file. Please, check the file and try again. ',
             );
           }
+          
+          
           return this.extractDataIngecon(data, inversorName);
         }
       }

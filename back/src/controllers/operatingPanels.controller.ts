@@ -27,14 +27,13 @@ export class OperatingPanelsController {
     @UploadedFile() file: Express.Multer.File,
     @Body('inversorName') inversorName: string,
   ): Promise<{ message: string; stats: StatsDto[] | string } | { error: string }> {
-    console.log('hola');
+    
 
     if (!file) {
       throw new Error('No file uploaded');
     }
 
-    console.log(file);
-    console.log(inversorName);
+    
     try {
       const data = await this.operatingPanelsService.readExcel(file.buffer);
 
