@@ -34,7 +34,7 @@ const Activate = () => {
     const handleClick = async () => {
         if (!newUser) return;
 
-        const response = await fetch(`http://localhost:3000/users/${newUser.id}`, {
+        const response = await fetch(`https://pf-intitech.onrender.com/users/${newUser.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
