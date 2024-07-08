@@ -106,8 +106,8 @@ const AuthForm = () => {
       const res = await login_auth(dataLogin);
       const { token, user } = await res;
       const decoded = jwtDecode(token)
-      const { id }: any = decoded
-      const dataUser1 = await fetch(`http://localhost:3000/users/${id}`, {
+      const { id }: any  = decoded
+      const dataUser1 = await fetch(`https://pf-intitech.onrender.com/users/${id}`,{
         method: 'GET',
       })
       const dataUser = await dataUser1.json()
