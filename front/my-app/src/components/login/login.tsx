@@ -69,7 +69,13 @@ const AuthForm = () => {
         const res = await register_auth(dataRegister);
         console.log(res);
         if (res) {
-          router.push('/');
+          setdataRegister({
+            name: '',
+            email: '',
+            password: '',
+            address: '',
+            phone: '',
+          })
         }
       } catch (error) {
         console.log(error);
