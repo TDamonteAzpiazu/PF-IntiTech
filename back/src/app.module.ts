@@ -47,7 +47,7 @@ dotenvConfig({ path: '.env' });
     FaqService,
     FaqRepository
   ],
-  controllers: [AppController,ChatbotController],
+  controllers: [AppController],
   providers: [AppService, GoogleStrategy],
 })
 export class AppModule {}
