@@ -65,7 +65,7 @@ const Orders: React.FC = () => {
         orders.map((order, index) => (
           <div
             key={order.record.id}
-            className="grid grid-cols-2 mt-2 transition-all hover:shadow-2xl rounded-lg justify-center gap-1 h-60 bg-gradient-to-r from-orange-400 to-orange-200 opacity-85"
+            className="grid grid-cols-2 mt-2 transition-all hover:shadow-2xl rounded-lg justify-center gap-1 h-60 bg-gradient-to-r from-orangeinti to-lightorangeinti opacity-85"
           >
             <div className="px-4 py-4 bg-transparent rounded-l-md">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Order {index + 1}</h2>
