@@ -2,9 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 
-export const api_url = process.env.NEXT_PUBLIC_API_URL;
-
-
 const YourComponent: React.FC = () => {
   const [preferenceId, setPreferenceId] = useState<string | null>(null)
 
@@ -16,7 +13,7 @@ const YourComponent: React.FC = () => {
 
   const createPreference = async () => {
     try {
-      const res = await fetch(`${api_url}/mercadopago`, {
+      const res = await fetch('https://pf-intitech.onrender.com/mercadopago', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

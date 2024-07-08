@@ -12,7 +12,6 @@ export interface User {
     image?: string;
     status?: 'active' | 'inactive' | 'pending';
 }
-export const api_url = process.env.NEXT_PUBLIC_API_URL;
 
 const Activate = () => {
     const [newUser, setNewUser] = useState<User | null>(null);
@@ -34,7 +33,7 @@ const Activate = () => {
     const handleClick = async () => {
         if (!newUser) return;
 
-        const response = await fetch(`${api_url}/users/${newUser.id}`, {
+        const response = await fetch(`https://pf-intitech.onrender.com/users/${newUser.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,7 +53,7 @@ const Activate = () => {
 
     return (
         <div className="bg-black h-screen flex justify-center items-center">
-            <button
+            <button 
                 onClick={handleClick}
                 className="h-fit text-white text-2xl font-medium py-3 px-6 border border-white rounded-xl hover:bg-yellowinti hover:text-black transition-all duration-500 ease-in-out"
             >

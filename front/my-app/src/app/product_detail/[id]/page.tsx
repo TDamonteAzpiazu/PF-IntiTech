@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-export const api_url = process.env.NEXT_PUBLIC_API_URL;
 
 interface Idetail_props {
   params: {
@@ -71,7 +70,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
 
 
     try {
-      const response = await fetch(`${api_url}}/cart/add/${cartID}`, {
+      const response = await fetch(`https://pf-intitech.onrender.com/cart/add/${cartID}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

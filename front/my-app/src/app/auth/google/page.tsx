@@ -26,7 +26,7 @@ const AuthSuccess = () => {
 
             const dataUser = async () => {
                 try {
-                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
+                    const response = await fetch(`https://pf-intitech.onrender.com/users/${id}`, {
                         method: 'GET',
                     });
                     const data = await response.json();

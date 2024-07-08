@@ -11,8 +11,6 @@ export interface Cart {
 export interface UserData {
   cart: Cart;
 }
-export const api_url = process.env.NEXT_PUBLIC_API_URL;
-
 
 const PayOk = () => {
   const router = useRouter();
@@ -30,7 +28,7 @@ const PayOk = () => {
 
   const handleOnClick = async () => {
       try {
-        await axios.post(`${api_url}/cart/createRecord/${dataUser?.id}`)
+        await axios.post(`https://pf-intitech.onrender.com/cart/createRecord/${dataUser?.id}`)
         console.log('ok');
         router.push('/orders');
       } catch (error) {

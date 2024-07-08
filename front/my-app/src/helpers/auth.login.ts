@@ -1,11 +1,10 @@
 import { Ilogin_props, Iregister_props } from "@/interfaces/interfaces";
 import Swal from "sweetalert2";
 
-const api_url = process.env.NEXT_PUBLIC_API_URL;
 
 export async function login_auth(data_user: Ilogin_props) {
   try {
-    const res = await fetch(`${api_url}/auth/login`, {
+    const res = await fetch(`https://pf-intitech.onrender.com/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +27,7 @@ export async function login_auth(data_user: Ilogin_props) {
 
 export async function register_auth(data_register: Iregister_props) {
   try {
-    const res = await fetch(`${api_url}/auth/register`, {
+    const res = await fetch(`https://pf-intitech.onrender.com/auth/register`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
