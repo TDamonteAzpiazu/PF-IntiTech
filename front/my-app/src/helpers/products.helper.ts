@@ -18,7 +18,7 @@ export async function get_product_DB(): Promise<Iproducts_props[]> {
   } catch (error: any) {
     console.error("Error en get products:", error);
     throw new Error(error);
-  } 
+  }
 }
 
 export async function product_by_id(id: string): Promise<Iproducts_props> {
