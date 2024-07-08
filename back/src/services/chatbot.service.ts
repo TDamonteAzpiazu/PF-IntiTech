@@ -1,19 +1,20 @@
 // faq.service.ts
 
 import { Injectable } from '@nestjs/common';
-import { FaqRepository } from 'src/repositories/faq.repository';
+import { ChatBotRepository } from 'src/repositories/chatbot.repository';
+
 
 
 @Injectable()
-export class FaqService {
-    constructor(private readonly faqRepository: FaqRepository) {}
+export class ChatbotService {
+    constructor(private readonly chatBotRepository: ChatBotRepository) {}
 
     findAnswer(question: string): string {
-        const answer = this.faqRepository.findAnswerByQuestion(question);
+        const answer = this.chatBotRepository.findAnswerByQuestion(question);
         if (answer) {
             return answer;
         } else {
-            return 'For further inquiries, please contact us at contact@yourcompany.com';
+            return 'For further inquiries, please contact us at maximosquera@Inti-Tech.com';
         }
     }
 }
