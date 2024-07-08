@@ -1,10 +1,13 @@
 import React from "react";
 
 
+export const api_url = process.env.NEXT_PUBLIC_API_URL;
+
+
 const GoogleLoginButton = () => {
 
     const handleLogin = () => {
-        const url = "https://pf-intitech.onrender.com/auth/googleLogin";
+        const url = `${api_url}/auth/googleLogin`;
         window.location.href = url;
     };
 

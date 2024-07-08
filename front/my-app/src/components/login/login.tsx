@@ -12,13 +12,15 @@ import GoogleLoginButton from "../botonesGoogle/login";
 import GoogleRegisterButton from "../botonesGoogle/register";
 import Swal from "sweetalert2";
 
+export const api_url = process.env.NEXT_PUBLIC_API_URL;
+
 
 const AuthForm = () => {
   const router = useRouter();
   const [active, setActive] = useState(false);
   const [userData, setUserData] = useState<Isession_active>();
 
-
+  
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
       const userData: Isession_active = JSON.parse(localStorage.getItem('UserSession')!)
@@ -113,7 +115,7 @@ const AuthForm = () => {
       const { token, user } = await res;
       const decoded = jwtDecode(token)
       const { id }: any  = decoded
-      const dataUser1 = await fetch(`https://pf-intitech.onrender.com/users/${id}`,{
+      const dataUser1 = await fetch(`${api_url}/users/${id}`,{
         method: 'GET',
       })
       const dataUser = await dataUser1.json()

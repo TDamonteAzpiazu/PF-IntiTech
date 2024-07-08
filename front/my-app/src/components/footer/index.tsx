@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
+
+export const api_url = process.env.NEXT_PUBLIC_API_URL;
+
 const Footer: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
@@ -23,7 +26,7 @@ const Footer: React.FC = () => {
     }
   
     try {
-      const res = await fetch(`https://pf-intitech.onrender.com/users/suscriptUser/${userId}`, {
+      const res = await fetch(`${api_url}/users/suscriptUser/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +72,7 @@ const Footer: React.FC = () => {
     }
   
     try {
-      const res = await fetch(`https://pf-intitech.onrender.com/users/unsuscriptUser/${userId}`, {
+      const res = await fetch(`${api_url}/users/unsuscriptUser/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
