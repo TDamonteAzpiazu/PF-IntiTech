@@ -27,20 +27,20 @@ export class OperatingPanelsRepository {
   ) {}
 
   async readExcel(buffer: Buffer): Promise<string> {
-   try {
-     const workbook: any = XLSX.read(buffer, { type: 'buffer', raw: true });
-     const sheet: string = workbook.Sheets[workbook.SheetNames[0]];
-     const dataExcel: string = XLSX.utils.sheet_to_json(sheet);
-     if (dataExcel.length === 0) {
-      throw new BadRequestException('Excel is empty');
-     }
-     return dataExcel;
-   } catch (error) {
-    if (error instanceof BadRequestException) {
+    try {
+      const workbook: any = XLSX.read(buffer, { type: 'buffer', raw: true });
+      const sheet: string = workbook.Sheets[workbook.SheetNames[0]];
+      const dataExcel: string = XLSX.utils.sheet_to_json(sheet);
+      if (dataExcel.length === 0) {
+        throw new BadRequestException('Excel is empty');
+      }
+      return dataExcel;
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw error;
     }
-    throw error;
-   }
   }
 
   async extractDataIngecon(
@@ -50,29 +50,29 @@ export class OperatingPanelsRepository {
     try {
       const stats: StatsDto[] = data.map((dato: any) => ({
         date: dato['dateTime'],
-        energyGenerated: dato['pvGeneration(kWh)'] === null ? 0 : dato['pvGeneration(kWh)'],
+        energyGenerated:
+          dato['pvGeneration(kWh)'] === null ? 0 : dato['pvGeneration(kWh)'],
       }));
-    
-  
+
       for (const stat of stats) {
         await this.statsRepository.save(stat);
       }
-  
+
       const inversor: Inversor = await this.inversorRepository.findOneBy({
         name: inversorName,
       });
-  
+
       if (!inversor) {
         throw new BadRequestException('Inversor does not exist');
       }
-  
+
       const panelData: OperatingPanels = this.operatingPanelsRepository.create({
         stats: stats,
         inversor: inversor,
       });
-  
+
       await this.operatingPanelsRepository.save(panelData);
-  
+
       return stats;
     } catch (error) {
       throw error;
@@ -85,10 +85,10 @@ export class OperatingPanelsRepository {
   ): Promise<StatsDto[]> {
     const arrayStats: StatsDto[] = [];
 
-     data.map((dato) => {
+    data.map((dato) => {
       const rawDate: string = dato['dateTime'] || dato[' '];
       const dateMatch: RegExpMatchArray = rawDate.match(/(\d{2})\/(\d{2})/);
-      let date: Date ;
+      let date: Date;
       if (dateMatch) {
         const day: string = dateMatch[1];
         const month: string = dateMatch[2];
@@ -108,7 +108,6 @@ export class OperatingPanelsRepository {
         date: date,
         pvGeneration: energyGeneratedNumber,
       });
-
     });
     for (const stat of arrayStats) {
       const newStat: Stats = this.statsRepository.create({
@@ -126,8 +125,7 @@ export class OperatingPanelsRepository {
     if (!inversor) {
       throw new BadRequestException('Inversor does not exist');
     }
-     
-     
+
     const panelData: OperatingPanels = this.operatingPanelsRepository.create({
       stats: arrayStats,
       inversor: inversor,
@@ -149,32 +147,39 @@ export class OperatingPanelsRepository {
   async extracDataByInversor(
     data: any,
     inversorName: string,
-  ): Promise<StatsDto[]|string> {
-    
-   try {
-     for (const inversor of InversorsIngecon) {
-       if (inversor.name === inversorName) {
-         if (!data[0]["pvGeneration(kWh)"]) {
-           throw new BadRequestException( "Incorrect uploaded file. Please, check the file and try again. ")
-         }
-         return this.extractDataIngecon(data, inversorName);
-       }
-     }
- 
-     for (const inversor of InversorsSunnyPortal) {
-       if(!data[0]['SODIMAC HC NUEVA LA FLORIDA / Rendimiento total / Promedios [kWh]']){
-         throw new BadRequestException( "Incorrect uploaded file. Please, check the file and try again. ") 
-       }
-       if (inversor.name === inversorName) {
-         return this.extractDataSunnyPortal(data, inversorName);
-       }
-     }
-   } catch (error) {
-    if (error instanceof BadRequestException) {
+  ): Promise<StatsDto[] | string> {
+    try {
+      for (const inversor of InversorsIngecon) {
+        if (inversor.name === inversorName) {
+          if (!data[0]['pvGeneration(kWh)']) {
+            throw new BadRequestException(
+              'Incorrect uploaded file. Please, check the file and try again. ',
+            );
+          }
+          return this.extractDataIngecon(data, inversorName);
+        }
+      }
+
+      for (const inversor of InversorsSunnyPortal) {
+        if (inversor.name === inversorName) {
+          if (
+            !data[0][
+              'SODIMAC HC NUEVA LA FLORIDA / Rendimiento total / Promedios [kWh]'
+            ]
+          ) {
+            throw new BadRequestException(
+              'Incorrect uploaded file. Please, check the file and try again. ',
+            );
+          }
+          return this.extractDataSunnyPortal(data, inversorName);
+        }
+      }
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw error;
     }
-    throw error;
-   }
   }
 
   async getAllOperatingPanels(): Promise<OperatingPanels[]> {

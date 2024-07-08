@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import logo from '@/../../public/images/logonegro.png'
 import Image from 'next/image';
 import GoogleButton from "../googlebuttom";
+import Swal from "sweetalert2";
 
 
 const AuthForm = () => {
@@ -57,12 +58,13 @@ const AuthForm = () => {
     const errors = validateRegisterForm(dataRegister)
     setErrorRegister(errors)
   }
-  const handleSubmitRegister = async () => {
+  const handleSubmitRegister = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault()
     try {
-      const res = await register_auth(dataRegister)
-      alert('Register successful');
-    } catch (error: any) {
-      throw new Error(error);
+      const res = register_auth(dataRegister);
+      console.log(res);
+    } catch (error) {
+      console.log(error)
     }
 
   }
@@ -98,7 +100,12 @@ const AuthForm = () => {
       localStorage.setItem('DataUser', JSON.stringify(dataUser))
       document.cookie = `userToken=${token}`;
       localStorage.setItem('UserSession', JSON.stringify({ token, userData: user }));
-      alert('Login successful');
+      Swal.fire({
+        icon: 'success',
+        title: 'Inicio de sesion exitoso',
+        showConfirmButton: false,
+        timer: 2000
+      })
       router.push('/')
     } catch (error: any) {
       throw new Error(error);

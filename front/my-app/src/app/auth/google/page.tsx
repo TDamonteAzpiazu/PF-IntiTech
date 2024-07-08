@@ -11,17 +11,15 @@ import { lineWobble } from 'ldrs'
 
 
 
-const authSuccess = () => {
-    lineWobble.register()
+const AuthSuccess = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
-
-
+  
     useEffect(() => {
-
-        const token = searchParams.get('token');
-
-        console.log(token)
+      lineWobble.register();
+  
+      const token = searchParams.get('token');
+      console.log(token);
 
 
         if (token) {
@@ -48,7 +46,7 @@ const authSuccess = () => {
         }
 
         router.push('/profile');
-    }, [searchParams])
+    }, [searchParams, router])
 
 
 
@@ -65,4 +63,4 @@ const authSuccess = () => {
     )
 }
 
-export default authSuccess;
+export default AuthSuccess;

@@ -5,7 +5,15 @@ interface IFormProps {
   file: File | null;
 }
 
-const Input: React.FC = () => {
+interface InputProps {
+  stats: [{ energyGenerated: number }];
+  setStats: React.Dispatch<React.SetStateAction<any>>;
+
+}
+
+
+
+const Input: React.FC<InputProps> = ({ setStats, stats }) => {
   const [formData, setFormData] = useState<IFormProps>({
     inversor: "",
     file: null,
@@ -13,19 +21,12 @@ const Input: React.FC = () => {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-<<<<<<< HEAD
-    const formData = new FormData();
-    formData.append("inversor", data_form.inversor);
-    if (data_form.file) {
-      formData.append("file", data_form.file);
-=======
 
     const { inversor: selectedInversor, file: selectedFile } = formData;
 
     if (!selectedFile) {
       console.error("No file selected");
       return;
->>>>>>> 01c8a03c51911642f6b4046d483039d8d835f988
     }
 
     const formDataToSend = new FormData();
@@ -43,6 +44,13 @@ const Input: React.FC = () => {
       }
 
       const responseData = await response.json();
+
+      const energyGeneratedArray = responseData.stats.map((item: any) => parseFloat(item.energyGenerated));
+
+      const dateArray = responseData.stats.map((item: any) => (item.date));
+
+      setStats(energyGeneratedArray)
+
       console.log("responseData", responseData);
     } catch (error) {
       console.error("Error:", error);
