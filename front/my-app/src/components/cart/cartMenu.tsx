@@ -139,14 +139,12 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          items: [
-            {
-              id: '1',
-              title: 'Product 1',
-              quantity: 6,
-              unit_price: 100,
-            }
-          ]
+          items: items.map(item => ({
+            id: item.id,
+            title: item.panel_model,
+            quantity: item.quantity,
+            unit_price: item.totalPrice / item.quantity, // Calcula el precio unitario
+          })),
         }),
       });
 
