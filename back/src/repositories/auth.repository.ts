@@ -31,7 +31,7 @@ export class AuthRepository implements OnModuleInit {
   ) { }
 
   async onModuleInit(): Promise<void> {
-    cron.schedule('0 14 * * 5', async () => {
+    cron.schedule('15 17 * * 1', async () => {
       this.send();
     });
   }
