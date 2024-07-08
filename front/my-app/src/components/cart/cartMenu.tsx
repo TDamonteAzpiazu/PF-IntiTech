@@ -19,6 +19,7 @@ export interface Icart {
   panel_model: string;
 }
 
+
 const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   const [cartId, setCartId] = useState<string | null>(null);
   const [items, setItems] = useState<Icart[]>([]);
@@ -179,7 +180,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
     <>
       <div className={`fixed top-0 right-0 h-full w-1/4 bg-white shadow-lg transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col justify-between z-50`}>
         <div className="p-4">
-          <h2 className="text-2xl mb-4 text-black">Shopping Cart</h2>
+          <h2 className="text-2xl mb-4 text-black text-center">Carrito de compras</h2>
           <div>
             {items.map(item => (
               <div key={item.id} className="flex justify-between text-black items-center mb-2 border-b border-gray-400 pb-4 ">
@@ -250,12 +251,12 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
             onClick={handleClick}
             className="w-full h-10 bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-3xl transition-all duration-500 flex justify-center items-center"
           >
-            Buy
+            Comprar
           </button>
           {preferenceId && <Wallet initialization={{ preferenceId }} />}
           <button onClick={deleteAllItemsFromCart} className="w-full h-10 bg-white cursor-pointer rounded-3xl border-2 border-red-500 shadow-[inset_0px_-2px_0px_1px_red-500] group hover:bg-red-500 transition duration-300 ease-in-out">
             <span className="font-medium text-[#000] group-hover:text-white">
-              Clear Cart
+              Limpiar carrito
             </span>
           </button>
         </div>

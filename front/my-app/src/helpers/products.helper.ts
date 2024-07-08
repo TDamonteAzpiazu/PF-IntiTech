@@ -5,7 +5,7 @@ export const api_url = process.env.NEXT_PUBLIC_API_URL;
 export async function get_product_DB(): Promise<Iproducts_props[]> {
   try {
     // cambiamos el .env
-    const res = await fetch(`${api_url}/panelForSale`, {
+    const res = await fetch(`http://localhost:3000/panelForSale`, {
       method: "GET",
       next: { revalidate: 0 },
     });
@@ -23,7 +23,7 @@ export async function get_product_DB(): Promise<Iproducts_props[]> {
 
 export async function product_by_id(id: string): Promise<Iproducts_props> {
   try {
-    const response = await fetch(`${api_url}/panelForSale/${id}`, {
+    const response = await fetch(`http://localhost:3000/panelForSale/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

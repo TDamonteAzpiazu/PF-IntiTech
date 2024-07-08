@@ -1,5 +1,4 @@
 'use client';
-import { DataUser } from "@/interfaces/interfaces";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
@@ -34,7 +33,7 @@ const Activate = () => {
     const handleClick = async () => {
         if (!newUser) return;
 
-        const response = await fetch(`http://localhost:3000/users/${newUser.id}`, {
+        const response = await fetch(`https://pf-intitech.onrender.com/users/${newUser.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

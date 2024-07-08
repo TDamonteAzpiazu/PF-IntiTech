@@ -44,7 +44,7 @@ dotenvConfig({ path: '.env' });
     CartModule,
     MercadopagoModule,
     ChatbotModule
-    
+
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy],
