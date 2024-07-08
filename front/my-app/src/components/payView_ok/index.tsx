@@ -28,7 +28,7 @@ const PayOk = () => {
 
   const handleOnClick = async () => {
       try {
-        await axios.post(`http://localhost:3000/cart/createRecord/${dataUser?.id}`)
+        await axios.post(`https://pf-intitech.onrender.com/cart/createRecord/${dataUser?.id}`)
         console.log('ok');
         router.push('/orders');
       } catch (error) {

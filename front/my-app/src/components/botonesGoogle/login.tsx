@@ -4,7 +4,7 @@ import React from "react";
 const GoogleLoginButton = () => {
 
     const handleLogin = () => {
-        const url = "http://localhost:3000/auth/googleLogin";
+        const url = "https://pf-intitech.onrender.com/auth/googleLogin";
         window.location.href = url;
     };
 
