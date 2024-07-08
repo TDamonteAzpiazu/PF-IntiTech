@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from "react";
-
+import Image from "next/image";
 interface Item {
   id: string;
   totalPrice: number;
@@ -60,29 +60,43 @@ const Orders: React.FC = () => {
   }, [dataUser]);
 
   return (
-    <div className="h-screen mt-32">
-      <h1>Orders</h1>
+    <div className="h-screen mt-32 px-4">
+      <h1 className="text-3xl font-semibold mb-6 text-center">Orders</h1>
       {orders.length > 0 ? (
         orders.map((order, index) => (
-          <div key={order.record.id}>
-            <h2>Order {index + 1}</h2>
-            <p>Order ID: {order.record.id}</p>
-            <p>Total Price: {order.record.totalPrice}</p>
-            <h3>Items:</h3>
-            <ul>
-              {order.record.items.map((item) => (
-                <li key={item.id}>
-                  <img src={item.panel_image} alt={item.panel_model} width={50} height={50} />
-                  <p>Model: {item.panel_model}</p>
-                  <p>Quantity: {item.quantity}</p>
-                  <p>Total Price: ${item.totalPrice}</p>
-                </li>
-              ))}
-            </ul>
+          <div
+            key={order.record.id}
+            className="grid grid-cols-2 mt-2 transition-all hover:shadow-2xl rounded-lg justify-center gap-1 h-60 bg-gradient-to-r from-orangeinti to-lightorangeinti opacity-85"
+          >
+            <div className="px-4 py-4 bg-transparent rounded-l-md">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Order {index + 1}</h2>
+              <p className="text-lg text-gray-900 mb-1">Order ID: {order.record.id}</p>
+              <p className="text-lg text-gray-900 mb-1">Total Price: ${order.record.totalPrice}</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Items:</h3>
+              <ul>
+                {order.record.items.map((item) => (
+                  <li key={item.id} className="flex items-center mb-2">
+                    <div className="relative h-16 w-16 mr-4">
+                      <Image
+                        src={item.panel_image}
+                        alt={item.panel_model}
+                        layout="fill"
+                        className="rounded-md"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-lg text-gray-900">Model: {item.panel_model}</p>
+                      <p className="text-md text-gray-900">Quantity: {item.quantity}</p>
+                      <p className="text-md text-gray-900">Total Price: ${item.totalPrice}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         ))
       ) : (
-        <p>No orders found</p>
+        <p className="text-center text-lg text-gray-900">No orders found</p>
       )}
     </div>
   );
