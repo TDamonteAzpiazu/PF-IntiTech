@@ -67,11 +67,9 @@ export class AuthRepository implements OnModuleInit {
       createdUser.cart = cart
       await this.userRepository.save(createdUser)
 
- 
-      sendEmailWhenUserIsCreated(createdUser)
-
+      sendEmailWhenUserIsCreated(createdUser)    
       return createdUser;
- 
+
 
     } catch (error) {
       if (error instanceof BadRequestException) {
