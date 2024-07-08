@@ -48,6 +48,7 @@ export interface DataUser {
   address: string;
   phone: string;
   image?: string;
+  status?: string;
 }
 
 export interface Iproducts_props{

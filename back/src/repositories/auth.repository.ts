@@ -61,15 +61,17 @@ export class AuthRepository implements OnModuleInit {
         email,
         password: hashedPassword,
         ...rest,
-        status: 'pending',
+        status: Status.Pending,
       });
       const cart: Cart = await this.cartRepository.createCart(createdUser)
       createdUser.cart = cart
       await this.userRepository.save(createdUser)
 
+ 
       sendEmailWhenUserIsCreated(createdUser)
-      return createdUser;
 
+      return createdUser;
+ 
 
     } catch (error) {
       if (error instanceof BadRequestException) {

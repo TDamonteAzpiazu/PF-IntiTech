@@ -2,7 +2,7 @@
 
 import { DataUser } from "@/interfaces/interfaces";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 const Profile = () => {
     const [userData, setUserData] = useState<DataUser | null>(null);
@@ -16,8 +16,6 @@ const Profile = () => {
     const [password, setPassword] = useState('');
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-
 
     const handle_FileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files ? e.target.files[0] : null;
@@ -38,10 +36,10 @@ const Profile = () => {
             });
 
             if (res.ok) {
-               const responseData = await res.json();
-               localStorage.setItem('DataUser', JSON.stringify(responseData));
-               setNewUser(responseData);
-            }else{
+                const responseData = await res.json();
+                localStorage.setItem('DataUser', JSON.stringify(responseData));
+                setNewUser(responseData);
+            } else {
                 console.log('Error:', res.statusText);
             }
         } catch (error) {
@@ -50,16 +48,11 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        
         if (typeof window !== 'undefined' && window.localStorage) {
             const storedUserData: DataUser = JSON.parse(localStorage.getItem('DataUser')!);
             setNewUser(storedUserData);
         }
-    },[]);
-
-
-
-
+    }, []);
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.localStorage) {
@@ -71,6 +64,11 @@ const Profile = () => {
                 address: storedUserData?.address || '',
                 phone: storedUserData?.phone || '',
             });
+
+            // Verificar si el estado del usuario es pending y si el mensaje ya se mostró
+            if (storedUserData?.status === 'pending' && !localStorage.getItem('accountActivationAlertShown')) {
+                Swal.fire('Estado de la cuenta', 'Debes activar tu cuenta, revisa tu correo', 'info');
+            }
         }
     }, []);
 
@@ -84,6 +82,7 @@ const Profile = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const updatedData = {
             ...inputs,
             password: password || undefined,
@@ -96,12 +95,13 @@ const Profile = () => {
                 },
                 body: JSON.stringify(updatedData),
             });
-            
+
             if (res.ok) {
                 const updatedUser = await res.json();
                 console.log(updatedUser);
                 localStorage.setItem('DataUser', JSON.stringify(updatedUser));
                 setUserData(updatedUser);
+
                 setInputs({
                     name: updatedUser.name,
                     email: updatedUser.email,
@@ -121,7 +121,7 @@ const Profile = () => {
         <div className="h-screen pt-28 flex justify-center gap-16 mb-10">
             <form className="flex flex-col" onSubmit={handleFileChange}>
                 <h1 className="text-3xl text-white font-medium pt-4 px-4 pb-6">
-                    Cambiar imagen de perfil
+                    Change profile image
                 </h1>
                 <div className="flex flex-col p-5">
                     <img src={newUser?.image} alt="imagen" className="flex mx-auto w-36 h-36 rounded-full" />
@@ -155,7 +155,6 @@ const Profile = () => {
                             <label className="text-white text-lg">Correo :</label>
                             <input
                                 name="email"
-
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
                                 placeholder={userData?.email || "Correo"}
@@ -166,7 +165,6 @@ const Profile = () => {
                             <label className="text-white text-lg">Contraseña :</label>
                             <input
                                 name="password"
-
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
                                 placeholder="Contraseña"
@@ -177,7 +175,6 @@ const Profile = () => {
                             <label className="text-white text-lg">Dirección :</label>
                             <input
                                 name="address"
-
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
                                 placeholder={userData?.address || "Dirección"}
@@ -188,7 +185,6 @@ const Profile = () => {
                             <label className="text-white text-lg">Teléfono :</label>
                             <input
                                 name="phone"
-
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
                                 placeholder={userData?.phone || "Teléfono"}
@@ -199,7 +195,6 @@ const Profile = () => {
                 </div>
                 <button type="submit" className="mx-auto flex mt-3 w-fit h-fit px-4 py-3 rounded-xl bg-lightorangeinti text-white font-medium hover:scale-105 transition-all duration-300 ease-in-out">Guardar cambios</button>
             </form>
-
         </div>
     );
 };
