@@ -152,7 +152,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
               onClick={handleAddToCart}
               className="bg-gradient-to-r from-yellow-300 to-orange-400 opacity-95 hover:shadow-xl text-gray-900 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
             >
-              Añadir al carrito
+              Add to cart
             </button>
           </div>
         </div>
