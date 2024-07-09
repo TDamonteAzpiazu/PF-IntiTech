@@ -2,6 +2,8 @@
 import React, { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "@/redux/slices/userSlice";
 
 export interface ID {
     id: number
@@ -12,6 +14,8 @@ export interface ID {
 const AuthSuccess = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const dataUser = useSelector((state: any) => state.user.userData);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const token = searchParams.get('token');
@@ -30,7 +34,8 @@ const AuthSuccess = () => {
                         method: 'GET',
                     });
                     const data = await response.json();
-                    localStorage.setItem('DataUser', JSON.stringify(data));
+                    // localStorage.setItem('DataUser', JSON.stringify(data));
+                    dispatch(login(data));
                 } catch (error) {
                     console.error("Failed to fetch user data:", error);
                 }

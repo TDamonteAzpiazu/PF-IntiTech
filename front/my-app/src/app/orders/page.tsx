@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 interface Item {
   id: string;
   totalPrice: number;
@@ -22,23 +23,24 @@ interface ResponseData {
 
 const Orders: React.FC = () => {
   const [orders, setOrders] = useState<ResponseData[]>([]);
-  const [dataUser, setDataUser] = useState<any | null>(null);
+  // const [dataUser, setDataUser] = useState<any | null>(null);
+  const userData = useSelector((state: any) => state.user.userData);
+
+  // useEffect(() => {
+  //   const storage = localStorage.getItem('DataUser');
+  //   if (/*strorage*/userData) {
+  //     setDataUser(/*JSON.parse(storage)*/ userData);
+  //   }
+  // }, []);
+
+  console.log(userData);
 
   useEffect(() => {
-    const storage = localStorage.getItem('DataUser');
-    if (storage) {
-      setDataUser(JSON.parse(storage));
-    }
-  }, []);
-
-  console.log(dataUser);
-
-  useEffect(() => {
-    if (dataUser) {
+    if (userData) {
       const getOrders = async () => {
         console.log('llego hasta aqui');
         try {
-          const res = await fetch(`https://pf-intitech.onrender.com/cart/getAllRecords/${dataUser.id}`, {
+          const res = await fetch(`https://pf-intitech.onrender.com/cart/getAllRecords/${userData.id}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -56,7 +58,7 @@ const Orders: React.FC = () => {
       };
       getOrders();
     }
-  }, [dataUser]);
+  }, [userData]);
 
   return (
     <div className="mb-10 mt-32 px-4">

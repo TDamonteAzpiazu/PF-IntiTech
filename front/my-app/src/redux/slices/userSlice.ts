@@ -1,27 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: any = [
-    {
-        token: "",
-        userData: null,
-    },
-]
+const initialState: any = {
+    userData: null,
+}
 
- const userSlice = createSlice({
+const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
         login: (state, action: PayloadAction<any>) => {
-            const { token, userData } = action.payload;	
-            state.push({ token, userData });
+            const { userData } = action.payload;	
+            state.userData = userData;
         },
 
         logout: (state) => {
-            state.token = "";
             state.userData = null;
         },
+        update: (state, action: PayloadAction<any>) => {
+            const { userData } = action.payload;
+            state.userData = userData;
+        }
     },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, update } = userSlice.actions;
 export default userSlice.reducer

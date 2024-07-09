@@ -11,13 +11,15 @@ import Image from 'next/image';
 import GoogleLoginButton from "../botonesGoogle/login";
 import GoogleRegisterButton from "../botonesGoogle/register";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { login } from "@/redux/slices/userSlice";
 
 
 const AuthForm = () => {
   const router = useRouter();
   const [active, setActive] = useState(false);
   const [userData, setUserData] = useState<Isession_active>();
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -117,9 +119,11 @@ const AuthForm = () => {
         method: 'GET',
       })
       const dataUser = await dataUser1.json()
-      localStorage.setItem('DataUser', JSON.stringify(dataUser))
-      document.cookie = `userToken=${token}`;
-      localStorage.setItem('UserSession', JSON.stringify({ token, userData: user }));
+      // localStorage.setItem('DataUser', JSON.stringify(dataUser))
+      // document.cookie = `userToken=${token}`;
+      // localStorage.setItem('UserSession', JSON.stringify({ token, userData: user }));
+      dispatch(login(dataUser))
+      
       Swal.fire({
         icon: 'success',
         title: 'Inicio de sesion exitoso',

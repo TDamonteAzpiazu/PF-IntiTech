@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export interface Cart {
   id: number;
@@ -15,12 +16,13 @@ export interface UserData {
 const PayOk = () => {
   const router = useRouter();
   const [dataUser, setDataUser] = useState<Cart | null>(null);
+  const userData = useSelector((state: any) => state.user.userData);
   
   useEffect(() => {
-    const storage = localStorage.getItem('DataUser');
-    if (storage) {
-      const parsedData: UserData = JSON.parse(storage);
-      setDataUser(parsedData.cart);
+    // const storage = localStorage.getItem('DataUser');
+    if (userData) {
+      // const parsedData: UserData = JSON.parse(userData);
+      setDataUser(userData.cart);
     }
   }, []);
 

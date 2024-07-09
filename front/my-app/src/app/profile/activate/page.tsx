@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { update } from "@/redux/slices/userSlice";
 export interface User {
     id: string;
     name: string;
@@ -16,16 +18,16 @@ export interface User {
 const Activate = () => {
     const [newUser, setNewUser] = useState<User | null>(null);
     const router = useRouter();
+    const dataUser = useSelector((state: any) => state.user.userData);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            const storedUserData: User = JSON.parse(localStorage.getItem('DataUser')!);
-            if (storedUserData) {
-                setNewUser(storedUserData);
-                if (storedUserData.status === 'active') {
-                    Swal.fire('Este usuario ya fue activado');
-                    router.push('/profile');
-                }
+        if (typeof window !== 'undefined' && dataUser) {
+            // const storedUserData: User = JSON.parse(localStorage.getItem('DataUser')!);
+            setNewUser(dataUser);
+            if (dataUser.status === 'active') {
+                Swal.fire('Este usuario ya fue activado');
+                router.push('/profile');
             }
         }
     }, [router]);
@@ -43,8 +45,9 @@ const Activate = () => {
 
         const res = await response.json();
         if (res) {
-            localStorage.setItem('DataUser', JSON.stringify(res));
+            // localStorage.setItem('DataUser', JSON.stringify(res));
             if (res.status === 'active') {
+                dispatch(update(res));
                 alert('Usuario activado con éxito');
                 router.push('/profile');
             }

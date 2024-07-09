@@ -4,6 +4,7 @@ import { Iproducts_props } from "@/interfaces/interfaces";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 
 
 interface Idetail_props {
@@ -17,23 +18,24 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   const [data_product, setData_product] = useState<Iproducts_props | any>();
   const [productID, setProductID] = useState<string>("");
   const [cartID, setCartID] = useState<string | null>(null);
-  const [data, setData ] = useState<any>(null);
+  // const [data, setData ] = useState<any>(null);
+  const dataUser = useSelector((state: any) => state.user.userData);
 
 
   useEffect(() => {
     try {
-      const dataUser = localStorage.getItem("DataUser");
+      // const dataUser = localStorage.getItem("DataUser");
       if (!dataUser) {
-        throw new Error("Usuario no encontrado en localStorage");
+        throw new Error("Usuario no encontrado");
       }
 
-      const storageUser = JSON.parse(dataUser);
-      setData(storageUser);
-      if (!storageUser || !storageUser.cart || !storageUser.cart.id) {
+      // const storageUser = JSON.parse(dataUser);
+      // setData(dataUser);
+      if (!dataUser || !dataUser.cart || !dataUser.cart.id) {
         throw new Error("Invalid data structure in DataUser");
       }
 
-      setCartID(storageUser.cart.id);
+      setCartID(dataUser.cart.id);
 
     } catch (error) {
       console.error("Failed to load cart ID:", error);
@@ -56,7 +58,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   }, [params.id]);
 
   const handleAddToCart = async () => {
-    if(data.status === "pending") {
+    if(dataUser.status === "pending") {
       alert("Debes activar tu cuenta para agregar items al carrito");
       router.push("/profile");
       return;

@@ -2,6 +2,7 @@
 
 import { DataUser } from "@/interfaces/interfaces";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
 const Profile = () => {
@@ -14,9 +15,10 @@ const Profile = () => {
         phone: '',
     });
     const [password, setPassword] = useState('');
-
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
+    
+    const dataUser = useSelector((state: any) => state.user.userData);
+    // setUserData(dataUser);
     const handle_FileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files ? e.target.files[0] : null;
         setSelectedFile(file);
@@ -51,6 +53,7 @@ const Profile = () => {
         if (typeof window !== 'undefined' && window.localStorage) {
             const storedUserData: DataUser = JSON.parse(localStorage.getItem('DataUser')!);
             setNewUser(storedUserData);
+            // setNewUser(dataUser);
         }
     }, []);
 

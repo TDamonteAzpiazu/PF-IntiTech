@@ -4,6 +4,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
+import { useSelector } from 'react-redux';
 
 type CartProps = {
   isOpen: boolean;
@@ -26,6 +27,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   const [preferenceId, setPreferenceId] = useState<string | null>(null);
   const [data, setData ] = useState<any>(null);
   const router = useRouter();
+  const dataUser = useSelector((state: any) => state.user.userData);
 
   useEffect(() => {
     initMercadoPago('TEST-fa93dbfd-43ff-4ad0-b01f-9fbd39faeafc', { locale: 'es-AR' });
@@ -33,9 +35,9 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   useEffect(() => {
     try {
-      const dataUser = localStorage.getItem("DataUser");
+      // const dataUser = localStorage.getItem("DataUser");
       if (!dataUser) {
-        throw new Error("DataUser not found in localStorage");
+        throw new Error("DataUser not found");
       }
       const dataCartID = JSON.parse(dataUser);
       setData(dataCartID);

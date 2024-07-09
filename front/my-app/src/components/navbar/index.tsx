@@ -7,8 +7,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import cartLogo from "../../../public/images/cart.png";
 import Cart from "../cart/cartMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/slices/userSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const dataUser = useSelector((state: any) => state.user.userData);
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [userSession, setUserSession] = useState<Isession_active>();
@@ -29,7 +33,8 @@ const Navbar = () => {
   const handleLogout = () => {
     document.cookie = 'userToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; samesite=strict';
     localStorage.removeItem('UserSession');
-    localStorage.removeItem('DataUser');
+    // localStorage.removeItem('DataUser');
+    dispatch(logout());
     window.location.reload();
     router.push('/');
   };
