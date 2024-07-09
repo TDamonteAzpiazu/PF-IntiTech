@@ -1,2 +1,0 @@
-﻿board;phase;dateTime;consumption(kWh);fromGridToConsumption(kWh);fromPublicGridToConsumption(kWh);fromDieselGridToConsumption(kWh);fromPVToGrid(kWh);pvGeneration(kWh);fromStorageToConsumption(kWh);fromPVToStorage(kWh);fromPVToConsumption(kWh);fromGridToStorage(kWh);totalGridConsumption(kWh);totalConsumption(kWh);fromPlantToRevStation(kWh);selfConsumptionRatio;sc_scale
-"1CM182903A05";"Total";"2024-07-01 00:00:00";"655.09";"655.09";"655.09";0;0;0;0;0;0;0;"655.09";"655.09";0;0;0
