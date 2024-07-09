@@ -1,14 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Lines_Chart } from "@/app/dashboard/grafica";
-import { Bar_Chart } from "@/app/dashboard/barras";
 import { Circular_Chart } from "@/app/dashboard/pie";
-import NeonBarChart from "@/app/dashboard/neon_bar";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import 'tailwindcss/tailwind.css';
 import LinesChart from "@/components/chart_dynamic";
 import Input from "@/components/input_dashboard";
 const MySwal = withReactContent(Swal);
