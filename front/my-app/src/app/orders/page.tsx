@@ -65,7 +65,7 @@ const Orders: React.FC = () => {
         orders.map((order, index) => (
           <div
             key={order.record.id}
-            className="grid grid-cols-2 mt-2 mb-10 transition-all hover:shadow-2xl rounded-lg justify-center gap-1 bg-gradient-to-r from-orangeinti to-lightorangeinti opacity-85"
+            className="grid grid-cols-2 bg-gradient-to-r from-white to-gray-200 w-9/12"
           >
             <div className="px-4 py-4 bg-transparent rounded-l-md">
               <h2 className="text-2xl font-medium text-gray-900 mb-2">Numero de compra: {index + 1}</h2>
@@ -102,3 +102,4 @@ const Orders: React.FC = () => {
 };
 
 export default Orders;
+
