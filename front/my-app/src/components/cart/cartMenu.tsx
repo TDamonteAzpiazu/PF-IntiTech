@@ -4,7 +4,8 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '@/redux/hooks';
+
 
 type CartProps = {
   isOpen: boolean;
@@ -27,7 +28,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   const [preferenceId, setPreferenceId] = useState<string | null>(null);
   const [data, setData ] = useState<any>(null);
   const router = useRouter();
-  const dataUser = useSelector((state: any) => state.user.userData);
+  const dataUser = useAppSelector((state) => state.user.userData);
 
   useEffect(() => {
     initMercadoPago('TEST-fa93dbfd-43ff-4ad0-b01f-9fbd39faeafc', { locale: 'es-AR' });
@@ -55,7 +56,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   useEffect(() => {
     const getCartItems = async () => {
       try {
-        const res = await fetch(`https://pf-intitech.onrender.com/cart/getItems/${cartId}`, {
+        const res = await fetch(`http://localhost:3000/cart/getItems/${cartId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const deleteItemFromCart = async (itemId: string) => {
     try {
-      await axios.delete(`https://pf-intitech.onrender.com/cart/${itemId}`);
+      await axios.delete(`http://localhost:3000/cart/${itemId}`);
       setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
     } catch (error) {
       console.error('Error deleting item from cart:', error);
@@ -88,7 +89,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const deleteAllItemsFromCart = async () => {
     try {
-      await axios.delete(`https://pf-intitech.onrender.com/cart/clearCart/${cartId}`);
+      await axios.delete(`http://localhost:3000/cart/clearCart/${cartId}`);
       setItems([]); // Vacía el carrito en el estado
     } catch (error) {
       console.error('Error deleting all items from cart:', error);
@@ -98,7 +99,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const subtractOneFromCartItem = async (itemId: string) => {
     try {
-      const response = await axios.put(`https://pf-intitech.onrender.com/cart/substract/${itemId}`);
+      const response = await axios.put(`http://localhost:3000/cart/substract/${itemId}`);
       const updatedItem = response.data;
 
       setItems((prevItems) =>
@@ -116,7 +117,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const addOneToCartItem = async (itemId: string) => {
     try {
-      const response = await axios.put(`https://pf-intitech.onrender.com/cart/add/${itemId}`);
+      const response = await axios.put(`http://localhost:3000/cart/add/${itemId}`);
       const updatedItem = response.data;
 
       setItems((prevItems) =>
@@ -136,7 +137,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const createPreference = async () => {
     try {
-      const res = await fetch('https://pf-intitech.onrender.com/mercadopago', {
+      const res = await fetch('http://localhost:3000/mercadopago', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -162,7 +163,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
       throw error;
     }
   };
-  console.log(data)
+  // console.log(data)
   const handleClick = async () => {
     try {
       if(data.status === "pending"){

@@ -7,12 +7,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import cartLogo from "../../../public/images/cart.png";
 import Cart from "../cart/cartMenu";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector, } from '@/redux/hooks';
 import { logout } from "@/redux/slices/userSlice";
 
 const Navbar = () => {
-  const dispatch = useDispatch();
-  const dataUser = useSelector((state: any) => state.user.userData);
+  const dispatch = useAppDispatch();
+  const dataUser = useAppSelector((state) => state.user.userData);
+  console.log(dataUser)
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [userSession, setUserSession] = useState<Isession_active>();

@@ -13,7 +13,7 @@
 
 //   const createPreference = async () => {
 //     try {
-//       const res = await fetch('https://pf-intitech.onrender.com/mercadopago', {
+//       const res = await fetch('http://localhost:3000/mercadopago', {
 //         method: 'POST',
 //         headers: {
 //           'Content-Type': 'application/json',

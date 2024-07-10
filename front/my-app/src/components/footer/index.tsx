@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
     }
   
     try {
-      const res = await fetch(`https://pf-intitech.onrender.com/users/suscriptUser/${userId}`, {
+      const res = await fetch(`http://localhost:3000/users/suscriptUser/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ const Footer: React.FC = () => {
     }
   
     try {
-      const res = await fetch(`https://pf-intitech.onrender.com/users/unsuscriptUser/${userId}`, {
+      const res = await fetch(`http://localhost:3000/users/unsuscriptUser/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

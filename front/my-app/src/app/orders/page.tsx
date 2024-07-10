@@ -40,7 +40,7 @@ const Orders: React.FC = () => {
       const getOrders = async () => {
         console.log('llego hasta aqui');
         try {
-          const res = await fetch(`https://pf-intitech.onrender.com/cart/getAllRecords/${userData.id}`, {
+          const res = await fetch(`http://localhost:3000/cart/getAllRecords/${userData.id}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

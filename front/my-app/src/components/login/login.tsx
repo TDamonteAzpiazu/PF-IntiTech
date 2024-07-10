@@ -11,15 +11,16 @@ import Image from 'next/image';
 import GoogleLoginButton from "../botonesGoogle/login";
 import GoogleRegisterButton from "../botonesGoogle/register";
 import Swal from "sweetalert2";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/redux/hooks";
 import { login } from "@/redux/slices/userSlice";
+import { store } from "@/redux/store";
 
 
 const AuthForm = () => {
   const router = useRouter();
   const [active, setActive] = useState(false);
   const [userData, setUserData] = useState<Isession_active>();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -112,17 +113,19 @@ const AuthForm = () => {
     event.preventDefault()
     try {
       const res = await login_auth(dataLogin);
-      const { token, user } = await res;
+      const { token } = await res;
+      localStorage.setItem('UserSession', JSON.stringify({ token }));
+      document.cookie = `userToken=${token}`;
+      console.log(token)
       const decoded = jwtDecode(token)
       const { id }: any  = decoded
-      const dataUser1 = await fetch(`https://pf-intitech.onrender.com/users/${id}`,{
+      const dataUser1 = await fetch(`http://localhost:3000/users/${id}`,{
         method: 'GET',
       })
       const dataUser = await dataUser1.json()
-      // localStorage.setItem('DataUser', JSON.stringify(dataUser))
-      // document.cookie = `userToken=${token}`;
-      // localStorage.setItem('UserSession', JSON.stringify({ token, userData: user }));
-      dispatch(login(dataUser))
+      console.log(dataUser)
+      dispatch(login({ userData: dataUser }));
+      console.log('despues del dispatch', store.getState().user.userData)
       
       Swal.fire({
         icon: 'success',

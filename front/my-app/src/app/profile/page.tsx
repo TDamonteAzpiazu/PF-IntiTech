@@ -1,24 +1,24 @@
 'use client';
 
-import { DataUser } from "@/interfaces/interfaces";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import Swal from "sweetalert2";
+import React, { useState, useEffect } from 'react';
+import { useAppDispatch, useAppSelector, } from '@/redux/hooks';
+import  { update } from '@/redux/slices/userSlice';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 
 const Profile = () => {
-    const [userData, setUserData] = useState<DataUser | null>(null);
-    const [newUser, setNewUser] = useState<DataUser | null>(null);
+    const dispatch = useAppDispatch();
+
+    const dataUser = useAppSelector((state) => state.user.userData);
     const [inputs, setInputs] = useState({
-        name: '',
-        email: '',
-        address: '',
-        phone: '',
+        name: dataUser?.name || '',
+        email: dataUser?.email || '',
+        address: dataUser?.address || '',
+        phone: dataUser?.phone || '',
     });
     const [password, setPassword] = useState('');
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    
-    const dataUser = useSelector((state: any) => state.user.userData);
-    // setUserData(dataUser);
+
     const handle_FileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files ? e.target.files[0] : null;
         setSelectedFile(file);
@@ -32,15 +32,14 @@ const Profile = () => {
             formData.append('file', selectedFile);
         }
         try {
-            const res = await fetch(`https://pf-intitech.onrender.com/files/uploadUserImage/${userData?.id}`, {
+            const res = await fetch(`http://localhost:3000/files/uploadUserImage/${dataUser?.id}`, {
                 method: 'POST',
                 body: formData
             });
 
             if (res.ok) {
                 const responseData = await res.json();
-                localStorage.setItem('DataUser', JSON.stringify(responseData));
-                setNewUser(responseData);
+                dispatch(update({ userData: responseData }));
             } else {
                 console.log('Error:', res.statusText);
             }
@@ -50,30 +49,11 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            const storedUserData: DataUser = JSON.parse(localStorage.getItem('DataUser')!);
-            setNewUser(storedUserData);
-            // setNewUser(dataUser);
+        if (dataUser?.status === 'pending' && !localStorage.getItem('accountActivationAlertShown')) {
+            Swal.fire('Estado de la cuenta', 'Debes activar tu cuenta, revisa tu correo', 'info');
+            localStorage.setItem('accountActivationAlertShown', 'true');
         }
-    }, []);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            const storedUserData: DataUser = JSON.parse(localStorage.getItem('DataUser')!);
-            setUserData(storedUserData);
-            setInputs({
-                name: storedUserData?.name || '',
-                email: storedUserData?.email || '',
-                address: storedUserData?.address || '',
-                phone: storedUserData?.phone || '',
-            });
-
-            // Verificar si el estado del usuario es pending y si el mensaje ya se mostró
-            if (storedUserData?.status === 'pending' && !localStorage.getItem('accountActivationAlertShown')) {
-                Swal.fire('Estado de la cuenta', 'Debes activar tu cuenta, revisa tu correo', 'info');
-            }
-        }
-    }, []);
+    }, [dataUser]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -91,7 +71,7 @@ const Profile = () => {
             password: password || undefined,
         };
         try {
-            const res = await fetch(`https://pf-intitech.onrender.com/users/${userData?.id}`, {
+            const res = await fetch(`http://localhost:3000/users/${dataUser?.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,8 +82,7 @@ const Profile = () => {
             if (res.ok) {
                 const updatedUser = await res.json();
                 console.log(updatedUser);
-                localStorage.setItem('DataUser', JSON.stringify(updatedUser));
-                setUserData(updatedUser);
+                dispatch(update({ userData: updatedUser }));
                 setInputs({
                     name: '',
                     email: '',
@@ -126,7 +105,7 @@ const Profile = () => {
                     Cambiar foto de perfil
                 </h1>
                 <div className="flex flex-col p-5">
-                    <img src={newUser?.image} alt="imagen" className="flex mx-auto w-36 h-36 rounded-full" />
+                    <img src={dataUser?.image} alt="imagen" className="flex mx-auto w-36 h-36 rounded-full" />
                     <label className="text-white text-lg pt-5">Cambiar imagen:</label>
                     <input
                         onChange={handle_FileChange}
@@ -149,7 +128,7 @@ const Profile = () => {
                                 name="name"
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
-                                placeholder={userData?.name || "Nombre"}
+                                placeholder={dataUser?.name || "Nombre"}
                                 type="text"
                             />
                         </div>
@@ -159,7 +138,7 @@ const Profile = () => {
                                 name="email"
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
-                                placeholder={userData?.email || "Correo"}
+                                placeholder={dataUser?.email || "Correo"}
                                 type="text"
                             />
                         </div>
@@ -179,7 +158,7 @@ const Profile = () => {
                                 name="address"
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
-                                placeholder={userData?.address || "Dirección"}
+                                placeholder={dataUser?.address || "Dirección"}
                                 type="text"
                             />
                         </div>
@@ -189,7 +168,7 @@ const Profile = () => {
                                 name="phone"
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
-                                placeholder={userData?.phone || "Teléfono"}
+                                placeholder={dataUser?.phone || "Teléfono"}
                                 type="text"
                             />
                         </div>
