@@ -179,7 +179,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   return (
     <>
       <div className={`fixed top-0 right-0 h-full w-1/4 bg-white shadow-lg transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col justify-between z-50`}>
-        <div className="p-4">
+        <div className="p-4 overflow-y-auto h-3/4">
           <h2 className="text-2xl mb-4 text-black text-center">Carrito de compras</h2>
           <div>
             {items.map(item => (
