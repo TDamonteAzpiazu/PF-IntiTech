@@ -112,8 +112,8 @@ const AuthForm = () => {
       const res = await login_auth(dataLogin);
       const { token, user } = await res;
       const decoded = jwtDecode(token)
-      const { id }: any  = decoded
-      const dataUser1 = await fetch(`https://pf-intitech.onrender.com/users/${id}`,{
+      const { id }: any = decoded
+      const dataUser1 = await fetch(`http://localhost:3000/users/${id}`, {
         method: 'GET',
       })
       const dataUser = await dataUser1.json()
@@ -179,8 +179,10 @@ const AuthForm = () => {
               type='tel'
               placeholder='Telefono' />
             <button className={styles.btnRegister} type='submit'>Registrarse</button>
-            <GoogleRegisterButton />
           </form>
+          <div className="absolute bottom-5 translate-x-20">
+            <GoogleRegisterButton />
+          </div>
         </div>
         <div className={`${styles['form-container']} ${styles['sign-in']}`}>
           <form onSubmit={handleSubmitLogin}>
@@ -204,19 +206,21 @@ const AuthForm = () => {
               placeholder='Constraseña' />
             <a href="#">Olvidaste tu contraseña?</a>
             <button className={styles.btnLogin} type='submit'>Iniciar Sesion</button>
-            <GoogleLoginButton/>
           </form>
+          <div className="absolute bottom-20 translate-x-[100px]">
+            <GoogleLoginButton />
+          </div>
         </div>
         <div className={styles['toggle-container']}>
           <div className={styles.toggle}>
             <div className={`${styles['toggle-panel']} ${styles['toggle-left']}`}>
-           <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
+              <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
               <h1 className={styles.welcome}>Bienvenido de nuevo!</h1>
               <p>Ingresa con tus credenciales personales para continuar</p>
               <button className={styles.btnToggle} onClick={toggleClass}>Iniciar Sesion</button>
             </div>
             <div className={`${styles['toggle-panel']} ${styles['toggle-right']}`}>
-            <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
+              <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
               <h1 className={styles.welcome}>Hola, Bienvenid@!</h1>
               <p>Registrate con tus datos para comenzar a usar la plataforma</p>
               <button className={`${styles.btnToggle} ${styles.botonExtra} `} onClick={toggleClass}>Registrarme</button>
