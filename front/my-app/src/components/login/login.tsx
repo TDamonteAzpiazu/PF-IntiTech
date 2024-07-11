@@ -123,8 +123,10 @@ const AuthForm = () => {
         method: 'GET',
       })
       const dataUser = await dataUser1.json()
+      const {name, email, address, phone, cart, totalPrice} = dataUser
+      localStorage.setItem('userData', JSON.stringify({ name, email, address, phone }));
       console.log(dataUser)
-      dispatch(login({ userData: dataUser }));
+      dispatch(login({ userData: { name, email, address, phone, cart, totalPrice } }));
       console.log('despues del dispatch', store.getState().user.userData)
       
       Swal.fire({

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: any = {
-    userData: null,
+    userData: localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData')!) : null,
 }
 
 const userSlice = createSlice({
@@ -12,6 +12,7 @@ const userSlice = createSlice({
             const { userData } = action.payload;	
             console.log(userData);
             state.userData = userData;
+            return state
         },
 
         logout: (state) => {
