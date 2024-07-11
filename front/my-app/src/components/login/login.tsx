@@ -6,7 +6,7 @@ import { validateLoginForm, validateRegisterForm } from '@/helpers/formValidatio
 import { LoginErrorProps, RegisterErrorProps, Isession_active } from '@/interfaces/interfaces';
 import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
-import logo from '@/../../public/images/logo.png'
+import logo from '../../../public/images/logo.png'
 import Image from 'next/image';
 import GoogleLoginButton from "../botonesGoogle/login";
 import GoogleRegisterButton from "../botonesGoogle/register";

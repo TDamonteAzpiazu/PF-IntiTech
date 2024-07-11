@@ -23,7 +23,8 @@
     "react-dom": "^18",
     "react-redux": "^9.1.2",
     "sweetalert2": "^11.12.1",
-    "sweetalert2-react-content": "^5.0.7"
+    "sweetalert2-react-content": "^5.0.7",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^20",
