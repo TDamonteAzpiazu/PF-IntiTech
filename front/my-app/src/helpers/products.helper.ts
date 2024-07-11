@@ -5,7 +5,7 @@ export const api_url = process.env.NEXT_PUBLIC_API_URL;
 export async function get_product_DB(): Promise<Iproducts_props[]> {
   try {
     // cambiamos el .env
-    const res = await fetch(`http://localhost:3000/panelForSale`, {
+    const res = await fetch(`https://pf-intitech.onrender.com/panelForSale`, {
       method: "GET",
       next: { revalidate: 0 },
     });
@@ -18,12 +18,12 @@ export async function get_product_DB(): Promise<Iproducts_props[]> {
   } catch (error: any) {
     console.error("Error en get products:", error);
     throw new Error(error);
-  } 
+  }
 }
 
 export async function product_by_id(id: string): Promise<Iproducts_props> {
   try {
-    const response = await fetch(`http://localhost:3000/panelForSale/${id}`, {
+    const response = await fetch(`https://pf-intitech.onrender.com/panelForSale/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
