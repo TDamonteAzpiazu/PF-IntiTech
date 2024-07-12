@@ -13,6 +13,7 @@ import { AddItemToCartSwagger, ClearCartSwagger, CreateRecordSwagger, GetCartIte
 import { AllRecordDto } from 'src/dto/allRecords.dto';
 import { CartItemDto } from 'src/dto/cartitem.dto';
 import { CartItem } from 'src/entities/cartItem.entity';
+import { Record } from 'src/entities/record.entity';
 import { CartService } from 'src/services/cart.service';
 
 @ApiTags('Cart')
@@ -26,6 +27,10 @@ export class CartController {
     return await this.cartService.getCartItems(cart_id);
   }
 
+  @Get("getRecordsByMonth")
+  async getRecordByMonth(@Body() body ): Promise<Record[]> {
+    return await this.cartService.getRecordByMonth(body);
+  }
   @Post('add/:id') // id de cart
   @AddItemToCartSwagger()
   async addItemToCart(
