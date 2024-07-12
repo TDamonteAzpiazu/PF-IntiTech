@@ -282,7 +282,7 @@ const AuthForm = () => {
               <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
               <h1 className={styles.welcome}>¡Hola Amigo!</h1>
               <p>Regístrate con tus datos personales para comenzar</p>
-              <button className={styles.btnToggle} onClick={toggleClass}>
+              <button className={`${styles.btnToggle} ${styles.botonExtra} `} onClick={toggleClass}>
                 Registrarse
               </button>
             </div>
