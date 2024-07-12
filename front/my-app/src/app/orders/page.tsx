@@ -71,7 +71,7 @@ const Orders: React.FC = () => {
         orders.map((order, index) => (
           <div
             key={order.record.id}
-            className="grid grid-cols-2 bg-gradient-to-r from-white to-gray-200 w-9/12"
+            className="grid grid-cols-2 bg-gradient-to-r from-white to-gray-200 w-2/4 mx-auto rounded-md mb-10"
           >
             <div className="px-4 py-4 bg-transparent rounded-l-md">
               <h2 className="text-2xl font-medium text-gray-900 mb-2">

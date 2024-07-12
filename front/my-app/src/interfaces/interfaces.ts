@@ -70,6 +70,7 @@ export interface Icart {
   quantity: number;
   panel_image: string;
   panel_model: string;
+  stock: number;
 }
 
 

@@ -15,7 +15,7 @@ const Product: React.FC<Iproducts_props> = ({
 }) => {
   return (
     <div className="flex justify-center">
-      <div className="flex transition-all hover:scale-105 rounded-lg w-5/6 mt-4 mb-4">
+      <div className="flex transition-all hover:scale-105 rounded-lg w-full mt-4 mb-4 mr-5 ml-4">
         <div className="relative w-60 h-60">
           <Image
             className="rounded-l-md object-cover"

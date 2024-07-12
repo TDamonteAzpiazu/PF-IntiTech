@@ -54,7 +54,9 @@ const Navbar = () => {
       {token !== "" ? (
         <div className="flex items-center justify-between h-full">
           <div className="h-full w-24 ml-8">
+            <Link href="/">
             <Image className="h-full" src="/images/logo.png" alt="logo" width={100} height={100} />
+            </Link>
           </div>
           <nav className="h-full">
             <ul className="flex items-center w-full h-full">

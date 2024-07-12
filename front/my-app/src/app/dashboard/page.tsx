@@ -103,11 +103,6 @@ const Dashboard: React.FC = () => {
                     <li className="mb-4">
                         <Link href={"/signout"}>Sign Out</Link>
                     </li>
-                    <li>
-                        <button onClick={handleCredentialsClick}>
-                            Credentials
-                        </button>
-                    </li>
                 </ul>
             </nav>
 

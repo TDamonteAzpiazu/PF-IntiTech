@@ -51,7 +51,6 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
     }
   }, [userData.cart?.id]);
 
-
   const deleteItemFromCart = async (itemId: string) => {
     try {
       await axios.delete(`https://pf-intitech.onrender.com/cart/${itemId}`)
@@ -150,6 +149,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
       throw error
     }
   };
+
   const handleClick = async () => {
     try {
       if(userData.status === "pending"){
@@ -191,6 +191,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
                   <div>
                     <h3 className="text-lg font-bold">{item.panel_model}</h3>
                     <p className="text-gray-500">${item.totalPrice}</p>
+                    <p className="text-gray-500">Stock: {item.stock}</p>
                   </div>
                 </div>
                 <div className="flex items-right space-x-2">
@@ -198,7 +199,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
                     <button
                       onClick={() => subtractOneFromCartItem(item.id)}
                       title="Subtract One"
-                      className="group cursor-pointer outline-none hover:rotate-90 duration-300"
+                      className="group cursor-pointer outline-none hover:rotate-180 duration-300"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -216,69 +217,70 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
                     </button>
                   )}
                   <span className="mx-2">{item.quantity}</span>
-                  <button
-                    onClick={() => addOneToCartItem(item.id)}
-                    title="Add One"
-                    className="group cursor-pointer outline-none hover:rotate-90 duration-300"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="25px"
-                      height="25px"
-                      viewBox="0 0 24 24"
-                      className="stroke-zinc-400 fill-none group-active:stroke-zinc-200 group-active:fill-zinc-600 group-active:duration-0 duration-300"
+                  {item.quantity < item.stock && (
+                    <button
+                      onClick={() => addOneToCartItem(item.id)}
+                      title="Add One"
+                      className="group cursor-pointer outline-none hover:rotate-90 duration-300"
                     >
-                      <path
-                        d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
-                        stroke-width="1.5"
-                      ></path>
-                      <path d="M8 12H16" stroke-width="1.5"></path>
-                      <path d="M12 16V8" stroke-width="1.5"></path>
-                    </svg>
-                  </button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25px"
+                        height="25px"
+                        viewBox="0 0 24 24"
+                        className="stroke-zinc-400 fill-none group-active:stroke-zinc-200 group-active:fill-zinc-600 group-active:duration-0 duration-300"
+                      >
+                        <path
+                          d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                          stroke-width="1.5"
+                        ></path>
+                        <path d="M8 12H16" stroke-width="1.5"></path>
+                        <path d="M12 8V16" stroke-width="1.5"></path>
+                      </svg>
+                    </button>
+                  )}
                 </div>
-                <button onClick={() => deleteItemFromCart(item.id)}>
-                  <Image src={trash} alt="trash" width={30} height={30} />
+                <button
+                  onClick={() => deleteItemFromCart(item.id)}
+                  title="Delete"
+                  className="group cursor-pointer outline-none hover:rotate-90 duration-300"
+                >
+                  <Image
+                    src={trash}
+                    alt="delete"
+                    width={25}
+                    height={25}
+                    className="stroke-zinc-400 fill-none group-active:stroke-zinc-200 group-active:fill-zinc-600 group-active:duration-0 duration-300"
+                  />
                 </button>
               </div>
             ))}
           </div>
         </div>
-        <div className="flex flex-col justify-center p-4 space-y-4">
-          <div className="flex justify-between items-center mt-4 p-4 border-t">
-            <h2 className="text-xl font-bold text-black">Total:</h2>
-            <p className="text-xl font-bold text-black">
-              ${totalPrice.toFixed(2)}
-            </p>
-          </div>
+        <div className="p-4 border-t border-gray-200">
+          <p className="text-lg font-bold text-black mb-2">Total: ${totalPrice.toFixed(2)}</p>
           <button
             onClick={handleClick}
-            className="w-full h-10 bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-3xl transition-all duration-500 flex justify-center items-center"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
           >
-            Comprar
+            Proceder al pago
           </button>
-          {preferenceId && <Wallet initialization={{ preferenceId }} />}
           <button
             onClick={deleteAllItemsFromCart}
-            className="w-full h-10 bg-white cursor-pointer rounded-3xl border-2 border-red-500 shadow-[inset_0px_-2px_0px_1px_red-500] group hover:bg-red-500 transition duration-300 ease-in-out"
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 ml-2"
           >
-            <span className="font-medium text-[#000] group-hover:text-white">
-              Limpiar carrito
-            </span>
+            Vaciar Carrito
           </button>
         </div>
       </div>
-
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 z-40 ${
-          isOpen
-            ? 'opacity-50 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 bg-black opacity-50 transition-opacity duration-300 ${
+          isOpen ? 'block' : 'hidden'
         }`}
         onClick={toggleCart}
-      />
+      ></div>
     </>
   )
 }
 
-export default Cart
+export default Cart;

@@ -42,7 +42,6 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
 
   const handleAddToCart = async () => {
     if(userData.status === "pending") {
-      alert("Debes activar tu cuenta para agregar items al carrito");
       router.push("/profile");
       return;
     }

@@ -7,7 +7,7 @@ interface Icontainer_products {
 }
 export const Product_Container: React.FC <Icontainer_products>=({product}) =>{
   return(
-    <div className='grid grid-cols-2 gap-y-4'>{
+    <div className='grid grid-cols-3'>{
           product && product.map((item)=>(
                     <div key={item.id}>
                               <Product {...item} />
