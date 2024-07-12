@@ -1,9 +1,8 @@
 "use client"
-import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from 'react';
 import styles from './style.module.css';
 import { validateLoginForm, validateRegisterForm } from '@/helpers/formValidation';
-import { LoginErrorProps, RegisterErrorProps, Isession_active } from '@/interfaces/interfaces';
+import { LoginErrorProps, RegisterErrorProps } from '@/interfaces/interfaces';
 import { login_auth, register_auth } from '@/helpers/auth.login';
 import { useRouter } from 'next/navigation';
 import logo from '../../../public/images/logo.png'
