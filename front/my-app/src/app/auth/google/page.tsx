@@ -21,7 +21,7 @@ const AuthSuccess = () => {
             document.cookie = `userToken=${token}; path=/; secure; samesite=strict`;
 
     router.push('/profile')
-  }, [searchParams, router])
+  }}, [searchParams, router])
 
   return (
     <div className="h-screen mt-24 text-center text-black text-3xl">

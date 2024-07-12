@@ -16,8 +16,8 @@ export class MercadoPagoService {
         unit_price: item.unit_price,
       })),
       back_urls: {
-        success: "http://localhost:3000/mercadopago/success",
-        failure: "http://localhost:3000/mercadopago/failure",
+        success: "https://pf-intitech.onrender.com/mercadopago/success",
+        failure: "https://pf-intitech.onrender.com/mercadopago/failure",
       },
       auto_return: 'approved',
     };
