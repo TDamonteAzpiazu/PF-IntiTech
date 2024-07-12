@@ -1,4 +1,3 @@
-import Login from '@/components/login/login'
 import React from 'react'
 import background from '../../../public/images/background.jpg'
 import Image from 'next/image'

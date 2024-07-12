@@ -1,6 +1,5 @@
 import { useState, createContext, useContext } from 'react';
 import React from 'react';
-import Cart from '../components/cart/cartMenu'; 
 import { ReactNode } from 'react';
 
 const CartContext = createContext<{ openCart: boolean; toggleCart: () => void } | null>(null);

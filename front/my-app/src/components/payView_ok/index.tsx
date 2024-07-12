@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { DataStore } from "@/store/dataStore";
 
-
 const PayOk = () => {
   const router = useRouter();
   const userData = DataStore((state) => state.userDataUser);

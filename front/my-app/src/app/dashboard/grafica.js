@@ -9,7 +9,6 @@ import {
   Tooltip,
   Legend,
   Filler,
-  plugins,
 } from "chart.js";
 import { useEffect } from "react";
 

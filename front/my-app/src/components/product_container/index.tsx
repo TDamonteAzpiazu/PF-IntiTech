@@ -1,5 +1,4 @@
 import { Iproducts_props } from '@/interfaces/interfaces'
-import Image from 'next/image'
 import React from 'react'
 import Product from '../product'
 

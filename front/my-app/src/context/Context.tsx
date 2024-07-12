@@ -1,9 +1,9 @@
 'use client'
-import { Icontext_props, Icontext_provider, Isession_active } from "@/interfaces/interfaces"
+import { Isession_active } from "@/interfaces/interfaces"
 import { createContext, useContext, useState, useEffect} from "react"
 
 
-const Context = createContext<Icontext_props>(
+const Context = createContext<{ user_data: Isession_active | null; setUser_data: React.Dispatch<React.SetStateAction<Isession_active | null>> }>(
     {
         user_data: null,
         setUser_data: () => { }
@@ -11,7 +11,7 @@ const Context = createContext<Icontext_props>(
 )
 
 
-export const Context_Provider: React.FC<Icontext_provider> = ({ children }) => {
+export const Context_Provider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user_data, setUser_data] = useState<Isession_active | null>(null)
 
     useEffect(() => {
