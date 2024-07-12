@@ -62,6 +62,6 @@ export class AuthController {
     if (isNew) {
       await this.authService.sendEmail(createdUser, jwt);
     }
-    res.status(HttpStatus.OK).redirect(`http://localhost:3001/auth/google?token=${jwt}`);
+    res.status(HttpStatus.OK).redirect(`http://pf-inti-tech-okrv.vercel.app/auth/google?token=${jwt}`);
   }
 }
