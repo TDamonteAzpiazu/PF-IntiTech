@@ -2,38 +2,31 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-export interface User {
-    id: string;
-    name: string;
-    email: string;
-    password: string;
-    address: string;
-    phone: string;
-    image?: string;
-    status?: 'active' | 'inactive' | 'pending';
-}
+import { DataStore } from "@/store/dataStore";
 
 const Activate = () => {
-    const [newUser, setNewUser] = useState<User | null>(null);
+    const { userDataUser, getDataUser } = DataStore();
     const router = useRouter();
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            const storedUserData: User = JSON.parse(localStorage.getItem('DataUser')!);
-            if (storedUserData) {
-                setNewUser(storedUserData);
-                if (storedUserData.status === 'active') {
+        getDataUser();
+    }, [getDataUser]);
+
+    useEffect(() => {
+            if (userDataUser) {
+                if (userDataUser.status === 'active') {
                     Swal.fire('Este usuario ya fue activado');
                     router.push('/profile');
                 }
-            }
         }
-    }, [router]);
+    }, [userDataUser]);
+    console.log(userDataUser)
 
     const handleClick = async () => {
-        if (!newUser) return;
+        if (!userDataUser) return;
+        // getDataUser();
 
-        const response = await fetch(`http://localhost:3000/users/${newUser.id}`, {
+        const response = await fetch(`http://localhost:3000/users/${userDataUser.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,11 +36,9 @@ const Activate = () => {
 
         const res = await response.json();
         if (res) {
-            localStorage.setItem('DataUser', JSON.stringify(res));
-            if (res.status === 'active') {
-                alert('Usuario activado con éxito');
-                router.push('/profile');
-            }
+            getDataUser();
+            Swal.fire('Cuenta activada', 'Ya puedes usar todas las funcionalidades', 'success');
+            router.push('/products');
         }
     };
 

@@ -70,7 +70,7 @@ export async function sendEmailWhenUserIsCreated(user: User): Promise<void> {
           <h2 style="color: #FFA500;">¡Gracias por registrarte, <span style="color: #FFD700;">${user.name}</span>!</h2>
           <p>Estamos emocionados de tenerte con nosotros. Nuestra empresa se dedica a ofrecer paneles solares y robots de alta calidad para la venta de los mismos.</p>
           <p>Para completar tu registro, por favor haz clic en el siguiente botón:</p>
-          <a href="https://pf-inti-tech.vercel.app/profile/activate" style="text-decoration: none;">
+          <a href="http://localhost:3001/profile/activate" style="text-decoration: none;">
             <button style="background: linear-gradient(90deg, #FFD700, #FFA500); color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
               Activa tu cuenta
             </button>

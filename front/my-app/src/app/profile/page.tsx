@@ -1,12 +1,12 @@
 'use client';
 
-import { DataUser } from "@/interfaces/interfaces";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { DataStore } from "@/store/dataStore";
+import { useRouter } from "next/navigation";
 
 const Profile = () => {
-    const [userData, setUserData] = useState<DataUser | null>(null);
-    const [newUser, setNewUser] = useState<DataUser | null>(null);
+    const { userDataUser, getDataUser } = DataStore();
     const [inputs, setInputs] = useState({
         name: '',
         email: '',
@@ -14,13 +14,35 @@ const Profile = () => {
         phone: '',
     });
     const [password, setPassword] = useState('');
-
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const router = useRouter();
+
+    useEffect(() => {
+        getDataUser();
+    }, [getDataUser]);
+
+    useEffect(() => {
+        if (userDataUser) {
+            setInputs({
+                name: userDataUser.name || '',
+                email: userDataUser.email || '',
+                address: userDataUser.address || '',
+                phone: userDataUser.phone || '',
+            });
+
+
+        }
+    }, [userDataUser]);
+
+    useEffect(() => {
+        if (userDataUser.status === 'pending') {
+            Swal.fire('Estado de la cuenta', 'Debes activar tu cuenta, revisa tu correo', 'info');
+        }
+    }, [])
 
     const handle_FileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files ? e.target.files[0] : null;
         setSelectedFile(file);
-        console.log(file);
     };
 
     const handleFileChange = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,15 +52,13 @@ const Profile = () => {
             formData.append('file', selectedFile);
         }
         try {
-            const res = await fetch(`http://localhost:3000/files/uploadUserImage/${userData?.id}`, {
+            const res = await fetch(`http://localhost:3000/files/uploadUserImage/${userDataUser.id}`, {
                 method: 'POST',
                 body: formData
             });
 
             if (res.ok) {
-                const responseData = await res.json();
-                localStorage.setItem('DataUser', JSON.stringify(responseData));
-                setNewUser(responseData);
+                getDataUser();
             } else {
                 console.log('Error:', res.statusText);
             }
@@ -46,31 +66,6 @@ const Profile = () => {
             console.error("Un error ocurrió:", error);
         }
     };
-
-    useEffect(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            const storedUserData: DataUser = JSON.parse(localStorage.getItem('DataUser')!);
-            setNewUser(storedUserData);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            const storedUserData: DataUser = JSON.parse(localStorage.getItem('DataUser')!);
-            setUserData(storedUserData);
-            setInputs({
-                name: storedUserData?.name || '',
-                email: storedUserData?.email || '',
-                address: storedUserData?.address || '',
-                phone: storedUserData?.phone || '',
-            });
-
-            // Verificar si el estado del usuario es pending y si el mensaje ya se mostró
-            if (storedUserData?.status === 'pending' && !localStorage.getItem('accountActivationAlertShown')) {
-                Swal.fire('Estado de la cuenta', 'Debes activar tu cuenta, revisa tu correo', 'info');
-            }
-        }
-    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -83,12 +78,22 @@ const Profile = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const updatedData = {
-            ...inputs,
-            password: password || undefined,
-        };
+        if (!inputs.name && !inputs.email && !inputs.address && !inputs.phone) {
+            Swal.fire('Error', 'Por favor, completa todos los campos', 'error');
+            return;
+        }
+        const updatedData: any = {};
+        for (const key in inputs) {
+            if (inputs[key as keyof typeof inputs]) {
+                updatedData[key] = inputs[key as keyof typeof inputs];
+            }
+        }
+
+        if (password) {
+            updatedData.password = password;
+        }
         try {
-            const res = await fetch(`http://localhost:3000/users/${userData?.id}`, {
+            const res = await fetch(`http://localhost:3000/users/${userDataUser.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,16 +102,9 @@ const Profile = () => {
             });
 
             if (res.ok) {
-                const updatedUser = await res.json();
-                console.log(updatedUser);
-                localStorage.setItem('DataUser', JSON.stringify(updatedUser));
-                setUserData(updatedUser);
-                setInputs({
-                    name: '',
-                    email: '',
-                    address: '',
-                    phone: '',
-                });
+                getDataUser();
+                Swal.fire('Actualización exitosa', 'Tu perfil ha sido actualizado', 'success');
+                setInputs({ name: '', email: '', address: '', phone: '' });
                 setPassword('');
             } else {
                 console.log('Error:', res.statusText);
@@ -123,7 +121,7 @@ const Profile = () => {
                     Cambiar foto de perfil
                 </h1>
                 <div className="flex flex-col p-5">
-                    <img src={newUser?.image} alt="imagen" className="flex mx-auto w-36 h-36 rounded-full" />
+                    <img src={userDataUser?.image} alt="imagen" className="flex mx-auto w-36 h-36 rounded-full" />
                     <label className="text-white text-lg pt-5">Cambiar imagen:</label>
                     <input
                         onChange={handle_FileChange}
@@ -132,7 +130,6 @@ const Profile = () => {
                     />
                 </div>
                 <button type="submit" className="mx-auto flex mt-14 w-fit h-fit px-4 py-3 rounded-xl bg-lightorangeinti text-white font-medium hover:scale-105 transition-all duration-300 ease-in-out">Guardar imagen</button>
-
             </form>
             <div className="border "></div>
             <form className="w-[700px]" onSubmit={handleSubmit}>
@@ -144,9 +141,10 @@ const Profile = () => {
                             <label className="text-white text-lg">Nombre :</label>
                             <input
                                 name="name"
+                                value={inputs.name}
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
-                                placeholder={userData?.name || "Nombre"}
+                                placeholder={userDataUser?.name || "Nombre"}
                                 type="text"
                             />
                         </div>
@@ -154,9 +152,10 @@ const Profile = () => {
                             <label className="text-white text-lg">Correo :</label>
                             <input
                                 name="email"
+                                value={inputs.email}
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
-                                placeholder={userData?.email || "Correo"}
+                                placeholder={userDataUser?.email || "Correo"}
                                 type="text"
                             />
                         </div>
@@ -164,7 +163,7 @@ const Profile = () => {
                             <label className="text-white text-lg">Contraseña :</label>
                             <input
                                 name="password"
-                                onChange={handleChange}
+                                onChange={handlePasswordChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
                                 placeholder="Contraseña"
                                 type="password"
@@ -174,9 +173,10 @@ const Profile = () => {
                             <label className="text-white text-lg">Dirección :</label>
                             <input
                                 name="address"
+                                value={inputs.address}
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
-                                placeholder={userData?.address || "Dirección"}
+                                placeholder={userDataUser?.address || "Dirección"}
                                 type="text"
                             />
                         </div>
@@ -184,9 +184,10 @@ const Profile = () => {
                             <label className="text-white text-lg">Teléfono :</label>
                             <input
                                 name="phone"
+                                value={inputs.phone}
                                 onChange={handleChange}
                                 className="h-9 text-white bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
-                                placeholder={userData?.phone || "Teléfono"}
+                                placeholder={userDataUser?.phone || "Teléfono"}
                                 type="text"
                             />
                         </div>

@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
+import { UserStore } from "@/store/userStore";
 
 export interface ID {
     id: number
@@ -10,6 +10,7 @@ export interface ID {
 
 
 const AuthSuccess = () => {
+    const { setToken } = UserStore((state) => state);
     const searchParams = useSearchParams();
     const router = useRouter();
 
@@ -18,25 +19,8 @@ const AuthSuccess = () => {
         console.log(token);
 
         if (token) {
-            localStorage.setItem("UserSession", JSON.stringify({ token }));
+            setToken(token);
             document.cookie = `userToken=${token}; path=/; secure; samesite=strict`;
-            const decoded : ID = jwtDecode(token);
-            const { id }: ID  = decoded;
-            console.log(id);
-
-            const dataUser = async () => {
-                try {
-                    const response = await fetch(`http://localhost:3000/users/${id}`, {
-                        method: 'GET',
-                    });
-                    const data = await response.json();
-                    localStorage.setItem('DataUser', JSON.stringify(data));
-                } catch (error) {
-                    console.error("Failed to fetch user data:", error);
-                }
-            };
-
-            dataUser();
         }
 
         router.push('/profile');

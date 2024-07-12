@@ -1,5 +1,4 @@
 'use client';
-import { Isession_active } from "@/interfaces/interfaces";
 import Link from "next/link";
 import { Transition } from '@headlessui/react';
 import React, { useEffect, useState, useRef } from "react";
@@ -7,11 +6,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import cartLogo from "../../../public/images/cart.png";
 import Cart from "../cart/cartMenu";
+import { UserStore } from "@/store/userStore";
 
 const Navbar = () => {
+  const token = UserStore((state) => state.token);
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [userSession, setUserSession] = useState<Isession_active>();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -19,17 +19,10 @@ const Navbar = () => {
     setIsCartOpen(!isCartOpen);
   };
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const user: Isession_active = JSON.parse(localStorage.getItem('UserSession')!);
-      setUserSession(user);
-    }
-  }, []);
 
   const handleLogout = () => {
     document.cookie = 'userToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; samesite=strict';
-    localStorage.removeItem('UserSession');
-    localStorage.removeItem('DataUser');
+    localStorage.removeItem('user');
     window.location.reload();
     router.push('/');
   };
@@ -58,7 +51,7 @@ const Navbar = () => {
 
   return (
     <div className="h-20 bg-gradient-to-bottom text-white fixed w-full top-0 z-50">
-      {userSession?.token ? (
+      {token !== "" ? (
         <div className="flex items-center justify-between h-full">
           <div className="h-full w-24 ml-8">
             <Image className="h-full" src="/images/logo.png" alt="logo" width={100} height={100} />
@@ -72,7 +65,7 @@ const Navbar = () => {
               </li>
             </ul>
           </nav>
-          {userSession.token && (
+          {token !== "" && (
             <div className="flex items-center">
               <div>
                 <button onClick={toggleCart} className="flex items-center mr-5">

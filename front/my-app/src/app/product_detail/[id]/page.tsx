@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ring2 } from 'ldrs'
+import { DataStore } from "@/store/dataStore";
+
 
 interface Idetail_props {
   params: {
@@ -17,29 +19,13 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   const router = useRouter();
   const [data_product, setData_product] = useState<Iproducts_props | any>(null);
   const [productID, setProductID] = useState<string>("");
-  const [cartID, setCartID] = useState<string | null>(null);
-  const [data, setData ] = useState<any>(null);
-
+  const userData = DataStore((state) => state.userDataUser);
+  const getDataUser = DataStore((state) => state.getDataUser);
 
   useEffect(() => {
-    try {
-      const dataUser = localStorage.getItem("DataUser");
-      if (!dataUser) {
-        throw new Error("DataUser not found in localStorage");
-      }
+    getDataUser();
+  }, [getDataUser]);
 
-      const dataCartID = JSON.parse(dataUser);
-      setData(dataCartID);
-      if (!dataCartID || !dataCartID.cart || !dataCartID.cart.id) {
-        throw new Error("Invalid data structure in DataUser");
-      }
-
-      setCartID(dataCartID.cart.id);
-
-    } catch (error) {
-      console.error("Failed to load cart ID:", error);
-    }
-  }, []);
 
   useEffect(() => {
     const get_product_by_id = async () => {
@@ -56,13 +42,13 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   }, [params.id]);
 
   const handleAddToCart = async () => {
-    if(data.status === "pending") {
+    if(userData.status === "pending") {
       alert("Debes activar tu cuenta para agregar items al carrito");
       router.push("/profile");
       return;
     }
     
-    if (!cartID || !productID) {
+    if (!productID) {
       alert("Debes iniciar sesion para agregar items al carrito");
       router.push("/login");
       return;
@@ -70,7 +56,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
 
 
     try {
-      const response = await fetch(`http://localhost:3000/cart/add/${cartID}`, {
+      const response = await fetch(`http://localhost:3000/cart/add/${userData.cart?.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
