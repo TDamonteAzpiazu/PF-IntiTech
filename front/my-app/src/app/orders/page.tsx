@@ -1,6 +1,9 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
+
+'use client';
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { DataStore } from "@/store/dataStore";
+
 interface Item {
   id: string
   totalPrice: number
@@ -21,32 +24,30 @@ interface ResponseData {
 }
 
 const Orders: React.FC = () => {
-  const [orders, setOrders] = useState<ResponseData[]>([])
-  const [dataUser, setDataUser] = useState<any | null>(null)
+
+  const userData = DataStore((state) => state.userDataUser);
+  const getDataUser = DataStore((state) => state.getDataUser);
+  const [orders, setOrders] = useState<ResponseData[]>([]);
 
   useEffect(() => {
-    const storage = localStorage.getItem('DataUser')
-    if (storage) {
-      setDataUser(JSON.parse(storage))
-    }
-  }, [])
+    getDataUser();
+  }, [getDataUser]);
 
-  console.log(dataUser)
+  console.log(userData);
 
   useEffect(() => {
-    if (dataUser) {
+    if (userData) {
       const getOrders = async () => {
         console.log('llego hasta aqui')
         try {
-          const res = await fetch(
-            `https://pf-intitech.onrender.com/cart/getAllRecords/${dataUser.id}`,
-            {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-          )
+
+          const res = await fetch(`https://pf-intitech.onrender.com/cart/getAllRecords/${userData.id}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+
           if (!res.ok) {
             throw new Error('Network response was not ok')
           }
@@ -59,7 +60,8 @@ const Orders: React.FC = () => {
       }
       getOrders()
     }
-  }, [dataUser])
+
+  }, [userData]);
 
   return (
     <div className="mb-10 mt-32 px-4">

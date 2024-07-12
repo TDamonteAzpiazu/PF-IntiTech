@@ -1,67 +1,42 @@
-import React, { useState, useEffect } from 'react'
-import trash from '../../../public/images/trash.png'
-import axios from 'axios'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import React, { useState, useEffect } from 'react';
+import trash from '../../../public/images/trash.png';
+import axios from 'axios';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
+import { DataStore } from "@/store/dataStore";
+import { Icart } from '@/interfaces/interfaces';
 
 type CartProps = {
   isOpen: boolean
   toggleCart: () => void
 }
 
-export interface Icart {
-  id: string
-  totalPrice: number
-  panel_id: string
-  quantity: number
-  panel_image: string
-  panel_model: string
-}
-
 const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
-  const [cartId, setCartId] = useState<string | null>(null)
-  const [items, setItems] = useState<Icart[]>([])
-  const [preferenceId, setPreferenceId] = useState<string | null>(null)
-  const [data, setData] = useState<any>(null)
-  const router = useRouter()
+  const [items, setItems] = useState<Icart[]>([]);
+  const [preferenceId, setPreferenceId] = useState<string | null>(null);
+  const router = useRouter();
+  const userData = DataStore((state) => state.userDataUser);
+  const getDataUser = DataStore((state) => state.getDataUser);
 
   useEffect(() => {
-    initMercadoPago('TEST-fa93dbfd-43ff-4ad0-b01f-9fbd39faeafc', {
-      locale: 'es-AR',
-    })
-  }, [])
+    getDataUser();
+  }, [getDataUser]);
 
   useEffect(() => {
-    try {
-      const dataUser = localStorage.getItem('DataUser')
-      if (!dataUser) {
-        throw new Error('DataUser not found in localStorage')
-      }
-      const dataCartID = JSON.parse(dataUser)
-      setData(dataCartID)
-      if (!dataCartID || !dataCartID.cart || !dataCartID.cart.id) {
-        throw new Error('Invalid data structure in DataUser')
-      }
-
-      setCartId(dataCartID.cart.id)
-    } catch (error) {
-      console.error('Failed to load cart ID:', error)
-    }
-  }, [router])
+    initMercadoPago('TEST-fa93dbfd-43ff-4ad0-b01f-9fbd39faeafc', { locale: 'es-AR' });
+  }, []);
 
   useEffect(() => {
     const getCartItems = async () => {
       try {
-        const res = await fetch(
-          `https://pf-intitech.onrender.com/cart/getItems/${cartId}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
+        const res = await fetch(`https://pf-intitech.onrender.com/cart/getItems/${userData.cart?.id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
         if (!res.ok) {
           throw new Error('Failed to fetch cart items')
         }
@@ -71,11 +46,11 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
         console.log(error)
       }
     }
-
-    if (cartId) {
-      getCartItems()
+    if (userData.cart?.id) {
+      getCartItems();
     }
-  }, [cartId])
+  }, [userData.cart?.id]);
+
 
   const deleteItemFromCart = async (itemId: string) => {
     try {
@@ -89,10 +64,8 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
 
   const deleteAllItemsFromCart = async () => {
     try {
-      await axios.delete(
-        `https://pf-intitech.onrender.com/cart/clearCart/${cartId}`
-      )
-      setItems([]) // Vacía el carrito en el estado
+      await axios.delete(`https://pf-intitech.onrender.com/cart/clearCart/${userData.cart?.id}`);
+      setItems([]); // Vacía el carrito en el estado
     } catch (error) {
       console.error('Error deleting all items from cart:', error)
       throw error
@@ -161,7 +134,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
             id: item.id,
             title: item.panel_model,
             quantity: item.quantity,
-            unit_price: item.totalPrice / item.quantity, // Calcula el precio unitario
+            unit_price: item.totalPrice / item.quantity,
           })),
         }),
       })
@@ -176,17 +149,14 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
       console.error('Error creating preference:', error.message)
       throw error
     }
-  }
-  console.log(data)
+  };
   const handleClick = async () => {
     try {
-      if (data.status === 'pending') {
-        alert(
-          'Debes activar tu cuenta para ver el carrito de compras, revisa tu correo para activarla'
-        )
-        toggleCart()
-        router.push('/profile')
-        return
+      if(userData.status === "pending"){
+        alert('Debes activar tu cuenta para ver el carrito de compras, revisa tu correo para activarla');
+        toggleCart();
+        router.push('/profile');
+        return;
       }
       const preference = await createPreference()
       setPreferenceId(preference.preferenceId)

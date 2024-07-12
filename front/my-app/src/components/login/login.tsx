@@ -1,39 +1,39 @@
-'use client'
-import { jwtDecode } from 'jwt-decode'
-import React, { useEffect, useState } from 'react'
-import styles from './style.module.css'
-import {
-  validateLoginForm,
-  validateRegisterForm,
-} from '@/helpers/formValidation'
-import {
-  LoginErrorProps,
-  RegisterErrorProps,
-  Isession_active,
-} from '@/interfaces/interfaces'
-import { login_auth, register_auth } from '@/helpers/auth.login'
-import { useRouter } from 'next/navigation'
-import logo from '@/../../public/images/logo.png'
-import Image from 'next/image'
-import GoogleLoginButton from '../botonesGoogle/login'
-import GoogleRegisterButton from '../botonesGoogle/register'
-import Swal from 'sweetalert2'
+"use client"
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from 'react';
+import styles from './style.module.css';
+import { validateLoginForm, validateRegisterForm } from '@/helpers/formValidation';
+import { LoginErrorProps, RegisterErrorProps, Isession_active } from '@/interfaces/interfaces';
+import { login_auth, register_auth } from '@/helpers/auth.login';
+import { useRouter } from 'next/navigation';
+import logo from '../../../public/images/logo.png'
+import Image from 'next/image';
+import GoogleLoginButton from "../botonesGoogle/login";
+import GoogleRegisterButton from "../botonesGoogle/register";
+import Swal from "sweetalert2";
+import { UserStore } from "@/store/userStore"
+
 
 const AuthForm = () => {
-  const router = useRouter()
-  const [active, setActive] = useState(false)
-  const [userData, setUserData] = useState<Isession_active>()
+  const router = useRouter();
+  const [active, setActive] = useState(false);
+  const { setToken } = UserStore((state) => state)
+  const token = UserStore((state) => state.token)
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const userData: Isession_active = JSON.parse(
-        localStorage.getItem('UserSession')!
-      )
-      setUserData(userData)
-      userData?.token && alert('You are already logged in')
-      userData?.token && router.push('/')
+    if (token !== "") {
+      const timer = setTimeout(() => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ya estás logueado',
+        });
+        router.push('/');
+      }, 1500);
+
+      return () => clearTimeout(timer); // Limpiar el temporizador si el componente se desmonta
     }
-  }, [])
+  }, [token, router]);
 
   //* Logica del registro
 
@@ -117,30 +117,17 @@ const AuthForm = () => {
   ) => {
     event.preventDefault()
     try {
-      const res = await login_auth(dataLogin)
-      const { token, user } = await res
-      const decoded = jwtDecode(token)
-      const { id }: any = decoded
-      const dataUser1 = await fetch(
-        `https://pf-intitech.onrender.com/users/${id}`,
-        {
-          method: 'GET',
-        }
-      )
-      const dataUser = await dataUser1.json()
-      localStorage.setItem('DataUser', JSON.stringify(dataUser))
-      document.cookie = `userToken=${token}`
-      localStorage.setItem(
-        'UserSession',
-        JSON.stringify({ token, userData: user })
-      )
+      const res = await login_auth(dataLogin);
+      const { token } = await res;
+      setToken(token)
+      document.cookie = `userToken=${token}`;
       Swal.fire({
         icon: 'success',
         title: 'Inicio de sesion exitoso',
         showConfirmButton: false,
         timer: 2000,
       })
-      router.push('/')
+      router.push('/prueba')
     } catch (error) {
       console.log(error)
     }

@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { ring2 } from 'ldrs'
+import { DataStore } from "@/store/dataStore";
+
 
 interface Idetail_props {
   params: {
@@ -13,31 +15,16 @@ interface Idetail_props {
 }
 
 const Product_detail: React.FC<Idetail_props> = ({ params }) => {
-  ring2.register()
-  const router = useRouter()
-  const [data_product, setData_product] = useState<Iproducts_props | any>(null)
-  const [productID, setProductID] = useState<string>('')
-  const [cartID, setCartID] = useState<string | null>(null)
-  const [data, setData] = useState<any>(null)
+  ring2.register();
+  const router = useRouter();
+  const [data_product, setData_product] = useState<Iproducts_props | any>(null);
+  const [productID, setProductID] = useState<string>("");
+  const userData = DataStore((state) => state.userDataUser);
+  const getDataUser = DataStore((state) => state.getDataUser);
 
   useEffect(() => {
-    try {
-      const dataUser = localStorage.getItem('DataUser')
-      if (!dataUser) {
-        throw new Error('DataUser not found in localStorage')
-      }
-
-      const dataCartID = JSON.parse(dataUser)
-      setData(dataCartID)
-      if (!dataCartID || !dataCartID.cart || !dataCartID.cart.id) {
-        throw new Error('Invalid data structure in DataUser')
-      }
-
-      setCartID(dataCartID.cart.id)
-    } catch (error) {
-      console.error('Failed to load cart ID:', error)
-    }
-  }, [])
+    getDataUser();
+  }, [getDataUser]);
 
   useEffect(() => {
     const get_product_by_id = async () => {
@@ -54,32 +41,29 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   }, [params.id])
 
   const handleAddToCart = async () => {
-    if (data.status === 'pending') {
-      alert('Debes activar tu cuenta para agregar items al carrito')
-      router.push('/profile')
-      return
+    if(userData.status === "pending") {
+      alert("Debes activar tu cuenta para agregar items al carrito");
+      router.push("/profile");
+      return;
     }
-
-    if (!cartID || !productID) {
-      alert('Debes iniciar sesion para agregar items al carrito')
-      router.push('/login')
-      return
+    
+    if (!productID) {
+      alert("Debes iniciar sesion para agregar items al carrito");
+      router.push("/login");
+      return;
     }
 
     try {
-      const response = await fetch(
-        `https://pf-intitech.onrender.com/cart/add/${cartID}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            panel_id: productID,
-            quantity: 1,
-          }),
-        }
-      )
+      const response = await fetch(`https://pf-intitech.onrender.com/cart/add/${userData.cart?.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          panel_id: productID,
+          quantity: 1,
+        }),
+      });
 
       if (!response.ok) {
         alert('Debes iniciar sesión para agregar items al carrito')

@@ -51,36 +51,26 @@ export interface DataUser {
   status?: string;
 }
 
-export interface Iproducts_props{
-    id?: string,
-    brand: string,
-    model: string,
-    price: 350,
-    stock: 50,
-    description: string,
-    size?: string,
-    dailyGeneration:string,
-    image: string
+export interface Iproducts_props {
+  id?: string,
+  brand: string,
+  model: string,
+  price: 350,
+  stock: 50,
+  description: string,
+  size?: string,
+  dailyGeneration: string,
+  image: string
 }
-//CONTEXTO
-export interface Icontext_provider {
-  children: React.ReactElement;
-}
-export interface Icontext_props {
-  user_data: Isession_active | null;
-  setUser_data: (user_data: Isession_active | null) => void;
-}
-
-export interface IAuthContext {
-  token: string;
-  setToken: (token: string) => void;
-  logout: () => void;
-  userData: Isession_active | null;
-  setUserData: (userData: Isession_active) => void;
-
+//CARRITO 
+export interface Icart {
+  id: string;
+  totalPrice: number;
+  panel_id: string;
+  quantity: number;
+  panel_image: string;
+  panel_model: string;
 }
 
-export interface IAuthProviderProps{
-  children: React.ReactNode
-}
+
 

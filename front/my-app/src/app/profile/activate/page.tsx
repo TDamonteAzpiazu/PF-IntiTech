@@ -1,58 +1,46 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Swal from 'sweetalert2'
-export interface User {
-  id: string
-  name: string
-  email: string
-  password: string
-  address: string
-  phone: string
-  image?: string
-  status?: 'active' | 'inactive' | 'pending'
-}
+'use client';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import { DataStore } from "@/store/dataStore";
 
 const Activate = () => {
-  const [newUser, setNewUser] = useState<User | null>(null)
-  const router = useRouter()
+    const { userDataUser, getDataUser } = DataStore();
+    const router = useRouter();
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const storedUserData: User = JSON.parse(localStorage.getItem('DataUser')!)
-      if (storedUserData) {
-        setNewUser(storedUserData)
-        if (storedUserData.status === 'active') {
-          Swal.fire('Este usuario ya fue activado')
-          router.push('/profile')
+    useEffect(() => {
+        getDataUser();
+    }, [getDataUser]);
+
+    useEffect(() => {
+            if (userDataUser) {
+                if (userDataUser.status === 'active') {
+                    Swal.fire('Este usuario ya fue activado');
+                    router.push('/profile');
+                }
         }
-      }
-    }
-  }, [router])
+    }, [userDataUser]);
+    console.log(userDataUser)
 
-  const handleClick = async () => {
-    if (!newUser) return
+    const handleClick = async () => {
+        if (!userDataUser) return;
+        // getDataUser();
 
-    const response = await fetch(
-      `https://pf-intitech.onrender.com/users/${newUser.id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status: 'active' }),
-      }
-    )
+        const response = await fetch(`https://pf-intitech.onrender.com/users/${userDataUser.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: "active" }),
+        });
 
-    const res = await response.json()
-    if (res) {
-      localStorage.setItem('DataUser', JSON.stringify(res))
-      if (res.status === 'active') {
-        alert('Usuario activado con éxito')
-        router.push('/profile')
-      }
-    }
-  }
+        const res = await response.json();
+        if (res) {
+            getDataUser();
+            Swal.fire('Cuenta activada', 'Ya puedes usar todas las funcionalidades', 'success');
+            router.push('/products');
+        }
+    };
 
   return (
     <div className="bg-black h-screen flex justify-center items-center">
