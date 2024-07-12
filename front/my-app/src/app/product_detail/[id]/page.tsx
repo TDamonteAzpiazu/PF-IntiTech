@@ -1,98 +1,98 @@
-"use client";
-import { product_by_id } from "@/helpers/products.helper";
-import { Iproducts_props } from "@/interfaces/interfaces";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+'use client'
+import { product_by_id } from '@/helpers/products.helper'
+import { Iproducts_props } from '@/interfaces/interfaces'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { ring2 } from 'ldrs'
 
 interface Idetail_props {
   params: {
-    id: string;
-  };
+    id: string
+  }
 }
 
 const Product_detail: React.FC<Idetail_props> = ({ params }) => {
-  ring2.register();
-  const router = useRouter();
-  const [data_product, setData_product] = useState<Iproducts_props | any>(null);
-  const [productID, setProductID] = useState<string>("");
-  const [cartID, setCartID] = useState<string | null>(null);
-  const [data, setData ] = useState<any>(null);
-
+  ring2.register()
+  const router = useRouter()
+  const [data_product, setData_product] = useState<Iproducts_props | any>(null)
+  const [productID, setProductID] = useState<string>('')
+  const [cartID, setCartID] = useState<string | null>(null)
+  const [data, setData] = useState<any>(null)
 
   useEffect(() => {
     try {
-      const dataUser = localStorage.getItem("DataUser");
+      const dataUser = localStorage.getItem('DataUser')
       if (!dataUser) {
-        throw new Error("DataUser not found in localStorage");
+        throw new Error('DataUser not found in localStorage')
       }
 
-      const dataCartID = JSON.parse(dataUser);
-      setData(dataCartID);
+      const dataCartID = JSON.parse(dataUser)
+      setData(dataCartID)
       if (!dataCartID || !dataCartID.cart || !dataCartID.cart.id) {
-        throw new Error("Invalid data structure in DataUser");
+        throw new Error('Invalid data structure in DataUser')
       }
 
-      setCartID(dataCartID.cart.id);
-
+      setCartID(dataCartID.cart.id)
     } catch (error) {
-      console.error("Failed to load cart ID:", error);
+      console.error('Failed to load cart ID:', error)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     const get_product_by_id = async () => {
       try {
-        const product = await product_by_id(params.id);
-        setData_product(product);
-        setProductID(product.id!);
-        console.log(product);
+        const product = await product_by_id(params.id)
+        setData_product(product)
+        setProductID(product.id!)
+        console.log(product)
       } catch (error) {
-        console.error("Error en product_detail", error);
+        console.error('Error en product_detail', error)
       }
-    };
-    get_product_by_id();
-  }, [params.id]);
+    }
+    get_product_by_id()
+  }, [params.id])
 
   const handleAddToCart = async () => {
-    if(data.status === "pending") {
-      alert("Debes activar tu cuenta para agregar items al carrito");
-      router.push("/profile");
-      return;
-    }
-    
-    if (!cartID || !productID) {
-      alert("Debes iniciar sesion para agregar items al carrito");
-      router.push("/login");
-      return;
+    if (data.status === 'pending') {
+      alert('Debes activar tu cuenta para agregar items al carrito')
+      router.push('/profile')
+      return
     }
 
+    if (!cartID || !productID) {
+      alert('Debes iniciar sesion para agregar items al carrito')
+      router.push('/login')
+      return
+    }
 
     try {
-      const response = await fetch(`http://localhost:3000/cart/add/${cartID}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          panel_id: productID,
-          quantity: 1,
-        }),
-      });
+      const response = await fetch(
+        `https://pf-intitech.onrender.com/cart/add/${cartID}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            panel_id: productID,
+            quantity: 1,
+          }),
+        }
+      )
 
       if (!response.ok) {
-        alert("Debes iniciar sesión para agregar items al carrito");
-        return;
+        alert('Debes iniciar sesión para agregar items al carrito')
+        return
       }
 
-      const data = await response.json();
-      console.log(data);
-      window.location.reload();
+      const data = await response.json()
+      console.log(data)
+      window.location.reload()
     } catch (error) {
-      console.error("Error adding to cart:", error);
+      console.error('Error adding to cart:', error)
     }
-  };
+  }
 
   if (!data_product) {
     return (
@@ -106,7 +106,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
           color="black"
         ></l-ring-2>
       </div>
-    );
+    )
   }
 
   return (
@@ -158,6 +158,6 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
         </div>
       </div>
     </div>
-  );
-};
-export default Product_detail;
+  )
+}
+export default Product_detail
