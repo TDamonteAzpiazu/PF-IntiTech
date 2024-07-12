@@ -1,17 +1,17 @@
-"use client";
-import { product_by_id } from "@/helpers/products.helper";
-import { Iproducts_props } from "@/interfaces/interfaces";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+'use client'
+import { product_by_id } from '@/helpers/products.helper'
+import { Iproducts_props } from '@/interfaces/interfaces'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { ring2 } from 'ldrs'
 import { DataStore } from "@/store/dataStore";
 
 
 interface Idetail_props {
   params: {
-    id: string;
-  };
+    id: string
+  }
 }
 
 const Product_detail: React.FC<Idetail_props> = ({ params }) => {
@@ -26,20 +26,19 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
     getDataUser();
   }, [getDataUser]);
 
-
   useEffect(() => {
     const get_product_by_id = async () => {
       try {
-        const product = await product_by_id(params.id);
-        setData_product(product);
-        setProductID(product.id!);
-        console.log(product);
+        const product = await product_by_id(params.id)
+        setData_product(product)
+        setProductID(product.id!)
+        console.log(product)
       } catch (error) {
-        console.error("Error en product_detail", error);
+        console.error('Error en product_detail', error)
       }
-    };
-    get_product_by_id();
-  }, [params.id]);
+    }
+    get_product_by_id()
+  }, [params.id])
 
   const handleAddToCart = async () => {
     if(userData.status === "pending") {
@@ -54,9 +53,8 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
       return;
     }
 
-
     try {
-      const response = await fetch(`http://localhost:3000/cart/add/${userData.cart?.id}`, {
+      const response = await fetch(`https://pf-intitech.onrender.com/cart/add/${userData.cart?.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,17 +66,17 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
       });
 
       if (!response.ok) {
-        alert("Debes iniciar sesión para agregar items al carrito");
-        return;
+        alert('Debes iniciar sesión para agregar items al carrito')
+        return
       }
 
-      const data = await response.json();
-      console.log(data);
-      window.location.reload();
+      const data = await response.json()
+      console.log(data)
+      window.location.reload()
     } catch (error) {
-      console.error("Error adding to cart:", error);
+      console.error('Error adding to cart:', error)
     }
-  };
+  }
 
   if (!data_product) {
     return (
@@ -92,7 +90,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
           color="black"
         ></l-ring-2>
       </div>
-    );
+    )
   }
 
   return (
@@ -144,6 +142,6 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
         </div>
       </div>
     </div>
-  );
-};
-export default Product_detail;
+  )
+}
+export default Product_detail

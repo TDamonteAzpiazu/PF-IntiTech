@@ -26,7 +26,7 @@ const Activate = () => {
         if (!userDataUser) return;
         // getDataUser();
 
-        const response = await fetch(`http://localhost:3000/users/${userDataUser.id}`, {
+        const response = await fetch(`https://pf-intitech.onrender.com/users/${userDataUser.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,16 +42,16 @@ const Activate = () => {
         }
     };
 
-    return (
-        <div className="bg-black h-screen flex justify-center items-center">
-            <button 
-                onClick={handleClick}
-                className="h-fit text-white text-2xl font-medium py-3 px-6 border border-white rounded-xl hover:bg-yellowinti hover:text-black transition-all duration-500 ease-in-out"
-            >
-                Activa tu cuenta
-            </button>
-        </div>
-    );
-};
+  return (
+    <div className="bg-black h-screen flex justify-center items-center">
+      <button
+        onClick={handleClick}
+        className="h-fit text-white text-2xl font-medium py-3 px-6 border border-white rounded-xl hover:bg-yellowinti hover:text-black transition-all duration-500 ease-in-out"
+      >
+        Activa tu cuenta
+      </button>
+    </div>
+  )
+}
 
-export default Activate;
+export default Activate

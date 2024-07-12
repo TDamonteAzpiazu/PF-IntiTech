@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { DataStore } from "@/store/dataStore";
@@ -52,7 +51,7 @@ const Profile = () => {
             formData.append('file', selectedFile);
         }
         try {
-            const res = await fetch(`http://localhost:3000/files/uploadUserImage/${userDataUser.id}`, {
+            const res = await fetch(`https://pf-intitech.onrender.com/files/uploadUserImage/${userDataUser.id}`, {
                 method: 'POST',
                 body: formData
             });
@@ -79,7 +78,7 @@ const Profile = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!inputs.name && !inputs.email && !inputs.address && !inputs.phone) {
-            Swal.fire('Error', 'Por favor, completa todos los campos', 'error');
+            Swal.fire('Error', 'Por favor, completa los campos', 'error');
             return;
         }
         const updatedData: any = {};
@@ -93,7 +92,7 @@ const Profile = () => {
             updatedData.password = password;
         }
         try {
-            const res = await fetch(`http://localhost:3000/users/${userDataUser.id}`, {
+            const res = await fetch(`https://pf-intitech.onrender.com/users/${userDataUser.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -195,8 +194,8 @@ const Profile = () => {
                 </div>
                 <button type="submit" className="mx-auto flex mt-3 w-fit h-fit px-4 py-3 rounded-xl bg-lightorangeinti text-white font-medium hover:scale-105 transition-all duration-300 ease-in-out">Guardar cambios</button>
             </form>
-        </div>
-    );
-};
+    </div>
+  )
+}
 
-export default Profile;
+export default Profile

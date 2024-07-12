@@ -18,16 +18,15 @@ const PayOk = () => {
 
   const handleOnClick = async () => {
     try {
-      await axios.post(`http://localhost:3000/cart/createRecord/${userData.cart?.id}`);
+      await axios.post(`https://pf-intitech.onrender.com/cart/createRecord/${userData.cart?.id}`);
       console.log('ok');
       router.push('/orders');
     } catch (error) {
       console.log(error);
     }
-
   };
 
-  console.log(handleOnClick);
+  console.log(handleOnClick)
 
   return (
     <div className="bg-gradient-to-tl from-green-400 to-green-500 text-white h-screen flex flex-col items-center justify-center relative">
@@ -37,13 +36,12 @@ const PayOk = () => {
             <path fill="currentColor" d="M1179 72Q929 294 579 822l-115 179Q320 821 0 501l107-107l286 250q150-150 279-271.5T877.5 185T1009 74t77-59l21-14q4 0 11 2t26 19.5t35 49.5" />
           </svg>
         </div>
-        <div className='text-6xl'>Pago aceptado</div>
+        <div className="text-6xl">Pago aceptado</div>
       </div>
       <button
         onClick={handleOnClick}
         type="button"
         className="bg-white text-center w-80 rounded-2xl h-14 relative font-sans text-black text-xl font-semibold group"
-
       >
         <div className="bg-green-400 rounded-xl h-12 w-14 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[312px] z-10 duration-500">
           <svg width="25px" height="25px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
@@ -53,9 +51,8 @@ const PayOk = () => {
         </div>
         <p className="translate-x-2">Continue shopping</p>
       </button>
-
     </div>
-  );
-};
+  )
+}
 
-export default PayOk;
+export default PayOk
