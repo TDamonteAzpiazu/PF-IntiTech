@@ -12,10 +12,14 @@ export function validateLoginForm(values: Ilogin_props): LoginErrorProps {
     errors.email = "Inserte email valido";
   } else if (!emailRegex.test(values.email)) {
     errors.email = "Email invalido";
+  }else if (values.email.length > 50) {
+    errors.email = "Email demasiado largo";
   }
 
   if (!values.password) {
     errors.password = "Inserte contraseña";
+  }else if (values.password.length > 50) {
+    errors.password = "Contraseña demasiado larga";
   }
 
   return errors;
@@ -25,25 +29,43 @@ export function validateRegisterForm(values: Iregister_props): RegisterErrorProp
   let errors: RegisterErrorProps = {};
 
   if (!values.email) {
-    errors.email = "Email is required";
+    errors.email = "Email es requerido";
   } else if (!emailRegex.test(values.email)) {
-    errors.email = "Invalid email address";
-  } else if (!values.password) {
-    errors.password = "Password is required";
+    errors.email = "Email inválido";
+  } else if (values.email.length > 50) {
+    errors.email = "Email demasiado largo";
+  }
+  
+  if (!values.password) {
+    errors.password = "Contraseña es requerida";
   } else if (values.password.length < 8) {
-    errors.password = "Password must be at least 8 characters long";
-  } else if (!values.name) {
-    errors.name = "Name is required";
+    errors.password = "La contraseña debe tener al menos 8 caracteres";
+  } else if (values.password.length > 50) {
+    errors.password = "Contraseña demasiado larga";
+  }
+  
+  if (!values.name) {
+    errors.name = "Nombre es requerido";
   } else if (!nameRegex.test(values.name)) {
-    errors.name = "Name can only contain letters and spaces";
-  } else if (!values.address) {
-    errors.address = "Address is required";
+    errors.name = "El nombre solo puede contener letras y espacios";
+  } else if (values.name.length > 40) {
+    errors.name = "Nombre demasiado largo";
+  }
+  
+  if (!values.address) {
+    errors.address = "Dirección es requerida";
   } else if (!addressRegex.test(values.address)) {
-    errors.address = "Address can only contain letters, numbers, and spaces";
-  } else if (!values.phone) {
-    errors.phone = "Phone is required";
+    errors.address = "La dirección solo puede contener letras, números y espacios";
+  } else if (values.address.length > 200) {
+    errors.address = "Dirección demasiado larga";
+  }
+  
+  if (!values.phone) {
+    errors.phone = "Teléfono es requerido";
   } else if (!phoneRegex.test(values.phone)) {
-    errors.phone = "Phone must contain only numbers and may start with '+'";
+    errors.phone = "El teléfono solo debe contener números y puede comenzar con '+'";
+  } else if (values.phone.length > 15) {
+    errors.phone = "Teléfono demasiado largo";
   }
 
   return errors;

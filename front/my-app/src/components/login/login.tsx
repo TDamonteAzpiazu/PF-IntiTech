@@ -12,7 +12,6 @@ import GoogleRegisterButton from "../botonesGoogle/register";
 import Swal from "sweetalert2";
 import { UserStore } from "@/store/userStore"
 
-
 const AuthForm = () => {
   const router = useRouter();
   const [active, setActive] = useState(false);
@@ -51,6 +50,15 @@ const AuthForm = () => {
     address: '',
     phone: '',
   })
+
+  const [touchedRegister, setTouchedRegister] = useState({
+    name: false,
+    email: false,
+    password: false,
+    address: false,
+    phone: false,
+  })
+
   const toggleClass = () => {
     setActive(!active)
   }
@@ -58,13 +66,18 @@ const AuthForm = () => {
   const handleChangeRegister = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setdataRegister({ ...dataRegister, [name]: value })
-    const errors = validateRegisterForm(dataRegister)
+    const errors = validateRegisterForm({ ...dataRegister, [name]: value })  // Validar con el nuevo valor
     setErrorRegister(errors)
   }
 
-  const handleSubmitRegister = async (
-    event: React.ChangeEvent<HTMLFormElement>
-  ) => {
+  const handleBlurRegister = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = event.target;
+    setTouchedRegister({ ...touchedRegister, [name]: true });
+    const errors = validateRegisterForm(dataRegister);
+    setErrorRegister(errors);
+  }
+
+  const handleSubmitRegister = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
     const errors = validateRegisterForm(dataRegister)
     setErrorRegister(errors)
@@ -100,20 +113,32 @@ const AuthForm = () => {
     email: '',
     password: '',
   })
+
   const [error, setError] = useState<LoginErrorProps>({
     email: '',
     password: '',
   })
 
+  const [touchedLogin, setTouchedLogin] = useState({
+    email: false,
+    password: false,
+  })
+
   const handleChangeLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setDataLogin({ ...dataLogin, [name]: value })
-    const error = validateLoginForm(dataLogin)
+    const error = validateLoginForm({ ...dataLogin, [name]: value })  // Validar con el nuevo valor
     setError(error)
   }
-  const handleSubmitLogin = async (
-    event: React.ChangeEvent<HTMLFormElement>
-  ) => {
+
+  const handleBlurLogin = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = event.target;
+    setTouchedLogin({ ...touchedLogin, [name]: true });
+    const errors = validateLoginForm(dataLogin);
+    setError(errors);
+  }
+
+  const handleSubmitLogin = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
       const res = await login_auth(dataLogin);
@@ -122,7 +147,7 @@ const AuthForm = () => {
       document.cookie = `userToken=${token}`;
       Swal.fire({
         icon: 'success',
-        title: 'Inicio de sesion exitoso',
+        title: 'Inicio de sesión exitoso',
         showConfirmButton: false,
         timer: 2000,
       })
@@ -131,6 +156,7 @@ const AuthForm = () => {
       console.log(error)
     }
   }
+
   return (
     <div className={styles.padre}>
       <div
@@ -139,9 +165,9 @@ const AuthForm = () => {
       >
         <div className={`${styles['form-container']} ${styles['sign-up']}`}>
           <form onSubmit={handleSubmitRegister}>
-            <h1 className={styles.title}>Registrate</h1>
+            <h1 className={styles.title}>Regístrate</h1>
             <span className="mb-4">Ingresa tus datos para registrarte</span>
-            {errorRegister.email && (
+            {touchedRegister.email && errorRegister.email && (
               <q className={styles.error}>{errorRegister.email}</q>
             )}
             <input
@@ -149,10 +175,11 @@ const AuthForm = () => {
               name="email"
               value={dataRegister.email}
               onChange={handleChangeRegister}
+              onBlur={handleBlurRegister}
               type="email"
               placeholder="Email"
             />
-            {errorRegister.password && (
+            {touchedRegister.password && errorRegister.password && (
               <q className={styles.error}>{errorRegister.password}</q>
             )}
             <input
@@ -160,10 +187,11 @@ const AuthForm = () => {
               name="password"
               value={dataRegister.password}
               onChange={handleChangeRegister}
+              onBlur={handleBlurRegister}
               type="password"
               placeholder="Contraseña"
             />
-            {errorRegister.name && (
+            {touchedRegister.name && errorRegister.name && (
               <q className={styles.error}>{errorRegister.name}</q>
             )}
             <input
@@ -171,10 +199,11 @@ const AuthForm = () => {
               name="name"
               value={dataRegister.name}
               onChange={handleChangeRegister}
+              onBlur={handleBlurRegister}
               type="text"
               placeholder="Nombre"
             />
-            {errorRegister.address && (
+            {touchedRegister.address && errorRegister.address && (
               <q className={styles.error}>{errorRegister.address}</q>
             )}
             <input
@@ -182,10 +211,11 @@ const AuthForm = () => {
               name="address"
               value={dataRegister.address}
               onChange={handleChangeRegister}
+              onBlur={handleBlurRegister}
               type="text"
               placeholder="Dirección"
             />
-            {errorRegister.phone && (
+            {touchedRegister.phone && errorRegister.phone && (
               <q className={styles.error}>{errorRegister.phone}</q>
             )}
             <input
@@ -193,8 +223,9 @@ const AuthForm = () => {
               name="phone"
               value={dataRegister.phone}
               onChange={handleChangeRegister}
+              onBlur={handleBlurRegister}
               type="tel"
-              placeholder="Telefono"
+              placeholder="Teléfono"
             />
             <button className={styles.btnRegister} type="submit">
               Registrarse
@@ -206,31 +237,31 @@ const AuthForm = () => {
         </div>
         <div className={`${styles['form-container']} ${styles['sign-in']}`}>
           <form onSubmit={handleSubmitLogin}>
-            <h1 className={styles.title}>Iniciar Sesion</h1>
-            <span className="mb-4">
-              Ingresa tus credenciales para iniciar sesión
-            </span>
-            {error.email && <q className={styles.error}>{error.email}</q>}
+            <h1 className={styles.title}>Iniciar Sesión</h1>
+            <span className="mb-4">Ingresa tus credenciales para iniciar sesión</span>
+            {touchedLogin.email && error.email && <q className={styles.error}>{error.email}</q>}
             <input
               id="emailLogin"
               name="email"
               value={dataLogin.email}
               onChange={handleChangeLogin}
+              onBlur={handleBlurLogin}
               type="email"
               placeholder="Email"
             />
-            {error.password && <q className={styles.error}>{error.password}</q>}
+            {touchedLogin.password && error.password && <q className={styles.error}>{error.password}</q>}
             <input
               id="passwordLogin"
               name="password"
               value={dataLogin.password}
               onChange={handleChangeLogin}
+              onBlur={handleBlurLogin}
               type="password"
-              placeholder="Constraseña"
+              placeholder="Contraseña"
             />
-            <a href="#">Olvidaste tu contraseña?</a>
+            <a href="#">¿Olvidaste tu contraseña?</a>
             <button className={styles.btnLogin} type="submit">
-              Iniciar Sesion
+              Iniciar Sesión
             </button>
           </form>
           <div className="absolute bottom-20 translate-x-[100px]">
@@ -239,39 +270,20 @@ const AuthForm = () => {
         </div>
         <div className={styles['toggle-container']}>
           <div className={styles.toggle}>
-            <div
-              className={`${styles['toggle-panel']} ${styles['toggle-left']}`}
-            >
-              <Image
-                className={styles.logo}
-                src={logo}
-                alt="logo"
-                width={100}
-                height={100}
-              />
-              <h1 className={styles.welcome}>Bienvenido de nuevo!</h1>
-              <p>Ingresa con tus credenciales personales para continuar</p>
+            <div className={`${styles['toggle-panel']} ${styles['toggle-left']}`}>
+              <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
+              <h1 className={styles.welcome}>¡Bienvenido de nuevo!</h1>
+              <p>Ingresa tus datos personales para iniciar sesión</p>
               <button className={styles.btnToggle} onClick={toggleClass}>
-                Iniciar Sesion
+                Iniciar Sesión
               </button>
             </div>
-            <div
-              className={`${styles['toggle-panel']} ${styles['toggle-right']}`}
-            >
-              <Image
-                className={styles.logo}
-                src={logo}
-                alt="logo"
-                width={100}
-                height={100}
-              />
-              <h1 className={styles.welcome}>Hola, Bienvenid@!</h1>
-              <p>Registrate con tus datos para comenzar a usar la plataforma</p>
-              <button
-                className={`${styles.btnToggle} ${styles.botonExtra} `}
-                onClick={toggleClass}
-              >
-                Registrarme
+            <div className={`${styles['toggle-panel']} ${styles['toggle-right']}`}>
+              <Image className={styles.logo} src={logo} alt="logo" width={100} height={100} />
+              <h1 className={styles.welcome}>¡Hola, Bienvenid@!</h1>
+              <p>Regístrate con tus datos personales para comenzar</p>
+              <button className={`${styles.btnToggle} ${styles.botonExtra} `} onClick={toggleClass}>
+                Registrarse
               </button>
             </div>
           </div>
@@ -281,4 +293,4 @@ const AuthForm = () => {
   )
 }
 
-export default AuthForm
+export default AuthForm;
