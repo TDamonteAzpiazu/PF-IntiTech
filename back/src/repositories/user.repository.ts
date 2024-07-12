@@ -119,4 +119,14 @@ export class UserRepository implements OnModuleInit {
     return await this.userRepository.findOneBy({ email });
   }
 
+  async banUser(userId: string): Promise<string> {
+    await this.userRepository.update(userId, { status: 'inactive' });
+    return "user banned"
+  }
+  
+  async unbanUser(userId: string): Promise<string> {
+    await this.userRepository.update(userId, { status: 'active' });
+    return "User unbanned"
+  }
+
 }
