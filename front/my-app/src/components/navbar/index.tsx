@@ -1,12 +1,15 @@
 'use client';
-import Link from "next/link";
+import { Icart } from "@/interfaces/interfaces";
+import { DataStore } from "@/store/dataStore";
+import { UserStore } from "@/store/userStore";
 import { Transition } from '@headlessui/react';
-import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import cartLogo from "../../../public/images/cart.png";
 import Cart from "../cart/cartMenu";
-import { UserStore } from "@/store/userStore";
+import { get } from "http";
 
 const Navbar = () => {
   const token = UserStore((state) => state.token);
@@ -14,6 +17,8 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const userData = DataStore((state) => state.userDataUser);
+  const [items, setItems] = useState<Icart[]>([]);
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
@@ -36,6 +41,31 @@ const Navbar = () => {
       setOpen(false);
     }
   };
+  
+  const getCartItems = async () => {
+      try {
+          const res = await fetch(`https://pf-intitech.onrender.com/cart/getItems/${userData.cart?.id}`, {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+          });
+
+          if (!res.ok) {
+              throw new Error("Failed to fetch cart items");
+          }
+          const data = await res.json();
+          setItems(data);
+          console.log(data);
+      } catch (error: any) {
+          console.log(error);
+      }
+  };
+
+  useEffect(() => {
+      getCartItems();
+      console.log(items.length, "1️⃣");
+  }, [userData.cart?.id, items.length, isCartOpen]);
 
   useEffect(() => {
     if (open) {
@@ -43,7 +73,7 @@ const Navbar = () => {
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
     }
-
+    
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -71,7 +101,7 @@ const Navbar = () => {
                 <button onClick={toggleCart} className="flex items-center mr-5">
                   <Image src={cartLogo} alt="cart" width={30} height={30} />
                 </button>
-                <Cart isOpen={isCartOpen} toggleCart={toggleCart} />
+                <Cart isOpen={isCartOpen} toggleCart={toggleCart} items={items} setItems={setItems}/>
               </div>
               <div ref={dropdownRef} className="relative">
                 <button className="flex items-center mr-5" onClick={handleClick}>
