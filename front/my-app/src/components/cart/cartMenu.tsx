@@ -18,7 +18,6 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   const router = useRouter();
   const userData = DataStore((state) => state.userDataUser);
   const getDataUser = DataStore((state) => state.getDataUser);
-
   useEffect(() => {
     getDataUser();
   }, [getDataUser]);
@@ -42,16 +41,19 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
         }
         const data = await res.json()
         setItems(data)
+        console.log(data)
       } catch (error: any) {
         console.log(error)
       }
     }
-    if (userData.cart?.id) {
+    if (userData.cart?.id && items.length === 0) {
       getCartItems();
     }
-  }, [userData.cart?.id]);
+  }, [userData.cart?.id, items]);
 
 
+  
+  
   const deleteItemFromCart = async (itemId: string) => {
     try {
       await axios.delete(`https://pf-intitech.onrender.com/cart/${itemId}`)
@@ -65,7 +67,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
   const deleteAllItemsFromCart = async () => {
     try {
       await axios.delete(`https://pf-intitech.onrender.com/cart/clearCart/${userData.cart?.id}`);
-      setItems([]); // Vacía el carrito en el estado
+      setItems([]);
     } catch (error) {
       console.error('Error deleting all items from cart:', error)
       throw error

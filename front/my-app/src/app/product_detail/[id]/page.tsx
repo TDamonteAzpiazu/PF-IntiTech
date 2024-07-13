@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { ring2 } from 'ldrs'
 import { DataStore } from "@/store/dataStore";
+import { ProductStore } from '@/store/productsStore'
 
 
 interface Idetail_props {
@@ -17,28 +18,19 @@ interface Idetail_props {
 const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   ring2.register();
   const router = useRouter();
-  const [data_product, setData_product] = useState<Iproducts_props | any>(null);
-  const [productID, setProductID] = useState<string>("");
   const userData = DataStore((state) => state.userDataUser);
   const getDataUser = DataStore((state) => state.getDataUser);
+  const setProductDetails = ProductStore((state) => state.setProductDetails);
+  const data_product = ProductStore((state) => state.productDetails);
 
   useEffect(() => {
     getDataUser();
   }, [getDataUser]);
 
   useEffect(() => {
-    const get_product_by_id = async () => {
-      try {
-        const product = await product_by_id(params.id)
-        setData_product(product)
-        setProductID(product.id!)
-        console.log(product)
-      } catch (error) {
-        console.error('Error en product_detail', error)
-      }
-    }
-    get_product_by_id()
-  }, [params.id])
+    setProductDetails(params.id);
+
+  }, [params.id, setProductDetails]);
 
   const handleAddToCart = async () => {
     if(userData.status === "pending") {
@@ -47,7 +39,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
       return;
     }
     
-    if (!productID) {
+    if (!data_product?.id) {
       alert("Debes iniciar sesion para agregar items al carrito");
       router.push("/login");
       return;
@@ -60,7 +52,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          panel_id: productID,
+          panel_id: data_product?.id,
           quantity: 1,
         }),
       });
@@ -72,7 +64,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
 
       const data = await response.json()
       console.log(data)
-      window.location.reload()
+      // router.push('/prueba')
     } catch (error) {
       console.error('Error adding to cart:', error)
     }
