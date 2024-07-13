@@ -7,6 +7,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Put,
   Query,
 } from '@nestjs/common';
@@ -59,5 +60,15 @@ export class UserController {
   @DeleteUserSwagger()
   async deleteUser(@Param('id', ParseUUIDPipe) id: string): Promise<string> {
     return await this.userService.deleteUser(id);
+  }
+
+  @Patch('ban/:id')
+  async banUser(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    await this.userService.banUser(id);
+  }
+  
+  @Patch('unban/:id')
+  async unbanUser(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    await this.userService.unbanUser(id);
   }
 }

@@ -36,7 +36,8 @@ export class OperatingPanelsController {
     
     try {
       const data = await this.operatingPanelsService.readExcel(file.buffer);
-
+      console.log(data);
+      
       const stats = await this.operatingPanelsService.extractDataByInversor(data, inversorName);
 
       return { message: 'File processed successfully', stats };

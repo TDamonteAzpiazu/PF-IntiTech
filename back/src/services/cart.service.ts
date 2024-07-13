@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AllRecordDto } from 'src/dto/allRecords.dto';
 import { CartItemDto } from 'src/dto/cartitem.dto';
 import { CartItem } from 'src/entities/cartItem.entity';
+import { Record } from 'src/entities/record.entity';
 import { CartRepository } from 'src/repositories/cart.repository';
 
 @Injectable()
@@ -38,5 +39,10 @@ export class CartService {
 
   async getAllRecords(user_id: string): Promise<AllRecordDto[]> {
     return await this.cartRepository.getAllRecords(user_id);
+  }
+
+  async getRecordByMonth(body): Promise<Record[]> {
+    const { month, year } = body;
+    return await this.cartRepository.getRecordByMonth(month, year);
   }
 }

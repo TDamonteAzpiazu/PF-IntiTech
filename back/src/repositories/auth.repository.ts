@@ -4,6 +4,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
   OnModuleInit,
+  UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import * as cron from 'node-cron';
@@ -91,6 +92,9 @@ export class AuthRepository implements OnModuleInit {
       if (!isPasswordValid) {
         throw new NotFoundException('Invalid credentials');
       }
+      if (user.status === 'inactive') {
+        throw new UnauthorizedException('User is banned');
+      }
       const token: string = await this.createJwtToken(user);
       return {
         message: 'Login successful',
@@ -137,8 +141,11 @@ export class AuthRepository implements OnModuleInit {
         await this.userRepository.save(createdUser);
         return { createdUser, isNew: true };
       } else {
+        if (user.status === 'inactive') {
+          throw new UnauthorizedException('User is banned');
+        }
         return { createdUser: user, isNew: false };
-      }
+    }
     });
   }
 
