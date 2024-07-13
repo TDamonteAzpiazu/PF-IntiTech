@@ -83,6 +83,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
           item.id === updatedItem.id
             ? {
                 ...item,
+                stock: updatedItem.stock,
                 quantity: updatedItem.quantity,
                 totalPrice: updatedItem.totalPrice,
               }
@@ -107,6 +108,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
           item.id === updatedItem.id
             ? {
                 ...item,
+                stock: updatedItem.stock,
                 quantity: updatedItem.quantity,
                 totalPrice: updatedItem.totalPrice,
               }
@@ -134,6 +136,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
             title: item.panel_model,
             quantity: item.quantity,
             unit_price: item.totalPrice / item.quantity,
+            stock: item.stock
           })),
         }),
       })
@@ -183,7 +186,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
                 className="flex justify-between text-black items-center mb-2 border-b border-gray-400 pb-4 "
               >
                 <div className="flex items-center">
-                  <img
+                  <Image
                     className="w-12 h-12 mr-4"
                     src={item.panel_image}
                     alt={item.panel_model}
@@ -217,7 +220,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
                     </button>
                   )}
                   <span className="mx-2">{item.quantity}</span>
-                  {item.quantity < item.stock && (
+                  {/* {item.quantity < item.stock && ( */}
                     <button
                       onClick={() => addOneToCartItem(item.id)}
                       title="Add One"
@@ -238,7 +241,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart }) => {
                         <path d="M12 8V16" stroke-width="1.5"></path>
                       </svg>
                     </button>
-                  )}
+                  {/* )} */}
                 </div>
                 <button
                   onClick={() => deleteItemFromCart(item.id)}

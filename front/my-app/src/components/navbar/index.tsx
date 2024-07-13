@@ -19,7 +19,6 @@ const Navbar = () => {
     setIsCartOpen(!isCartOpen);
   };
 
-
   const handleLogout = () => {
     document.cookie = 'userToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; secure; samesite=strict';
     localStorage.removeItem('user');
@@ -50,12 +49,12 @@ const Navbar = () => {
   }, [open]);
 
   return (
-    <div className="h-20 bg-gradient-to-bottom text-white fixed w-full top-0 z-50">
+    <div className="h-20 bg-gradient-to-b text-white fixed w-full top-0 z-50">
       {token !== "" ? (
         <div className="flex items-center justify-between h-full">
           <div className="h-full w-24 ml-8">
             <Link href="/">
-            <Image className="h-full" src="/images/logo.png" alt="logo" width={100} height={100} />
+              <Image className="h-full" src="/images/logo.png" alt="logo" width={100} height={100} />
             </Link>
           </div>
           <nav className="h-full">
@@ -164,28 +163,28 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        ) : (
-          <div className="flex items-center justify-between h-full">
-            <div className="h-full w-24 ml-8">
-            <Image className="h-full" src="/images/logo.png" alt="logo" width={100} height={100} />
-            </div>
-            <nav className="h-full">
-              <ul className="flex items-center w-full h-full ">
-                <li className=" flex items-center gap-5 h-full ">
-                  <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/">Inicio</Link>
-                  <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/products">Productos</Link>
-                  <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/about">Nosotros</Link>
-                </li>
-              </ul>
-            </nav>
-            <div className="mx-5">
-              <button onClick={handleClick} className="w-fit bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-lg transition-all duration-500">
-                <a href="/login">Login / Register </a></button>
-            </div>
+      ) : (
+        <div className="flex items-center justify-between h-full">
+          <div className="h-full w-24 ml-8">
+            <Link href="/">
+              <Image className="h-full" src="/images/logo.png" alt="logo" width={100} height={100} />
+            </Link>
           </div>
-        )
-      }
-
+          <nav className="h-full">
+            <ul className="flex items-center w-full h-full ">
+              <li className=" flex items-center gap-5 h-full ">
+                <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/">Inicio</Link>
+                <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/products">Productos</Link>
+                <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/about">Nosotros</Link>
+              </li>
+            </ul>
+          </nav>
+          <div className="mx-5">
+            <button onClick={handleClick} className="w-fit bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-lg transition-all duration-500">
+              <a href="/login">Login / Register </a></button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
