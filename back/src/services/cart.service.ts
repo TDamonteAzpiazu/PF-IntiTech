@@ -7,13 +7,16 @@ import { CartRepository } from 'src/repositories/cart.repository';
 
 @Injectable()
 export class CartService {
-  constructor(private readonly cartRepository: CartRepository) { }
+  constructor(private readonly cartRepository: CartRepository) {}
 
   async getCartItems(cart_id: string): Promise<CartItem[]> {
     return await this.cartRepository.getCartItems(cart_id);
   }
 
-  async addItemToCart(cart_id: string, cart_item: CartItemDto): Promise<CartItem> {
+  async addItemToCart(
+    cart_id: string,
+    cart_item: CartItemDto,
+  ): Promise<CartItem> {
     return await this.cartRepository.addItemToCart(cart_id, cart_item);
   }
 
@@ -41,8 +44,7 @@ export class CartService {
     return await this.cartRepository.getAllRecords(user_id);
   }
 
-  async getRecordByMonth(body): Promise<Record[]> {
-    const { month, year } = body;
+  async getRecordByMonth(month : number , year : number): Promise<Record[]> {
     return await this.cartRepository.getRecordByMonth(month, year);
   }
 }

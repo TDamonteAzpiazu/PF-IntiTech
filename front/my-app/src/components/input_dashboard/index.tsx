@@ -1,113 +1,102 @@
-import React, { useState } from 'react'
-
-interface IFormProps {
-  inversor: string
-  file: File | null
-}
+import React, { useState } from 'react';
 
 interface InputProps {
-  stats: [{ energyGenerated: number }]
-  setStats: React.Dispatch<React.SetStateAction<any>>
+  stats : {
+    date: number;
+    totalPrice: number;
+  }
+  setStats: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const Input: React.FC<InputProps> = ({ setStats, stats }) => {
-  const [formData, setFormData] = useState<IFormProps>({
-    inversor: '',
-    file: null,
-  })
+const Input: React.FC<InputProps> = ({ setStats  , stats}) => {
+  const [formData, setFormData] = useState({
+    month: '',
+    year: '',
+  });
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const { inversor: selectedInversor, file: selectedFile } = formData
+    const { month, year } = formData;
 
-    if (!selectedFile) {
-      console.error('No file selected')
-      return
+    if (!month || !year) {
+      console.error('Please select both month and year');
+      return;
     }
-
-    const formDataToSend = new FormData()
-    formDataToSend.append('inversorName', selectedInversor)
-    formDataToSend.append('file', selectedFile)
 
     try {
-      const response = await fetch(
-        `https://pf-intitech.onrender.com/panels/upload`,
-        {
-          method: 'POST',
-          body: formDataToSend,
-        }
-      )
+      const response = await fetch(`http://localhost:3000/cart/getRecordsByMonth?month=${month}&year=${year}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       if (!response.ok) {
-        throw new Error('Failed to upload file')
+        throw new Error('Failed to fetch records');
       }
 
-      const responseData = await response.json()
+      const responseData = await response.json();
 
-      const energyGeneratedArray = responseData.stats.map((item: any) =>
-        parseFloat(item.energyGenerated)
-      )
-
-      const dateArray = responseData.stats.map((item: any) => item.date)
-
-      setStats(energyGeneratedArray)
-
-      console.log('responseData', responseData)
+      const data = responseData.map((item: any) => ({
+        date: item.date, // Extract the day of the month
+        totalPrice: item.totalPrice,
+      }));
+      console.log(data);
+      
+      setStats(data);
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Error:', error);
     }
-  }
+  };
 
-  const handleInversorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = e.target
+  const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      inversor: value,
-    })
-  }
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null
-    setFormData({
-      ...formData,
-      file,
-    })
-  }
+      [name]: value,
+    });
+  };
 
   return (
     <div className="p-2">
-      <div className=" bg-gradient-to-r from-yellow-50 via-orange-200 to-yellow-100 p-4">
-        <label className="block">Subir archivo</label>
-        <input type="file" onChange={handleFileChange} className="mt-2" />
-      </div>
-      <div className="mt-4">
-        <form onSubmit={handleFormSubmit}>
-          <select
-            name="inversor"
-            onChange={handleInversorChange}
-            className="mt-2"
+    <div className="p-2 rounded-lg shadow-md">
+      <form onSubmit={handleFormSubmit} className="space-y-2">
+        <label className="block text-sm">Select Month</label>
+        <select name="month" onChange={handleInputChange} className="block p-1 border rounded w-full text-sm">
+          <option value="select month">Select Month</option>
+          <option value="1">January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="6">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+  
+        <label className="block text-sm mt-1">Select Year</label>
+        <input type="number" name="year" onChange={handleInputChange} className="block p-1 border rounded w-full text-sm" />
+  
+        <div className="mt-3 text-right">
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm"
           >
-            <option value="">Selecionar un inversor</option>
-            <option value="Bodegas salcobrand">Bodegas salcobrand</option>
-            <option value="Centrovet 255 autocons">
-              Centrovet 255 autocons
-            </option>
-            <option value="Centrovet 601">Centrovet 601</option>
-            <option value="Ekono el salto">Ekono el salto</option>
-          </select>
-          <div className="mt-14">
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Subir archivo
-            </button>
-          </div>
-        </form>
-      </div>
+            Fetch Records
+          </button>
+        </div>
+      </form>
     </div>
-  )
-}
+  </div>
+  
+  
+  
+  );
+};
 
-export default Input
+export default Input;

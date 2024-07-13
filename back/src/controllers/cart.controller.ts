@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AddItemToCartSwagger, ClearCartSwagger, CreateRecordSwagger, GetCartItemsSwagger } from 'src/decorators/cart.decorator';
@@ -28,8 +29,8 @@ export class CartController {
   }
 
   @Get("getRecordsByMonth")
-  async getRecordByMonth(@Body() body ): Promise<Record[]> {
-    return await this.cartService.getRecordByMonth(body);
+  async getRecordByMonth(@Query("month") month : number , @Query("year") year:number ): Promise<Record[]> {
+    return await this.cartService.getRecordByMonth(month , year);
   }
   @Post('add/:id') // id de cart
   @AddItemToCartSwagger()
