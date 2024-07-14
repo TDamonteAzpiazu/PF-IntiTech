@@ -25,19 +25,19 @@ const Dashboard: React.FC = () => {
                     <input
                         type="text"
                         id="username"
-                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lightorangeinti"
+                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none "
                         placeholder="Nuevo Usuario"
                     />
                     <input
                         type="password"
                         id="password"
-                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lightorangeinti"
+                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none "
                         placeholder="Nueva Contraseña"
                     />
                     <input
                         type="file"
                         id="profileImage"
-                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none "
                         onChange={handleImageChange}
                     />
                 </div>
@@ -111,7 +111,7 @@ const Dashboard: React.FC = () => {
                 <section className="bg-gray-100 p-4 rounded-lg shadow-md">
                     <Input stats={stats} setStats={setStats} />
                 </section>
-                <section className="bg-gray-100 p-1 rounded-lg shadow-md h-60">
+                <section className="bg-gray-100 p-1 rounded-lg shadow-md ">
                     <LinesChart stats={stats} />
                 </section>
             </main>

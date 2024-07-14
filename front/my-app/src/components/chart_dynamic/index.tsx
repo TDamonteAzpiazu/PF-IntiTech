@@ -115,7 +115,7 @@ export function LinesChart({ stats }: { stats: { date: string, totalPrice: numbe
   }, [stats]);
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md h-60">
+    <div className="bg-white p-4 rounded-lg shadow-md">
       <div className="date-picker-container"> {/* Asegúrate de aplicar la clase adecuada aquí */}
         <Bar data={barChartData} options={barOptions} />
       </div>
