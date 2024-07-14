@@ -1,35 +1,30 @@
-
-
-
 export const faqData = [
     {
-        question: 'What are the benefits of using solar panels?',
-        answer: 'Solar panels help reduce your electricity bill in the long run and are environmentally friendly by using renewable energy.'
+        question: '¿Cuáles son los beneficios de usar paneles solares?',
+        answer: 'Los paneles solares ayudan a reducir tu factura de electricidad a largo plazo y son amigables con el medio ambiente al usar energía renovable.'
     },
     {
-        question: 'What types of solar panels do you offer?',
-        answer: 'We offer a variety of solar panels, including monocrystalline and polycrystalline panels, designed for different needs and budgets.'
+        question: '¿Qué tipos de paneles solares ofrecen?',
+        answer: 'Ofrecemos una variedad de paneles solares, incluyendo paneles monocristalinos y policristalinos, diseñados para diferentes necesidades y presupuestos.'
     },
     {
-        question: 'How long do solar panels last?',
-        answer: 'Solar panels have a lifespan of approximately 25 to 30 years, with performance warranties that can extend even beyond that.'
+        question: '¿Cuánto duran los paneles solares?',
+        answer: 'Los paneles solares tienen una vida útil de aproximadamente 25 a 30 años, con garantías de rendimiento que pueden extenderse incluso más allá de ese período.'
     },
     {
-        question: 'How much can I save with solar panels?',
-        answer: 'The amount you can save with solar panels depends on several factors, including your location, electricity usage, and the size of your solar panel system. On average, you can save up to 50-75% on your electricity bills.'
+        question: '¿Cuánto puedo ahorrar con los paneles solares?',
+        answer: 'La cantidad que puedes ahorrar con los paneles solares depende de varios factores, incluyendo tu ubicación, uso de electricidad y el tamaño de tu sistema de paneles solares. En promedio, puedes ahorrar hasta un 50-75% en tus facturas de electricidad.'
     },
     {
-        question: 'What is the installation process for solar panels?',
-        answer: 'The installation process involves a site assessment, designing a system tailored to your needs, obtaining necessary permits, and then installing the panels. The entire process usually takes a few weeks.'
+        question: '¿Cuál es el proceso de instalación de los paneles solares?',
+        answer: 'El proceso de instalación incluye una evaluación del sitio, el diseño de un sistema adaptado a tus necesidades, la obtención de los permisos necesarios y luego la instalación de los paneles. El proceso completo suele tomar unas pocas semanas.'
     },
     {
-        question: 'Are there any government incentives for installing solar panels?',
-        answer: 'Yes, many governments offer incentives such as tax credits, rebates, and grants to encourage the adoption of solar energy. These incentives can significantly reduce the overall cost of installing solar panels.'
+        question: '¿Existen incentivos gubernamentales para instalar paneles solares?',
+        answer: 'Sí, muchos gobiernos ofrecen incentivos como créditos fiscales, reembolsos y subvenciones para fomentar la adopción de energía solar. Estos incentivos pueden reducir significativamente el costo total de la instalación de paneles solares.'
     },
     {
-        question: 'How do I maintain my solar panels?',
-        answer: 'Solar panels require minimal maintenance. It\'s recommended to clean them a few times a year to remove dust and debris and have a professional check-up every few years to ensure optimal performance.'
+        question: '¿Cómo mantengo mis paneles solares?',
+        answer: 'Los paneles solares requieren un mantenimiento mínimo. Se recomienda limpiarlos algunas veces al año para eliminar el polvo y los escombros,nosotros ofrecemos un servicio de limpieza, y realizar una revisión profesional cada pocos años para asegurar un rendimiento óptimo.'
     }
 ];
-
-
