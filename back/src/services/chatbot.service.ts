@@ -14,7 +14,7 @@ export class ChatbotService {
         if (answer) {
             return answer;
         } else {
-            return 'For further inquiries, please contact us at maximosquera@Inti-Tech.com';
+            return 'Para más consultas, por favor contáctenos en Ventas@Inti-Tech.com o llamanos al 809-123-4567';
         }
     }
 }
