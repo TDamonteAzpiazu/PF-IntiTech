@@ -1,0 +1,72 @@
+
+
+.btn {
+  all: unset;
+  font-size: 16px;
+  padding: 0.5rem 3rem;
+  background-color: transparent;
+  color: black;
+  line-height: 1.5;
+  font-weight: 500;
+  border: 2px solid rgb(235, 235, 235);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+  cursor: pointer;
+}
+
+.btn::before,
+.btn::after {
+  content: "";
+  position: absolute;
+  background: #000;
+  background: #FF9950;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: skew(30deg) translateY(0);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+.btn::before {
+  --direction: 1;
+  top: -100%;
+  left: -55%;
+}
+.btn::after {
+  --direction: -1;
+  top: 100%;
+  left: 60%;
+}
+
+.btn:hover::before,
+.btn:hover::after {
+  transform: skew(30deg) translateY(calc(var(--direction) * 100%));
+}
+
+.textContainer {
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+.text {
+
+  display: flex;
+  transition: 0.3s;
+}
+.btn:hover .text:nth-child(1) {
+  color: white;
+  translate: 0 95%;
+}
+
+.text:nth-child(2) {
+  color: white;
+  position: absolute;
+  inset: 0;
+  translate: 0 -95%;
+}
+.btn:hover .text:nth-child(2) {
+  transition-delay: 0.1s;
+  translate: 0 0;
+}

@@ -1,10 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "flowbite";
 
 
 body {
-    background-image:  url('../../public/images/background.jpg');
-    background-size: 1000%;
-    background-repeat: no-repeat;
+    background-color: #F4F2EE;
 }

@@ -1,38 +1,31 @@
 'use client'
 import React, { useState, useEffect } from 'react'
+import { DataStore} from '@/store/dataStore'
 import Swal from 'sweetalert2'
 
 const Footer: React.FC = () => {
-  const [userId, setUserId] = useState<string | null>(null)
+  const { userDataUser, getDataUser } = DataStore()
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
 
   useEffect(() => {
-    const storedDataUser = localStorage.getItem('DataUser')
-    if (storedDataUser) {
-      const dataUser = JSON.parse(storedDataUser)
-      setUserId(dataUser.id)
-      console.log('este es el id', dataUser.id)
-    }
-  }, [])
+    getDataUser()
+  }, [getDataUser])
 
   const handleSubscribe = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!userId) {
+    if (!userDataUser.id) {
       console.error('User ID is not available')
       return
     }
 
     try {
       const res = await fetch(
-        `https://pf-intitech.onrender.com/users/suscriptUser/${userId}`,
+        `https://pf-intitech.onrender.com/users/suscriptUser/${userDataUser?.id}`,
         {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userId,
-          }),
+          }
         }
       )
 
@@ -66,14 +59,14 @@ const Footer: React.FC = () => {
 
   const handleUnsubscribe = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!userId) {
+    if (!userDataUser.id) {
       console.error('User ID is not available')
       return
     }
 
     try {
       const res = await fetch(
-        `https://pf-intitech.onrender.com/users/unsuscriptUser/${userId}`,
+        `https://pf-intitech.onrender.com/users/unsuscriptUser/${userDataUser?.id}`,
         {
           method: 'PUT',
           headers: {
@@ -138,10 +131,9 @@ const Footer: React.FC = () => {
               Nuestros Servicios
             </h2>
             <ul>
-              <li className="mb-2">Servicio 1</li>
-              <li className="mb-2">Servicio 2</li>
-              <li className="mb-2">Servicio 3</li>
-              <li className="mb-2">Servicio 4</li>
+              <li className="mb-2"><a href="/Hire">DUSTERFLEX</a></li>
+              <li className="mb-2"><a href="/Hire">SMARTDUSTER</a></li>
+              <li className="mb-2"><a href="/Hire">SUNSIGHT</a></li>
             </ul>
           </div>
 

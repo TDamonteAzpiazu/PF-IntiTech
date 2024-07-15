@@ -28,7 +28,7 @@ type State = {
 
 export const UserStore = create(
   persist<State & Action>(
-    (set, get) => ({
+    (set) => ({
       token: "",
       setToken: (token: string) =>
         set((state) => ({

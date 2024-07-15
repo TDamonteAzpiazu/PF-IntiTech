@@ -2,16 +2,21 @@ import React from "react";
 import { Product_Container } from "@/components/product_container";
 import { get_product_DB } from "@/helpers/products.helper";
 import { Iproducts_props } from "@/interfaces/interfaces";
+import { HiHome } from "react-icons/hi";
+import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
+import Title from "@/components/title";
 
 const products_db: React.FC = async () => {
   const products_db: Iproducts_props[] = await get_product_DB();
   return (
-    <div className="mt-40 mb-36">
-      <div className="text-white text-center">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-4xl font-bold py-5 px-10">
-        Haz clic para ver sus detalles y encontrar la opción perfecta. ¡Transforma tu hogar o negocio con energía solar hoy mismo!
-        </h1>
+    <div className="mb-36 bg-nose">
+      <div className="my-10 text-center ">
+        <Title />
       </div>
+      <Breadcrumb aria-label="Default breadcrumb example" className="px-8 pb-6 text-lg ">
+        <BreadcrumbItem icon={HiHome} href="/">Inicio</BreadcrumbItem>
+        <BreadcrumbItem href="/products">Productos</BreadcrumbItem>
+      </Breadcrumb>
       <Product_Container product={products_db} />
     </div>
   );

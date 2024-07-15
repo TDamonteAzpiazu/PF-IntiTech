@@ -1,0 +1,49 @@
+.btnService {
+    margin-top: 1rem;
+    color: black;
+    border-radius: 8px;
+    font-size: 1rem;
+    line-height: 2.5rem;
+    max-width: 160px; 
+    width: 100%; 
+    letter-spacing: 0.1rem;
+    font-weight: 500;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    transition: all 1s ease-in;
+}
+
+.btnService:hover {
+    color: #FF9950;
+}
+
+.btnService svg {
+    height: 40px;
+    left: 0;
+    top: 0; 
+    position: absolute;
+    width: 100%; 
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.btnService rect {      
+    fill: none;
+    stroke: black;
+    stroke-width: 3;
+    stroke-dasharray: 450, 0;
+    transition: all 0.5s linear;
+    rx: 8;
+    ry: 8;
+}
+
+.btnService:hover rect {
+    stroke-width: 3;
+    stroke-dasharray: 20, 300;
+    stroke-dashoffset: 48;
+    stroke: #FF9950;
+    transition: all 2s cubic-bezier(
+        0.22, 1, 0.25, 1
+    );
+}

@@ -1,11 +1,15 @@
 'use client'
-import { product_by_id } from '@/helpers/products.helper'
-import { Iproducts_props } from '@/interfaces/interfaces'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { ring2 } from 'ldrs'
 import { DataStore } from "@/store/dataStore";
+import { ProductStore } from '@/store/productsStore'
+import { HiHome, HiOutlineHeart } from "react-icons/hi";
+import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
+import Swal from 'sweetalert2'
+import Accordion from '@/components/accordion'
+import BotonCart from '@/components/botonCart'
 
 
 interface Idetail_props {
@@ -17,37 +21,28 @@ interface Idetail_props {
 const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   ring2.register();
   const router = useRouter();
-  const [data_product, setData_product] = useState<Iproducts_props | any>(null);
-  const [productID, setProductID] = useState<string>("");
   const userData = DataStore((state) => state.userDataUser);
   const getDataUser = DataStore((state) => state.getDataUser);
+  const setProductDetails = ProductStore((state) => state.setProductDetails);
+  const data_product = ProductStore((state) => state.productDetails);
 
   useEffect(() => {
     getDataUser();
   }, [getDataUser]);
 
   useEffect(() => {
-    const get_product_by_id = async () => {
-      try {
-        const product = await product_by_id(params.id)
-        setData_product(product)
-        setProductID(product.id!)
-        console.log(product)
-      } catch (error) {
-        console.error('Error en product_detail', error)
-      }
-    }
-    get_product_by_id()
-  }, [params.id])
+    setProductDetails(params.id);
+
+  }, [params.id, setProductDetails]);
 
   const handleAddToCart = async () => {
-    if(userData.status === "pending") {
+    if (userData.status === "pending") {
       alert("Debes activar tu cuenta para agregar items al carrito");
       router.push("/profile");
       return;
     }
-    
-    if (!productID) {
+
+    if (!data_product?.id) {
       alert("Debes iniciar sesion para agregar items al carrito");
       router.push("/login");
       return;
@@ -60,7 +55,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          panel_id: productID,
+          panel_id: data_product?.id,
           quantity: 1,
         }),
       });
@@ -69,10 +64,16 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
         alert('Debes iniciar sesión para agregar items al carrito')
         return
       }
-
-      const data = await response.json()
-      console.log(data)
-      window.location.reload()
+      if (response.ok) {
+        Swal.fire({
+          position: 'bottom-start',
+          toast: true,
+          icon: 'success',
+          title: 'Item agregado al carrito',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
     } catch (error) {
       console.error('Error adding to cart:', error)
     }
@@ -94,8 +95,13 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   }
 
   return (
-    <div className="h-screen flex items-center justify-center ">
-      <div className="h-9/12 w-full md:max-w-screen-xl bg-white rounded-lg shadow-xl p-8 flex flex-col md:flex-row justify-center items-center gap-8 mt-16 mb-16">
+    <div className='flex flex-col px-24 pb-20'>
+      <Breadcrumb className="-ml-20 pt-12 text-lg text-black" >
+        <BreadcrumbItem icon={HiHome} href="/" className='text-black'>Inicio</BreadcrumbItem>
+        <BreadcrumbItem href="/products">Productos</BreadcrumbItem>
+        <BreadcrumbItem>{data_product.model}</BreadcrumbItem>
+      </Breadcrumb>
+      <div className="flex items-center justify-center mt-8 rounded-lg bg-white">
         <div className="relative w-96 h-96 mr-8">
           <Image
             className="rounded-l-md"
@@ -104,40 +110,23 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
             layout="fill"
           />
         </div>
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col gap-4 justify-center w-[60%] h-96  ">
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <h1 className="text-5xl font-semibold text-gray-900">
-                {data_product.brand}
-              </h1>
-              <span className="text-gray-900 text-sm">
-                Stock: {data_product.stock}
-              </span>
+            <div className='flex justify-between'>
+              <p className="text-3xl font-medium uppercase mb-8">{data_product.brand}</p>
+              <p className="text-base font-light text-gray-500 uppercase mb-8">Stock: {data_product.stock}</p>
             </div>
-            <h2 className="text-3xl font-semibold text-gray-900 mb-2">
-              {data_product.model}
-            </h2>
-            <p className="text-xl text-gray-900 mb-4">
-              {data_product.description}
-            </p>
+            <h1 className="text-xl uppercase mb-6">{data_product.model}</h1>
+            <p className="text-3xl mb-6 font-medium ">$ {data_product.price}</p>
+            <div className='flex justify-start gap-12'>
+              <BotonCart addTocart={handleAddToCart} />
+              <button className="text-3xl py-2 px-4 rounded-lg">
+                <HiOutlineHeart className='hover:fill-red-600 hover:text-red-600 ' strokeWidth={1.2} />
+              </button>
+            </div>
           </div>
-          <div>
-            <div className="flex items-center mb-2">
-              <span className="text-gray-900 text-3xl font-semibold">
-                $ {data_product.price}
-              </span>
-            </div>
-            <div className="flex items-center mb-4">
-              <span className="text-xl text-gray-900">
-                Daily Generation: {data_product.dailyGeneration}
-              </span>
-            </div>
-            <button
-              onClick={handleAddToCart}
-              className="bg-gradient-to-r from-yellow-300 to-orange-400 opacity-95 hover:shadow-xl text-gray-900 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
-            >
-              Add to cart
-            </button>
+          <div className='h-24'>
+            <Accordion title="Descripción" answer={data_product.description} />
           </div>
         </div>
       </div>
