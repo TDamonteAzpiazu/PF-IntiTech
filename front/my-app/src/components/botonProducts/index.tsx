@@ -4,7 +4,7 @@ import React from 'react'
 const BotonProducts = () => {
   return (
     <div>
-        <button className={styles.ctaButton}>Ver detelles</button>
+        <button className={styles.ctaButton}>Ver detalles</button>
     </div>
   )
 }

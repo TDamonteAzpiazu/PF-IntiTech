@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { DataStore } from "@/store/dataStore";
+import { GoSearch } from "react-icons/go";
 
 interface Item {
   id: string
@@ -32,7 +33,7 @@ const Orders: React.FC = () => {
     getDataUser();
   }, [getDataUser]);
 
-  console.log(userData);
+  console.log(orders);
 
   useEffect(() => {
     if (userData) {
@@ -63,15 +64,24 @@ const Orders: React.FC = () => {
   }, [userData]);
 
   return (
-    <div className="mb-10 mt-32 px-4">
-      <h1 className="text-4xl font-medium mb-6 text-center">
-        Historial de pedidos
-      </h1>
+    <div className="mb-10 mt-10 px-4">
+      <div className="flex justify-between items-center pb-10">
+        <h1 className="text-4xl font-medium">
+          Historial de pedidos
+        </h1>
+        <div className="flex justify-center gap-4 items-center">
+          <input
+            className="px-4 py-1 border-2 border-black rounded-md focus:outline-none "
+            type="search"
+            placeholder="Buscar" />
+          <button className="text-2xl"><GoSearch strokeWidth={1.2} /></button>
+        </div>
+      </div>
       {orders.length > 0 ? (
         orders.map((order, index) => (
           <div
             key={order.record.id}
-            className="grid grid-cols-2 bg-gradient-to-r from-white to-gray-200 w-9/12"
+            className="h-56 overflow-hidden gap-9 bg-gradient-to-r from-white border-2 border-black to-gray-200"
           >
             <div className="px-4 py-4 bg-transparent rounded-l-md">
               <h2 className="text-2xl font-medium text-gray-900 mb-2">
