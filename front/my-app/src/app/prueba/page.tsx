@@ -2,6 +2,9 @@
 import { useEffect } from 'react';
 import { DataStore } from "@/store/dataStore";
 import { ProductStore } from '@/store/productsStore';
+import Title from '@/components/title';
+import BotonProducts from '@/components/botonProducts';
+import BotonService from '@/components/botonService';
 
 const Page = () => {
   const userData = DataStore((state) => state.userDataUser);
@@ -24,33 +27,11 @@ const Page = () => {
     getItemsCart("761625ff-f358-45aa-8a69-9fa95bf6c123");
   }, [getItemsCart]);
 
-  // console.log(userData);
-
   return (
     <div className='mt-32 text-center'>
-      {/* {
-
-        userData ? <div> 
-          <h1 className='text-3xl'>Hola {JSON.stringify(userData)}</h1>
-          </div>
-           : <h1 className='text-3xl'>Hola Invitado</h1>
-
-
-      }
-      <hr />
-      {
-        products && <h1 className='text-3xl'>Hola {JSON.stringify(products)}</h1>
-      }
-      <hr /> */}
-      <div>
-        {
-          itemsCart && itemsCart.map((item) => (
-            <div key={item.id}>
-              <h1>{JSON.stringify(item)}</h1>
-            </div>
-          ))
-        }
-      </div>
+      <Title />
+      <BotonProducts />
+      <BotonService />
     </div>
   );
 };

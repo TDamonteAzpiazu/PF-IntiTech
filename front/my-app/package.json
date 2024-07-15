@@ -11,9 +11,11 @@
   "dependencies": {
     "@headlessui/react": "^2.1.1",
     "@mercadopago/sdk-react": "^0.0.19",
+    "@nextui-org/accordion": "^2.0.35",
     "@reduxjs/toolkit": "^2.2.6",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
+    "flowbite-react": "^0.10.1",
     "jwt-decode": "^4.0.0",
     "ldrs": "^1.0.2",
     "next": "14.2.4",

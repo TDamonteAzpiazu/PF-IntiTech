@@ -2,41 +2,24 @@ import React from "react";
 import Image from "next/image";
 import { Iproducts_props } from "@/interfaces/interfaces";
 import Link from "next/link";
+import BotonProducts from "../botonProducts";
 
-const Product: React.FC<Iproducts_props> = ({
-  id,
-  brand,
-  model,
-  price,
-  stock,
-  description,
-  dailyGeneration,
-  image,
-}) => {
+const Product: React.FC<Iproducts_props> = ({id, brand,model, price, stock, image,}) => {
   return (
-    <div className="flex justify-center">
-      <div className="flex transition-all hover:scale-105 rounded-lg w-5/6 mt-4 mb-4">
-        <div className="relative w-60 h-60">
-          <Image
-            className="rounded-l-md object-cover"
-            src={image}
-            alt="Product Image"
-            layout="fill"
-          />
-        </div>
-        <div className="flex-1 px-4 py-4 bg-gradient-to-r from-white to-gray-200 rounded-r-md">
-          <div className="flex items-center justify-between mb-2">
-            <h1 className="text-lg font-semibold text-gray-900">{brand}</h1>
-            <span className="text-gray-900 text-sm">Stock: {stock}</span>
-          </div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">{model}</h2>
-          <Link href={`product_detail/${id}`}>
-            <button className="bg-gradient-to-r from-yellow-300 to-orange-400 opacity-95 hover:shadow-xl text-gray-900 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105">
-              Ver detalles
-            </button>
-          </Link>
-        </div>
+    <div key={id} className="w-60 h-[350px] shadow-lg bg-white border border-gray-200 flex flex-col justify-between items-center rounded-xl">
+      <div>
+        <Image src={image} alt="Product Image" width={500} height={500} className="w-60 h-40 p-3 rounded" />
       </div>
+      <div>
+        <p className="text-right px-3 text-sm text-gray-400">Stock {stock}</p>
+        <h1 className="font-medium px-3 uppercase">{brand} - {model}</h1>
+        <p className="font-medium text-lg text-right px-4">${price}</p>
+
+      </div>
+      <div className="mb-3">
+        <Link href={`/product_detail/${id}`}><BotonProducts /></Link>
+      </div>
+     
     </div>
   );
 };

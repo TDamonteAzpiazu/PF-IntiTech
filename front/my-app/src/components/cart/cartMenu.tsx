@@ -14,8 +14,7 @@ type CartProps = {
     setItems: React.Dispatch<React.SetStateAction<Icart[]>>;
 };
 
-const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items ,setItems}) => {
-    /* const [items, setItems] = useState<Icart[]>([]); */
+const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items, setItems}) => {
     const [preferenceId, setPreferenceId] = useState<string | null>(null);
     const router = useRouter();
     const userData = DataStore((state) => state.userDataUser);
@@ -26,33 +25,8 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items ,setItems}) => {
 
     useEffect(() => {
         initMercadoPago("TEST-fa93dbfd-43ff-4ad0-b01f-9fbd39faeafc", { locale: "es-AR" });
-    }, []);
+    }, [])
 
-    /* const getCartItems = async () => {
-        try {
-            const res = await fetch(`https://pf-intitech.onrender.com/cart/getItems/${userData.cart?.id}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (!res.ok) {
-                throw new Error("Failed to fetch cart items");
-            }
-            const data = await res.json();
-            setItems(data);
-            console.log(data);
-        } catch (error: any) {
-            console.log(error);
-        }
-    }; */
-
-    /* useEffect(() => {
-        getCartItems();
-    }, [userData.cart?.id]); */
-
-    console.log(items, "🟢");
 
     const deleteItemFromCart = async (itemId: string) => {
         try {

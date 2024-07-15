@@ -1,0 +1,22 @@
+.title {
+  font-size: 2rem;
+  padding: 0 5rem;
+  font-weight: 600;
+  background: linear-gradient(
+    to right,
+    #E18104 20%,
+    #D3A330 40%,
+    #D3A330 60%,
+    #E18104 80%
+  );
+  background-size: 200%;
+  color: transparent;
+  background-clip: text;
+  animation: shine 6s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}

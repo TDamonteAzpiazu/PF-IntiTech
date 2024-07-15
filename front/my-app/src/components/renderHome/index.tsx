@@ -3,7 +3,7 @@ import React from "react";
 
 const RenderHome = () => {
     return (
-        <div className="h-screen bg-custom-image bg-no-repeat bg-size-200 text-white">
+        <div className="h-screen -mt-20 bg-custom-image bg-no-repeat bg-size-200 text-white">
             <div className="flex justify-center items-center h-full gap-12">
                 <div className="w-1/2 mt-10">
                     <h1 className="text-5xl font-medium mb-5 pl-12 leading-snug">Desarrollo de tecnología robótica para plantas fotovoltaicas</h1>

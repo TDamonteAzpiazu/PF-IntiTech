@@ -8,8 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import cartLogo from "../../../public/images/cart.png";
-import Cart from "../cart/cartMenu";
-import { get } from "http";
+import Cart from "../cart/cartMenu"
 
 const Navbar = () => {
   const token = UserStore((state) => state.token);
@@ -64,7 +63,6 @@ const Navbar = () => {
 
   useEffect(() => {
       getCartItems();
-      console.log(items.length, "1️⃣");
   }, [userData.cart?.id, items.length, isCartOpen]);
 
   useEffect(() => {
@@ -80,11 +78,13 @@ const Navbar = () => {
   }, [open]);
 
   return (
-    <div className="h-20 bg-gradient-to-bottom text-white fixed w-full top-0 z-50">
+    <div className="h-20 bg-gradient-to-bottom text-white sticky top-0 w-full z-50">
       {token !== "" ? (
         <div className="flex items-center justify-between h-full">
           <div className="h-full w-24 ml-8">
-            <Image className="h-full" src="/images/logo.png" alt="logo" width={100} height={100} />
+            <Link href="/"> 
+            <Image className="h-24-mt-3" src="/images/logo.png" alt="logo" width={100} height={100} />
+            </Link>
           </div>
           <nav className="h-full">
             <ul className="flex items-center w-full h-full">
