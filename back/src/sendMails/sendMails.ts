@@ -1,9 +1,9 @@
-import { transporter } from "src/config/mailer";
-import { User } from "src/entities/user.entity";
+import { transporter } from 'src/config/mailer';
+import { User } from 'src/entities/user.entity';
 
 export async function sendWeeklyEmails(user: User): Promise<void> {
   await transporter.sendMail({
-    from: '"Intitech 👻" <pablorodriguez6002@gmail.com>', // sender address
+    from: '"Intitech" <pablorodriguez6002@gmail.com>', // sender address
     to: user.email, // list of receivers
     subject: 'Descubre las Novedades de Intitech!', // Subject line
     html: `
@@ -34,7 +34,7 @@ export async function sendWeeklyEmails(user: User): Promise<void> {
 
 export async function sendEmail(user: User, jwt: string): Promise<void> {
   await transporter.sendMail({
-    from: '"Test 👻" <pablorodriguez6002@gmail.com>', // sender address
+    from: '"Intitech" <pablorodriguez6002@gmail.com>', // sender address
     to: user.email, // list of receivers
     subject: 'Bienvenido a Intitech!', // Subject line
     html: `
@@ -62,7 +62,7 @@ export async function sendEmail(user: User, jwt: string): Promise<void> {
 
 export async function sendEmailWhenUserIsCreated(user: User): Promise<void> {
   await transporter.sendMail({
-    from: '"Test 👻" <pablorodriguez6002@gmail.com>', // sender address
+    from: '"Intitech" <pablorodriguez6002@gmail.com>', // sender address
     to: user.email, // list of receivers
     subject: 'Bienvenido a Intitech!', // Subject line
     html: `
