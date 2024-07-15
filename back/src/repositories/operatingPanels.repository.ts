@@ -34,6 +34,8 @@ export class OperatingPanelsRepository {
       if (dataExcel.length === 0) {
         throw new BadRequestException('Excel is empty');
       }
+      console.log(dataExcel);
+      
       return dataExcel;
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -48,8 +50,8 @@ export class OperatingPanelsRepository {
     inversorName: string,
   ): Promise<StatsDto[]> {
     try {
-      console.log("hola");
-      
+      // console.log('hola');
+      console.log(data[0]);
       const stats: StatsDto[] = data.map((dato: any) => ({
         date: dato['dateTime'],
         energyGenerated:
@@ -61,7 +63,7 @@ export class OperatingPanelsRepository {
       }
 
       const inversor: Inversor = await this.inversorRepository.findOneBy({
-        name: inversorName, 
+        name: inversorName,
       });
 
       if (!inversor) {
@@ -72,10 +74,7 @@ export class OperatingPanelsRepository {
         where: { inversor: inversor },
         relations: ['stats'],
       });
-  
 
-      
-      
       if (!findPanel) {
         const panelData: OperatingPanels =
           this.operatingPanelsRepository.create({
@@ -91,9 +90,9 @@ export class OperatingPanelsRepository {
 
       const dataStats = this.statsRepository.create(stats);
       await this.statsRepository.save(dataStats);
-      
+
       await findPanel.stats.push(...dataStats);
-      
+
       this.operatingPanelsRepository.save(findPanel);
 
       return stats;
@@ -107,7 +106,8 @@ export class OperatingPanelsRepository {
     inversorName: string,
   ): Promise<StatsDto[]> {
     const arrayStats: StatsDto[] = [];
-
+    
+    
     data.map((dato) => {
       const rawDate: string = dato['dateTime'] || dato[' '];
       const dateMatch: RegExpMatchArray = rawDate.match(/(\d{2})\/(\d{2})/);
@@ -172,25 +172,20 @@ export class OperatingPanelsRepository {
     inversorName: string,
   ): Promise<StatsDto[] | string> {
     try {
-      console.log("hola");
-      
+      console.log('hola');
+
       for (const inversor of InversorsIngecon) {
         console.log(inversorName);
-        
-        
+
         if (inversor.name === inversorName) {
           console.log(inversor.name);
-          
-          
-          
-          
+
           if (!data[0]['pvGeneration(kWh)']) {
             throw new BadRequestException(
               'Incorrect uploaded file. Please, check the file and try again. ',
             );
           }
-          
-          
+
           return this.extractDataIngecon(data, inversorName);
         }
       }

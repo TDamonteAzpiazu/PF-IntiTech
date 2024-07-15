@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Line, Bar, Doughnut } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
-  LineElement,
-  PointElement,
   Title,
   Tooltip,
   Legend,
-  Filler,
-  ArcElement,
   ChartOptions,
   ChartData,
   TooltipItem,
@@ -21,95 +17,31 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  LineElement,
-  PointElement,
   Title,
   Tooltip,
-  Legend,
-  Filler,
-  ArcElement
+  Legend
 );
 
-
-const energyData: EnergyData[] = [
-  {
-    date: "2024-06-23T23:59:15.000Z",
-    energyGenerated: 174.91,
-  },
-  {
-    date: "2024-06-24T23:59:15.000Z",
-    energyGenerated: 310.75,
-  },
-  {
-    date: "2024-06-25T23:59:15.000Z",
-    energyGenerated: 344.75,
-  },
-  {
-    date: "2024-06-26T23:59:15.000Z",
-    energyGenerated: 307.97,
-  },
-  {
-    date: "2024-06-27T23:59:15.000Z",
-    energyGenerated: 390.8,
-  },
-  {
-    date: "2024-06-28T23:59:15.000Z",
-    energyGenerated: 228.77,
-  },
-  {
-    date: "2024-06-29T23:59:15.000Z",
-    energyGenerated: 319.05,
-  },
-];
-//OPCIONES PARA CADA TIPO DE CHART QUE NECESITO PARA SETEAR LOS ESTADOS
-//lineal
-const lineOptions: ChartOptions<"line"> = {
-  scales: {
-    y: {
-      min: 0,
-      max: 400,
-    },
-    x: {
-      ticks: { color: "black" },
-    },
-  },
-  plugins: {
-    tooltip: {
-      enabled: true,
-      backgroundColor: "rgba(0, 0, 0, 0.7)",
-      titleFont: {
-        size: 16,
-      },
-      bodyFont: {
-        size: 14,
-      },
-      callbacks: {
-        label: function (tooltipItem: TooltipItem<"line">) {
-          return `Value: ${tooltipItem.raw}`;
-        },
-      },
-    },
-    legend: {
-      display: true,
-      position: "bottom",
-      labels: {
-        font: {
-          size: 14,
-        },
-        color: "black",
-      },
-    },
-  },
-};
-//barras
+// Opciones para el gráfico de barras
 const barOptions: ChartOptions<"bar"> = {
   scales: {
     y: {
       min: 0,
-      max: 400,
+      suggestedMax: 1000, // Ajusta el valor sugerido máximo según el máximo esperado
+      grid: {
+        color: "rgba(0, 0, 0, 0.1)", // Color más oscuro para las líneas de la grilla
+      },
+      ticks: {
+        color: "black", // Color más oscuro para los números del eje y
+      },
     },
     x: {
-      ticks: { color: "black" },
+      ticks: {
+        color: "black", // Color más oscuro para los números del eje x
+      },
+      grid: {
+        color: "rgba(0, 0, 0, 0.1)", // Color más oscuro para las líneas de la grilla
+      },
     },
   },
   plugins: {
@@ -124,123 +56,52 @@ const barOptions: ChartOptions<"bar"> = {
       },
       callbacks: {
         label: function (tooltipItem: TooltipItem<"bar">) {
-          return `Value: ${tooltipItem.raw}`;
+          return `Cantidad: ${tooltipItem.raw}`;
         },
       },
     },
     legend: {
-      display: true,
-      position: "bottom",
-      labels: {
-        font: {
-          size: 14,
-        },
-        color: "black",
-      },
-    },
-  },
-};
-//circular
-const doughnutOptions: ChartOptions<"doughnut"> = {
-  responsive: true,
-  maintainAspectRatio: false,
-  animation: {
-    animateScale: true,
-    animateRotate: true,
-  },
-  plugins: {
-    tooltip: {
-      enabled: true,
-      backgroundColor: "rgba(0, 0, 0, 0.7)",
-      titleFont: {
-        size: 16,
-      },
-      bodyFont: {
-        size: 14,
-      },
-      callbacks: {
-        label: function (tooltipItem: TooltipItem<"doughnut">) {
-          return `Value: ${tooltipItem.raw}`;
-        },
-      },
-    },
-    legend: {
-      display: true,
-      position: "bottom",
-      labels: {
-        font: {
-          size: 14,
-        },
-        color: "black",
-      },
+      display: false, // Oculta la leyenda
     },
   },
 };
 
-export function LinesChart({stats} : any) {
-  const [chartType, setChartType] = useState<"line" | "bar" | "doughnut">(
-    "line"
-  );
-
-  const [lineChartData, setLineChartData] = useState<ChartData<"line">>({
-    labels: [],
-    datasets: [
-      {
-        label: "Energy Generated",
-        data: [],
-        fill: true,
-        borderColor: "#ffed00",
-        backgroundColor: "rgba(255, 237, 0, 0.1)",
-        pointBackgroundColor: "#e18104",
-        pointBorderColor: "orange",
-        pointRadius: 5,
-        tension: 0.3,
-      },
-    ],
-  });
-
+export function LinesChart({ stats }: { stats: { date: string, totalPrice: number; }[] }) {
   const [barChartData, setBarChartData] = useState<ChartData<"bar">>({
     labels: [],
     datasets: [
       {
-        label: "Energy Generated",
+        label: "Cantidad de Pedidos",
         data: [],
-        backgroundColor: "rgba(255, 237, 0, 0.1)",
-        borderColor: "#ffed00",
+        backgroundColor: "rgba(54, 162, 235, 0.2)", // Azul más oscuro
+        borderColor: "rgba(54, 162, 235, 1)", // Azul más oscuro
         borderWidth: 1,
       },
     ],
   });
 
-  const [doughnutChartData, setDoughnutChartData] = useState<
-    ChartData<"doughnut">
-  >({
-    labels: [],
-    datasets: [
-      {
-        label: "Energy Generated",
-        data: [],
-        backgroundColor: ["#ffce56", "#ff9f40"],
-        hoverBackgroundColor: ["#ffce56", "#ff9f40"],
-      },
-    ],
-  });
-
   useEffect(() => {
-    const labels = energyData.map((item) =>
-      new Date(item.date).toLocaleDateString()
-    );
-    const data = stats;
+    // Obtener el mes y el año actual de los datos
+    const currentMonth = stats.length > 0 ? new Date(stats[0].date).getMonth() : new Date().getMonth();
+    const currentYear = stats.length > 0 ? new Date(stats[0].date).getFullYear() : new Date().getFullYear();
 
-    setLineChartData({
-      labels,
-      datasets: [
-        {
-          ...lineChartData.datasets[0],
-          data,
-        },
-      ],
+    // Crear un array con todos los días del mes actual
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const labels = Array.from({ length: daysInMonth }, (_, i) => (i + 1).toString());
+
+    // Contar cantidad de pedidos por día
+    const totalByDay: { [key: string]: number } = {};
+    stats.forEach((item) => {
+      const date = new Date(item.date);
+      const day = date.getUTCDate().toString(); // Usar getUTCDate para asegurarnos de obtener el día correcto
+      if (!totalByDay[day]) {
+        totalByDay[day] = 0;
+      }
+      totalByDay[day] += item.totalPrice;
     });
+
+    // Obtener data para el gráfico
+    const data = labels.map(label => totalByDay[label] || 0);
 
     setBarChartData({
       labels,
@@ -251,70 +112,15 @@ export function LinesChart({stats} : any) {
         },
       ],
     });
-
-    setDoughnutChartData({
-      labels,
-      datasets: [
-        {
-          ...doughnutChartData.datasets[0],
-          data,
-        },
-      ],
-    });
   }, [stats]);
 
   return (
-    <div>
-      {chartType === "line" && (
-        <div className="bg-gradient-to-r from-yellow-50 via-orange-200 to-yellow-100 p-4 rounded-lg shadow-md h-60  flex justify-center">
-          {" "}
-          <Line data={lineChartData} options={lineOptions} />
-        </div>
-      )}
-      {chartType === "bar" && (
-        <div className="bg-gradient-to-r from-yellow-50 via-orange-200 to-yellow-100 p-4 rounded-lg shadow-md h-60  flex justify-center">
-          {" "}
-          <Bar data={barChartData} options={barOptions} />
-        </div>
-      )}
-      {chartType === "doughnut" && (
-        <div className="bg-gradient-to-r from-yellow-50 via-orange-200 to-yellow-100 p-4 rounded-lg shadow-md h-60">
-          <Doughnut data={doughnutChartData} options={doughnutOptions} />{" "}
-        </div>
-      )}
-
-      <div className="p-1 m-t10 bg-slate-400 gap-1 flex justify-around rounded-sm">
-        <Button2  onClick={() => setChartType("line")} label="Line Chart">
-          Line Chart
-        </Button2>
-        <Button2 onClick={() => setChartType("bar")} label="Bar Chart">
-          Bar Chart
-        </Button2>
-        <Button2
-          onClick={() => setChartType("doughnut")}
-          label="Doughnut Cahrt"
-        >
-          Doughnut Chart
-        </Button2>
+    <div className="bg-white p-4 rounded-lg shadow-md">
+      <div className="date-picker-container"> {/* Asegúrate de aplicar la clase adecuada aquí */}
+        <Bar data={barChartData} options={barOptions} />
       </div>
     </div>
   );
-};
-
-interface EnergyData {
-  date: string;
-  energyGenerated: number;
 }
-
-interface IbuttonProps {
-  onClick: () => void;
-  label: string;
-  children: React.ReactNode;
-  
-}
-
-const Button2: React.FC<IbuttonProps> = ({ onClick, label }) => {
-  return <button onClick={onClick}>{label}</button>;
-};
 
 export default LinesChart;

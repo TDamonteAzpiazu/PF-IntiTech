@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   Entity,
   JoinColumn,
@@ -12,7 +13,7 @@ import { User } from './user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsUUID, IsNumber, IsNotEmpty } from 'class-validator';
 
-@Entity('record')  // Añadido nombre para la tabla, ajusta si es necesario
+@Entity('record') // Añadido nombre para la tabla, ajusta si es necesario
 export class Record {
   @ApiProperty({
     description: 'The id of the record',
@@ -30,6 +31,15 @@ export class Record {
   @IsNumber()
   @IsNotEmpty()
   totalPrice: number;
+
+  @Column({ type: 'date' })
+  date: Date;
+
+  @BeforeInsert()
+  setDate() {
+    const currentDate = new Date();
+    this.date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+  }
 
   @ApiProperty({
     description: 'The user associated with the record',
