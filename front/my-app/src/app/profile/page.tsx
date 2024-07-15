@@ -114,8 +114,8 @@ const Profile = () => {
     };
 
     return (
-        <div className="h-screen pt-28 flex justify-center gap-16 mb-10">
-            <form className="flex flex-col" onSubmit={handleFileChange}>
+        <div className="h-screen pt-16 flex justify-center gap-12 mb-10">
+            <form className="flex flex-col bg-white rounded-xl shadow-lg" onSubmit={handleFileChange}>
                 <h1 className="text-3xl text-black font-medium pt-4 px-4 pb-6">
                     Cambiar foto de perfil
                 </h1>
@@ -128,10 +128,10 @@ const Profile = () => {
                         type="file"
                     />
                 </div>
-                <button type="submit" className="mx-auto flex mt-14 w-fit h-fit px-4 py-3 rounded-xl bg-lightorangeinti text-black font-medium hover:scale-105 transition-all duration-300 ease-in-out">Guardar imagen</button>
+                <button type="submit" className="mx-auto flex mt-14 w-fit h-fit px-4 py-3 rounded-xl bg-lightorangeinti text-white font-medium hover:scale-105 transition-all duration-300 ease-in-out">Guardar imagen</button>
             </form>
             <div className="border border-black "></div>
-            <form className="w-[700px]" onSubmit={handleSubmit}>
+            <form className="w-[750px] rounded-xl shadow-lg bg-white p-3" onSubmit={handleSubmit}>
                 <h1 className="text-3xl text-black font-medium p-3">Configuración de perfil</h1>
                 <p className="text-black text-sm font-light px-3">Puedes cambiar tus datos personales</p>
                 <div className="py-11">
@@ -142,7 +142,7 @@ const Profile = () => {
                                 name="name"
                                 value={inputs.name}
                                 onChange={handleChange}
-                                className="h-9 text-black bg-gray-100 outline-none border-b border-1 p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
+                                className="h-9 text-black bg-gray-200/40 border-b rounded-t-lg border-black p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
                                 placeholder={userDataUser?.name || "Nombre"}
                                 type="text"
                             />
@@ -153,7 +153,7 @@ const Profile = () => {
                                 name="email"
                                 value={inputs.email}
                                 onChange={handleChange}
-                                className="h-9 text-black bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none focus:border-none"
+                                className="h-9 text-black bg-gray-200/40 border-b border-black  p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none rounded-t-lg"
                                 placeholder={userDataUser?.email || "Correo" }
                                 type="text"
                             />
@@ -163,7 +163,7 @@ const Profile = () => {
                             <input
                                 name="password"
                                 onChange={handlePasswordChange}
-                                className="h-9 text-black bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
+                                className="h-9 text-black bg-gray-200/40 border-b border-black rounded-t-lg p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
                                 placeholder="Contraseña"
                                 type="password"
                             />
@@ -174,7 +174,7 @@ const Profile = () => {
                                 name="address"
                                 value={inputs.address}
                                 onChange={handleChange}
-                                className="h-9 text-black bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
+                                className="h-9 text-black bg-gray-200/40 border-b border-black rounded-t-lg p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
                                 placeholder={userDataUser?.address || "Dirección"}
                                 type="text"
                             />
@@ -185,14 +185,14 @@ const Profile = () => {
                                 name="phone"
                                 value={inputs.phone}
                                 onChange={handleChange}
-                                className="h-9 text-black bg-transparent border-b border-yellowinti p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
+                                className="h-9 text-black bg-gray-200/40 border-b border-black rounded-t-lg p-2 mb-8 placeholder:p-2 placeholder:italic focus:outline-none"
                                 placeholder={userDataUser?.phone || "Teléfono"}
                                 type="text"
                             />
                         </div>
                     </div>
                 </div>
-                <button type="submit" className="mx-auto flex mt-3 w-fit h-fit px-4 py-3 rounded-xl bg-lightorangeinti text-black font-medium hover:scale-105 transition-all duration-300 ease-in-out">Guardar cambios</button>
+                <button type="submit" className="mx-auto flex w-fit h-fit px-4 py-3 rounded-xl bg-lightorangeinti text-white font-medium hover:scale-105 transition-all duration-300 ease-in-out">Guardar cambios</button>
             </form>
     </div>
   )

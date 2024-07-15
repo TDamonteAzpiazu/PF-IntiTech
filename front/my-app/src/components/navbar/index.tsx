@@ -89,9 +89,9 @@ const Navbar = () => {
           <nav className="h-full">
             <ul className="flex items-center w-full h-full">
               <li className="flex items-center gap-5 h-full">
-                <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/">Inicio</Link>
-                <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/products">Productos</Link>
-                <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b hover:border-white" href="/about">Nosotros</Link>
+                <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b-2 hover:border-black" href="/">Inicio</Link>
+                <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b-2 hover:border-black" href="/products">Productos</Link>
+                <Link className="flex items-center h-full w-20 font-medium justify-center hover:border-b-2 hover:border-black" href="/about">Nosotros</Link>
               </li>
             </ul>
           </nav>

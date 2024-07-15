@@ -66,7 +66,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
       }
       if (response.ok) {
         Swal.fire({
-          position: 'bottom-start',
+          position: 'top-end',
           toast: true,
           icon: 'success',
           title: 'Item agregado al carrito',
@@ -81,7 +81,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
 
   if (!data_product) {
     return (
-      <div className="h-screen mt-32 text-center bg-custom-image bg-no-repeat bg-size-200">
+      <div className="h-screen mt-44 text-center bg-custom-image bg-no-repeat bg-size-200">
         <l-ring-2
           size="80"
           stroke="5"
