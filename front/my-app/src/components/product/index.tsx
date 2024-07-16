@@ -17,7 +17,7 @@ const Product: React.FC<Iproducts_props> = ({id, brand,model, price, stock, imag
 
       </div>
       <div className="mb-3">
-        <Link href={`/product_detail/${id}`}><BotonProducts /></Link>
+        <Link href={`/product_detail/${id}`}><BotonProducts title="Ver detalles"/></Link>
       </div>
      
     </div>

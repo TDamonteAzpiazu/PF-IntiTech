@@ -51,7 +51,7 @@ const Profile = () => {
             formData.append('file', selectedFile);
         }
         try {
-            const res = await fetch(`https://pf-intitech.onrender.com/files/uploadUserImage/${userDataUser.id}`, {
+            const res = await fetch(`http://localhost:3000/files/uploadUserImage/${userDataUser.id}`, {
                 method: 'POST',
                 body: formData
             });
@@ -92,7 +92,7 @@ const Profile = () => {
             updatedData.password = password;
         }
         try {
-            const res = await fetch(`https://pf-intitech.onrender.com/users/${userDataUser.id}`, {
+            const res = await fetch(`http://localhost:3000/users/${userDataUser.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

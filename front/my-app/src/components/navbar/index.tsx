@@ -43,7 +43,7 @@ const Navbar = () => {
   
   const getCartItems = async () => {
       try {
-          const res = await fetch(`https://pf-intitech.onrender.com/cart/getItems/${userData.cart?.id}`, {
+          const res = await fetch(`http://localhost:3000/cart/getItems/${userData.cart?.id}`, {
               method: "GET",
               headers: {
                   "Content-Type": "application/json",

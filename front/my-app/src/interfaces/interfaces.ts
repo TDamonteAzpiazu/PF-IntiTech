@@ -72,5 +72,28 @@ export interface Icart {
   panel_model: string;
 }
 
+//ORDENES
+
+export interface Item {
+  id: string
+  brand: string
+  totalPrice: number
+  panel_id: string
+  quantity: number
+  panel_image: string
+  panel_model: string
+}
+
+export interface Record {
+  id: string
+  date: string
+  totalPrice: number
+  items: Item[]
+}
+
+export interface ResponseData {
+  record: Record
+}
+
 
 

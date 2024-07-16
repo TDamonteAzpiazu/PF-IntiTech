@@ -30,7 +30,7 @@ const Page = () => {
   return (
     <div className='mt-32 text-center'>
       <Title />
-      <BotonProducts />
+      <BotonProducts title="Products" />
       <BotonService />
     </div>
   );
