@@ -9,6 +9,7 @@ import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 import Link from "next/link";
 
+
 const Orders: React.FC = () => {
   const userData = DataStore((state) => state.userDataUser);
   const getDataUser = DataStore((state) => state.getDataUser);
@@ -19,8 +20,6 @@ const Orders: React.FC = () => {
   useEffect(() => {
     getDataUser();
   }, [getDataUser]);
-
-
   useEffect(() => {
     if (userData) {
       const getOrders = async () => {
