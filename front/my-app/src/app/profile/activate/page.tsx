@@ -26,7 +26,7 @@ const Activate = () => {
         if (!userDataUser) return;
         // getDataUser();
 
-        const response = await fetch(`https://pf-intitech.onrender.com/users/${userDataUser.id}`, {
+        const response = await fetch(`http://localhost:3000/users/${userDataUser.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

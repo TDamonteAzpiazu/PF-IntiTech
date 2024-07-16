@@ -1,16 +1,20 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import LinesChart from "@/components/chart_dynamic";
-import Input from "@/components/input_dashboard";
+import { Lines_Chart } from "@/app/dashboard/grafica";
+import { Circular_Chart } from "@/app/dashboard/pie";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import LinesChart from "@/components/chart_dynamic";
+import Input from "@/components/input_dashboard";
 const MySwal = withReactContent(Swal);
 
 const Dashboard: React.FC = () => {
     const [profileImage, setProfileImage] = useState<File | null>(null);
-    const [stats, setStats] = useState<any>([]); // Asegúrate de que sea un array vacío
 
+    const [stats, setStats] = useState<any>([
+        0, 0, 0, 0, 0, 0, 0
+    ])
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             setProfileImage(event.target.files[0]);
@@ -25,19 +29,19 @@ const Dashboard: React.FC = () => {
                     <input
                         type="text"
                         id="username"
-                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none "
+                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lightorangeinti"
                         placeholder="Nuevo Usuario"
                     />
                     <input
                         type="password"
                         id="password"
-                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none "
+                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-lightorangeinti"
                         placeholder="Nueva Contraseña"
                     />
                     <input
                         type="file"
                         id="profileImage"
-                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none "
+                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                         onChange={handleImageChange}
                     />
                 </div>
@@ -111,12 +115,28 @@ const Dashboard: React.FC = () => {
                 <section className="bg-gray-100 p-4 rounded-lg shadow-md">
                     <Input stats={stats} setStats={setStats} />
                 </section>
-                <section className="bg-gray-100 p-1 rounded-lg shadow-md ">
-                    <LinesChart stats={stats} />
+                <section className="bg-gray-100 p-1 rounded-lg shadow-md">
+
+                    <Lines_Chart stats={stats} />
                 </section>
+                <section className="bg-gray-100 p-4 rounded-lg shadow-md h-60">
+
+                    <Circular_Chart stats={stats} />
+
+                </section>
+
+                <LinesChart stats={stats} />
+
+
             </main>
         </div>
     );
 };
 
 export default Dashboard;
+
+
+
+
+
+

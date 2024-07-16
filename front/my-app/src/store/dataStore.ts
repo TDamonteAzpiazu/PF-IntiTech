@@ -43,7 +43,7 @@ export const DataStore = create<UserState>((set) => ({
       const { id }: any = jwtDecode(token);
       console.log(id);
 
-      const res = await fetch(`https://pf-intitech.onrender.com/users/${id}`, {
+      const res = await fetch(`http://localhost:3000/users/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

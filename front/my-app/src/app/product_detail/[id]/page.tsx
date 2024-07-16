@@ -49,7 +49,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
     }
 
     try {
-      const response = await fetch(`https://pf-intitech.onrender.com/cart/add/${userData.cart?.id}`, {
+      const response = await fetch(`http://localhost:3000/cart/add/${userData.cart?.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

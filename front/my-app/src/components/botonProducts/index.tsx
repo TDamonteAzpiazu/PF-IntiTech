@@ -1,10 +1,14 @@
 import styles from './style.module.css'
 import React from 'react'
 
-const BotonProducts = () => {
+interface Iprops {
+  title: string
+}
+
+const BotonProducts = ({title}: Iprops) => {
   return (
     <div>
-        <button className={styles.ctaButton}>Ver detalles</button>
+        <button className={styles.ctaButton}>{title}</button>
     </div>
   )
 }

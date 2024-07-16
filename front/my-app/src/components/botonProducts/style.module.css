@@ -1,8 +1,8 @@
 .ctaButton {
     box-shadow: 0 0 0 0 #f4bd50;
-    outline: 1px solid;
+    outline: 2px solid;
     border-radius: 8px;
-    color: rgb(105, 105, 105);
+    color: rgb(60, 60, 60);
     outline-color: #f4bd50;
     padding: 0.4rem 1.3rem;
     font-size: 1rem;
