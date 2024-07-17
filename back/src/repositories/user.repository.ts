@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from 'src/dto/createUser.dto';
 import { User } from 'src/entities/user.entity';
@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CartRepository } from './cart.repository';
 import { Cart } from 'src/entities/cart.entity';
+import { UpdateUserDto } from 'src/dto/updateUser.dto';
 
 @Injectable()
 export class UserRepository implements OnModuleInit {
@@ -62,13 +63,21 @@ export class UserRepository implements OnModuleInit {
     return user;
   }
 
-  async updateUser(id: string, data: Partial<CreateUserDto>): Promise<User> {
+  async updateUser(id: string, data: Partial<UpdateUserDto>): Promise<User> {
     const user: User = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
+
+    if(data.password && !data.oldPassword || !data.password && data.oldPassword) {
+      throw new BadRequestException('Old & new passwords are required');
+    }
   
-    if (data.password) {
+    if(data.password && data.oldPassword) {
+      const isOldPasswordValid: boolean = await bcrypt.compare(data.oldPassword, user.password);
+      if (!isOldPasswordValid) {
+        throw new BadRequestException('Old password is not valid');
+      }
       const hashedPassword = await bcrypt.hash(data.password, 10);
       data.password = hashedPassword;
     }

@@ -156,7 +156,7 @@ export class CartRepository {
     return cartItem;
   }
 
-  async addOneToCartItem(cart_itemId: string): Promise<CartItem> {
+  async addOneToCartItem(cart_itemId: string): Promise<{cartItem: CartItem, stock: number}> {
     const cartItem: CartItem = await this.cartItemRepository.findOne({
       where: { id: cart_itemId },
       relations: ['cart'],
@@ -181,7 +181,7 @@ export class CartRepository {
     await this.cartItemRepository.save(cartItem);
     cart.totalPrice += product.price;
     await this.cartRepository.save(cart);
-    return cartItem;
+    return {cartItem, stock: product.stock};
   }
 
   async createRecord(cart_id: string): Promise<string> {
