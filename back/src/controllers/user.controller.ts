@@ -12,8 +12,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { DeleteUserSwagger, GetAllUsersSwagger, GetUserByIdSwagger, NotificationSwagger, UpdateUserSwagger } from 'src/decorators/users.decorator';
-import { CreateUserDto } from 'src/dto/createUser.dto';
+import { DeleteUserSwagger, GetAllUsersSwagger, GetUserByIdSwagger, UpdateUserSwagger } from 'src/decorators/users.decorator';
+import { UpdateUserDto } from 'src/dto/updateUser.dto';
 import { User } from 'src/entities/user.entity';
 import { UserService } from 'src/services/user.service';
 
@@ -41,7 +41,7 @@ export class UserController {
   @UpdateUserSwagger()
   async updateUser(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() data: Partial<CreateUserDto>,
+    @Body() data: Partial<UpdateUserDto>,
   ): Promise<User> {
     return await this.userService.updateUser(id, data);
   }

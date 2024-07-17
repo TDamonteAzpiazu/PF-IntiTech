@@ -1,6 +1,6 @@
 import { applyDecorators, HttpCode, HttpStatus } from "@nestjs/common"
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse } from "@nestjs/swagger"
-import { CreateUserDto } from "src/dto/createUser.dto"
+import { UpdateUserDto } from "src/dto/updateUser.dto"
 
 export const GetAllUsersSwagger = () => {
     return applyDecorators(
@@ -19,7 +19,7 @@ export const GetUserByIdSwagger = () => {
 export const UpdateUserSwagger = () => {
     return applyDecorators(
         ApiOperation({summary: 'Updates a user', description: 'Receives the ID of a user as a parameter and the information to update their data in the body.'}),
-        ApiBody({type: CreateUserDto})
+        ApiBody({type: UpdateUserDto})
     )
 }
 

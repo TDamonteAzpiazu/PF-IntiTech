@@ -32,7 +32,7 @@ export class CartService {
     return await this.cartRepository.substractOneFromCartItem(cart_itemId);
   }
 
-  async addOneToCartItem(cart_itemId: string): Promise<CartItem> {
+  async addOneToCartItem(cart_itemId: string): Promise<{cartItem: CartItem, stock: number}> {
     return await this.cartRepository.addOneToCartItem(cart_itemId);
   }
 

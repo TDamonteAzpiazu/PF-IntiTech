@@ -58,7 +58,7 @@ export class CartController {
   }
 
   @Put('add/:id') // id de cartItem
-  async addOneToCartItem(@Param('id', ParseUUIDPipe) cart_itemId: string): Promise<CartItem> {
+  async addOneToCartItem(@Param('id', ParseUUIDPipe) cart_itemId: string): Promise<{cartItem: CartItem, stock: number}> {
     return await this.cartService.addOneToCartItem(cart_itemId);
   }
 

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from 'src/dto/createUser.dto';
+import { UpdateUserDto } from 'src/dto/updateUser.dto';
 import { User } from 'src/entities/user.entity';
 import { UserRepository } from 'src/repositories/user.repository';
 
@@ -17,7 +17,7 @@ export class UserService {
     return await this.userRepository.getUserById(id);
   }
 
-  async updateUser(id: string, data: Partial<CreateUserDto>): Promise<User> {
+  async updateUser(id: string, data: Partial<UpdateUserDto>): Promise<User> {
     return await this.userRepository.updateUser(id, data);
   }
 
