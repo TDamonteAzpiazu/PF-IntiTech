@@ -6,7 +6,7 @@ import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
 import { ProductStore } from "@/store/productsStore";
 import Title from "@/components/title";
 
-const products_db: React.FC = () => {
+const ProductsDB = () => {
   const getProducts = ProductStore((state) => state.setProducts);
   const products = ProductStore((state) => state.products);
   
@@ -27,4 +27,4 @@ const products_db: React.FC = () => {
     </div>
   );
 };
-export default products_db;
+export default ProductsDB;
