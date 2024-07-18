@@ -13,12 +13,12 @@ export class MercadoPagoController {
   @Get('success')
   success(@Res() res) {
     console.log('success');
-    res.redirect('http://pf-inti-tech-okrv.vercel.app/payOk');
+    res.redirect('https://inti-tech-pf.vercel.app/payOk');
   }
 
   @Get('failure')
   failure(@Res() res) {
     console.log('failure');
-    res.redirect('http://pf-inti-tech-okrv.vercel.app/payWrong');
+    res.redirect('https://inti-tech-pf.vercel.app/payWrong');
   }
 }
