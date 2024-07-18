@@ -31,11 +31,13 @@ const Profile = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const token = Cookies.get('userToken');
-        if (!token) {
-            router.push('/');
-        } else {
-            getDataUser();
+        if (typeof window !== 'undefined') {
+            const token = Cookies.get('userToken');
+            if (!token) {
+                router.push('/');
+            } else {
+                getDataUser();
+            }
         }
     }, [getDataUser]);
 

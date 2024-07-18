@@ -8,7 +8,9 @@ const Footer: React.FC = () => {
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
 
   useEffect(() => {
-    getDataUser()
+    if (typeof window !== 'undefined') {
+      getDataUser()
+    }
   }, [getDataUser])
 
   const handleSubscribe = async (event: React.FormEvent<HTMLFormElement>) => {

@@ -8,38 +8,35 @@ export interface ID {
 }
 
 const AuthSuccess = () => {
-    const { setToken } = UserStore((state) => state);
+    const store = UserStore ? UserStore((state) => state) : null;
     const searchParams = useSearchParams();
     const router = useRouter();
 
     useEffect(() => {
+        if (!store) return;
+
         const token = searchParams.get('token');
         console.log(token);
 
         if (token) {
-            setToken(token);
+            store.setToken(token);
             document.cookie = `userToken=${token}; path=/; secure; samesite=strict`;
 
-    router.push('/profile')
-  }}, [searchParams, router])
+            router.push('/profile')
+        }
+    }, [searchParams, router, store]);
 
-  return (
-    <div className="h-screen mt-24 text-center text-black text-3xl">
-      {/* <l-line-wobble
-                size="80"
-                stroke="5"
-                bg-opacity="0.1"
-                speed="1.75"
-                color="black"
-            ></l-line-wobble> */}
-    </div>
-  )
+    return (
+        <div className="h-screen mt-24 text-center text-black text-3xl">
+            Cargando...
+        </div>
+    )
 }
 
 const SuspendedAuthSuccess = () => (
-  <Suspense fallback={<div>Loading...</div>}>
-    <AuthSuccess />
-  </Suspense>
+    <Suspense fallback={<div>Loading...</div>}>
+        <AuthSuccess />
+    </Suspense>
 )
 
-export default SuspendedAuthSuccess
+export default SuspendedAuthSuccess;
