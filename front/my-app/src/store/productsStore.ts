@@ -2,7 +2,7 @@ import { Icart, Iproducts_props } from "@/interfaces/interfaces";
 import { create } from "zustand";
 
 interface ProductsState {
-    products: Iproducts_props[];
+    products: Iproducts_props[] | any;
     productDetails: Iproducts_props | null;
     cartItems: Icart[];
     setProducts: () => Promise<void>;
@@ -16,7 +16,7 @@ export const ProductStore = create<ProductsState>((set) => ({
     cartItems: [],
     setProducts: async () => {
         try {
-            const res = await fetch(`http://localhost:3000/panelForSale`, {
+            const res = await fetch(`https://pf-intitech.onrender.com/panelForSale?page=${1}&limit=${20}`, {
                 method: "GET",
                 next: { revalidate: 0 },
             });
@@ -31,7 +31,7 @@ export const ProductStore = create<ProductsState>((set) => ({
     },
     setProductDetails: async (id: string) => {
         try {
-            const res = await fetch(`http://localhost:3000/panelForSale/${id}`, {
+            const res = await fetch(`https://pf-intitech.onrender.com/panelForSale/${id}`, {
                 method: "GET",
                 next: { revalidate: 0 },
             });
@@ -46,7 +46,7 @@ export const ProductStore = create<ProductsState>((set) => ({
     },
     getItemsCart: async (id: string) => {
         try {
-            const res = await fetch(`http://localhost:3000/cart/getItems/${id}`, {
+            const res = await fetch(`https://pf-intitech.onrender.com/cart/getItems/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

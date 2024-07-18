@@ -1,13 +1,19 @@
-import React from "react";
+'use client'
+import React, { useEffect } from "react";
 import { Product_Container } from "@/components/product_container";
-import { get_product_DB } from "@/helpers/products.helper";
-import { Iproducts_props } from "@/interfaces/interfaces";
 import { HiHome } from "react-icons/hi";
 import { Breadcrumb, BreadcrumbItem } from "flowbite-react";
+import { ProductStore } from "@/store/productsStore";
 import Title from "@/components/title";
 
-const products_db: React.FC = async () => {
-  const products_db: Iproducts_props[] = await get_product_DB();
+const products_db: React.FC = () => {
+  const getProducts = ProductStore((state) => state.setProducts);
+  const products = ProductStore((state) => state.products);
+  
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
+
   return (
     <div className="mb-36 bg-nose">
       <div className="my-10 text-center ">
@@ -17,7 +23,7 @@ const products_db: React.FC = async () => {
         <BreadcrumbItem icon={HiHome} href="/">Inicio</BreadcrumbItem>
         <BreadcrumbItem href="/products">Productos</BreadcrumbItem>
       </Breadcrumb>
-      <Product_Container product={products_db} />
+      <Product_Container product={products} />
     </div>
   );
 };

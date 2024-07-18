@@ -25,7 +25,7 @@ const Input: React.FC<InputProps> = ({ setStats  , stats}) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/cart/getRecordsByMonth?month=${month}&year=${year}`, {
+      const response = await fetch(`https://pf-intitech.onrender.com/cart/getRecordsByMonth?month=${month}&year=${year}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

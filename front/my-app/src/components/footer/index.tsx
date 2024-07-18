@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/users/suscriptUser/${userDataUser?.id}`,
+        `https://pf-intitech.onrender.com/users/suscriptUser/${userDataUser?.id}`,
         {
           method: 'PUT',
           headers: {
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/users/unsuscriptUser/${userDataUser?.id}`,
+        `https://pf-intitech.onrender.com/users/unsuscriptUser/${userDataUser?.id}`,
         {
           method: 'PUT',
           headers: {

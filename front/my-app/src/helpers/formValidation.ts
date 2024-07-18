@@ -56,7 +56,7 @@ export function validateRegisterForm(values: Iregister_props): RegisterErrorProp
     errors.address = "Dirección es requerida";
   } else if (!addressRegex.test(values.address)) {
     errors.address = "La dirección solo puede contener letras, números y espacios";
-  } else if (values.address.length > 200) {
+  } else if (values.address.length > 150) {
     errors.address = "Dirección demasiado larga";
   }
   

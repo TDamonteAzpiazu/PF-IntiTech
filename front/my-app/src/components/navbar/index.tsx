@@ -43,7 +43,7 @@ const Navbar = () => {
   
   const getCartItems = async () => {
       try {
-          const res = await fetch(`http://localhost:3000/cart/getItems/${userData.cart?.id}`, {
+          const res = await fetch(`https://pf-intitech.onrender.com/cart/getItems/${userData.cart?.id}`, {
               method: "GET",
               headers: {
                   "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const Navbar = () => {
           const data = await res.json();
           setItems(data);
           console.log(data);
-      } catch (error: any) {
+      } catch (error) {
           console.log(error);
       }
   };
@@ -79,7 +79,7 @@ const Navbar = () => {
 
   return (
     <div className="h-20 bg-gradient-to-bottom text-white sticky top-0 w-full z-50">
-      {token !== "" ? (
+      {token !== "" || token ? (
         <div className="flex items-center justify-between h-full">
           <div className="h-full w-24 ml-8">
             <Link href="/"> 

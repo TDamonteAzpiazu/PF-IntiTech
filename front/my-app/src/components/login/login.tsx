@@ -27,9 +27,9 @@ const AuthForm = () => {
           text: 'Ya estás logueado',
         });
         router.push('/');
-      }, 1500);
+      }, 2000);
 
-      return () => clearTimeout(timer); // Limpiar el temporizador si el componente se desmonta
+      return () => clearTimeout(timer);
     }
   }, [token, router]);
 
@@ -66,7 +66,7 @@ const AuthForm = () => {
   const handleChangeRegister = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setdataRegister({ ...dataRegister, [name]: value })
-    const errors = validateRegisterForm({ ...dataRegister, [name]: value })  // Validar con el nuevo valor
+    const errors = validateRegisterForm({ ...dataRegister, [name]: value })
     setErrorRegister(errors)
   }
 
@@ -102,7 +102,10 @@ const AuthForm = () => {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Debes llenar todos los campos',
+        text: 'Algo salio mal',
+        showConfirmButton: true,
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: 'black',
       })
     }
   }
@@ -127,7 +130,7 @@ const AuthForm = () => {
   const handleChangeLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setDataLogin({ ...dataLogin, [name]: value })
-    const error = validateLoginForm({ ...dataLogin, [name]: value })  // Validar con el nuevo valor
+    const error = validateLoginForm({ ...dataLogin, [name]: value })
     setError(error)
   }
 
@@ -151,7 +154,7 @@ const AuthForm = () => {
         showConfirmButton: false,
         timer: 2000,
       })
-      router.push('/prueba')
+      router.push('/')
     } catch (error) {
       console.log(error)
     }

@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 export async function login_auth(data_user: Ilogin_props) {
   try {
-    const res = await fetch(`http://localhost:3000/auth/login`, {
+    const res = await fetch(`https://pf-intitech.onrender.com/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,7 +17,10 @@ export async function login_auth(data_user: Ilogin_props) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Debes llenar todos los campos",
+        text: "Algo salio mal",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "black",
       });
     }
   } catch (error) {
@@ -27,14 +30,13 @@ export async function login_auth(data_user: Ilogin_props) {
 
 export async function register_auth(data_register: Iregister_props) {
   try {
-    const res = await fetch(`http://localhost:3000/auth/register`, {
+    const res = await fetch(`https://pf-intitech.onrender.com/auth/register`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify(data_register),
     });
-    console.log(res);
     if (res.ok) {
       Swal.fire({
         icon: "success",
@@ -44,7 +46,14 @@ export async function register_auth(data_register: Iregister_props) {
       });
       return res.json();
     } else {
-      alert("Failed to register");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Algo salio mal",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "black",
+      })
     }
   } catch (error: any) {
     throw new Error(error.message || "se produjo un error durante el registro");
