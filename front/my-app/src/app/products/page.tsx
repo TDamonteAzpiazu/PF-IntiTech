@@ -11,7 +11,9 @@ const ProductsDB = () => {
   const products = ProductStore((state) => state.products);
   
   useEffect(() => {
+    if (typeof window !== 'undefined') {
     getProducts();
+    }
   }, [getProducts]);
 
   return (

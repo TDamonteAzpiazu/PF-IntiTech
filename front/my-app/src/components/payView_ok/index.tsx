@@ -10,7 +10,9 @@ const PayOk = () => {
   const getDataUser = DataStore((state) => state.getDataUser);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
     getDataUser();
+    }
   }, [getDataUser]);
 
 

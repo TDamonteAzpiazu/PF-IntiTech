@@ -5,7 +5,7 @@ import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
-import { dotWave } from 'ldrs'
+
 
 
 type CartProps = {
@@ -16,7 +16,7 @@ type CartProps = {
 };
 
 const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items, setItems }) => {
-    dotWave.register()
+    
     const [preferenceId, setPreferenceId] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
@@ -28,7 +28,9 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items, setItems }) => {
     const cartRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        getDataUser();
+        if (typeof window !== 'undefined') {
+            getDataUser();
+        }
     }, [getDataUser]);
 
     useEffect(() => {
@@ -240,7 +242,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items, setItems }) => {
                                                     <path d="M8 12H16" stroke-width="1.5"></path>
                                                 </svg>
                                             </button>
-                                        ): null
+                                        ) : null
                                     }
 
                                     <button
@@ -271,11 +273,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items, setItems }) => {
                                             className="w-9/12 h-10 bg-yellowcustom bg-custom-radial bg-size-200 hover:bg-right text-white px-4 py-2 rounded-3xl transition-all duration-500 flex justify-center items-center">
                                             {loading ? (
                                                 <div className="flex justify-center items-center">
-                                                    <l-dot-wave
-                                                        size="40"
-                                                        speed="1"
-                                                        color="white"
-                                                    ></l-dot-wave>
+                                                    Cargando...
                                                 </div>
                                             ) : (
                                                 "Comprar"

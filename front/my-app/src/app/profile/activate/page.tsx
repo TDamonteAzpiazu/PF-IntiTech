@@ -5,42 +5,46 @@ import Swal from "sweetalert2";
 import { DataStore } from "@/store/dataStore";
 
 const Activate = () => {
-    const { userDataUser, getDataUser } = DataStore();
-    const router = useRouter();
+  const { userDataUser, getDataUser } = DataStore();
+  const router = useRouter();
 
-    useEffect(() => {
-        getDataUser();
-    }, [getDataUser]);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      getDataUser();
+    }
+  }, [getDataUser]);
 
-    useEffect(() => {
-            if (userDataUser) {
-                if (userDataUser.status === 'active') {
-                    Swal.fire('Este usuario ya fue activado');
-                    router.push('/profile');
-                }
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (userDataUser) {
+        if (userDataUser.status === 'active') {
+          Swal.fire('Este usuario ya fue activado');
+          router.push('/profile');
         }
-    }, [userDataUser]);
-    console.log(userDataUser)
+      }
+    }
 
-    const handleClick = async () => {
-        if (!userDataUser) return;
-        // getDataUser();
+  }, [userDataUser]);
+  console.log(userDataUser)
 
-        const response = await fetch(`https://pf-intitech.onrender.com/users/${userDataUser.id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ status: "active" }),
-        });
+  const handleClick = async () => {
+    if (!userDataUser) return;
 
-        const res = await response.json();
-        if (res) {
-            getDataUser();
-            Swal.fire('Cuenta activada', 'Ya puedes usar todas las funcionalidades', 'success');
-            router.push('/products');
-        }
-    };
+    const response = await fetch(`https://pf-intitech.onrender.com/users/${userDataUser.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: "active" }),
+    });
+
+    const res = await response.json();
+    if (res) {
+      getDataUser();
+      Swal.fire('Cuenta activada', 'Ya puedes usar todas las funcionalidades', 'success');
+      router.push('/products');
+    }
+  };
 
   return (
     <div className="bg-black h-screen flex justify-center items-center">

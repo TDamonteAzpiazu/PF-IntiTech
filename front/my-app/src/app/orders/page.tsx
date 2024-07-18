@@ -18,8 +18,11 @@ const Orders: React.FC = () => {
   const [filteredOrders, setFilteredOrders] = useState<ResponseData[]>([]);
 
   useEffect(() => {
+    if(typeof window !== 'undefined') {
     getDataUser();
+    }
   }, [getDataUser]);
+  
   useEffect(() => {
     if (userData) {
       const getOrders = async () => {
