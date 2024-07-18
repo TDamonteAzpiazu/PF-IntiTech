@@ -37,15 +37,6 @@ export class UserController {
     return await this.userService.getUserById(id);
   }
 
-  @Put(':id')
-  @UpdateUserSwagger()
-  async updateUser(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() data: Partial<UpdateUserDto>,
-  ): Promise<User> {
-    return await this.userService.updateUser(id, data);
-  }
-
   @Put('suscriptUser/:id')
   async suscriptUser(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
     return await this.userService.suscriptUser(id);
@@ -56,19 +47,30 @@ export class UserController {
     return await this.userService.unsuscriptUser(id);
   }
 
+  @Put('ban/:id')
+  async banUser(@Param('id', ParseUUIDPipe) id: string): Promise<String> {
+    return await this.userService.banUser(id);
+  }
+
+  @Put('unban/:id')
+  async unbanUser(@Param('id', ParseUUIDPipe) id: string): Promise<String> {
+    return await this.userService.unbanUser(id);
+  }
+
+  @Put(':id')
+  @UpdateUserSwagger()
+  async updateUser(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() data: Partial<UpdateUserDto>,
+  ): Promise<User> {
+    return await this.userService.updateUser(id, data);
+  }
+
   @Delete(':id')
   @DeleteUserSwagger()
   async deleteUser(@Param('id', ParseUUIDPipe) id: string): Promise<string> {
     return await this.userService.deleteUser(id);
   }
 
-  @Patch('ban/:id')
-  async banUser(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
-    await this.userService.banUser(id);
-  }
-  
-  @Patch('unban/:id')
-  async unbanUser(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
-    await this.userService.unbanUser(id);
-  }
+
 }

@@ -27,6 +27,15 @@ export interface RegisterErrorProps {
   country?: string;
 }
 
+export interface EditErrorProps {
+  name?: string;
+  email?: string;
+  password?: string;
+  oldPassword?: string;
+  address?: string;
+  phone?: string;
+}
+
 //VERIFICAR SI AL USER SE LE AGREGA UNA PROPIEDAD PARA GUARDAR SUS ORDENES Y AGREGARLA EN ESTA INTERFACE.
 export interface Isession_active {
   token: string;
@@ -55,8 +64,8 @@ export interface Iproducts_props {
   id?: string,
   brand: string,
   model: string,
-  price: 350,
-  stock: 50,
+  price: number,
+  stock: number,
   description: string,
   size?: string,
   dailyGeneration: string,
@@ -70,6 +79,7 @@ export interface Icart {
   quantity: number;
   panel_image: string;
   panel_model: string;
+  stock?: number;
 }
 
 //ORDENES

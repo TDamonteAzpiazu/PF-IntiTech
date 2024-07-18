@@ -38,12 +38,12 @@ export class UserService {
     return await this.userRepository.findByEmail(email);
   }
 
-  async banUser(id :string): Promise<void> {
-    await this.userRepository.banUser(id);
+  async banUser(id :string): Promise<String> {
+    return await this.userRepository.banUser(id);
   }
   
-  async unbanUser(id: string): Promise<void> {
-    await this.userRepository.unbanUser(id);
+  async unbanUser(id: string): Promise<String> {
+    return await this.userRepository.unbanUser(id);
   }
 
 

@@ -13,6 +13,7 @@ interface UserData {
   phone?: string;
   image?: string;
   status?: string;
+  role?: string;
   id?: string;
   token?: string;
   cart?: Cart;
@@ -33,17 +34,14 @@ export const DataStore = create<UserState>((set) => ({
       }
 
       const dataStore = JSON.parse(store);
-      console.log(dataStore);
 
       const token = dataStore.state?.token;
       if (!token) {
         throw new Error("Token not found in user data");
       }
-
       const { id }: any = jwtDecode(token);
-      console.log(id);
 
-      const res = await fetch(`http://localhost:3000/users/${id}`, {
+      const res = await fetch(`https://pf-intitech.onrender.com/users/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +49,6 @@ export const DataStore = create<UserState>((set) => ({
       });
 
       const data = await res.json();
-      console.log(data);
       set({ userDataUser: data });
     } catch (error) {
       console.error("Error fetching user data:", error);
