@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-const secret = process.env.JWT_SECRET || "your_jwt_secret"; // Asegúrate de configurar tu secreto de JWT
+const secret = "cualquiercodgio"; // Asegúrate de configurar tu secreto de JWT
 
 export function middleware(request: NextRequest) {
     const token = request.cookies.get('userToken')?.value;
