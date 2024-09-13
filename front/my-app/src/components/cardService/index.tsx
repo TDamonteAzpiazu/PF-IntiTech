@@ -5,8 +5,8 @@ import BotonService from "../botonService";
 const CardService = () => {
     return (
         <div className="pb-16">
-            <h1 className="text-4xl font-bold pt-10 pb-32 pl-12 ">Nuestros servicios</h1>
-            <div className="flex justify-around items-center">
+            <h1 className="lg:text-4xl text-2xl font-bold pt-10 pb-32 lg:pl-12 lg:text-left text-center">Nuestros servicios</h1>
+            <div className="flex justify-around items-center flex-wrap gap-32 lg:gap-0 ">
                 <div className="w-80 border border-gray-300 h-[400px] bg-transparent rounded-2xl shadow-lg flex flex-col justify-center items-center p-5">
                     <Image src="/images/service1.webp" alt="Card Image" width={300} height={250} className="object-cover w-[300px] h-[250px] rounded-2xl transform translate-y-[-40%] border" />
 

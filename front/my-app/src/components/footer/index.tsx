@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
 
     try {
       const res = await fetch(
-        `https://pf-intitech.onrender.com/users/suscriptUser/${userDataUser?.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/users/suscriptUser/${userDataUser?.id}`,
         {
           method: 'PUT',
           headers: {
@@ -68,7 +68,7 @@ const Footer: React.FC = () => {
 
     try {
       const res = await fetch(
-        `https://pf-intitech.onrender.com/users/unsuscriptUser/${userDataUser?.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/users/unsuscriptUser/${userDataUser?.id}`,
         {
           method: 'PUT',
           headers: {

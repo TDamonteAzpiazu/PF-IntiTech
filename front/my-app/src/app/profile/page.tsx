@@ -70,7 +70,7 @@ const Profile = () => {
             formData.append('file', selectedFile);
         }
         try {
-            const res = await fetch(`https://pf-intitech.onrender.com/files/uploadUserImage/${userDataUser.id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/files/uploadUserImage/${userDataUser.id}`, {
                 method: 'POST',
                 body: formData
             });
@@ -121,7 +121,7 @@ const Profile = () => {
             updatedData.oldPassword = password.oldPassword;
         }
         try {
-            const res = await fetch(`https://pf-intitech.onrender.com/users/${userDataUser.id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${userDataUser.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -156,7 +156,7 @@ const Profile = () => {
             });
 
             if (result.isConfirmed) {
-                const res = await fetch(`https://pf-intitech.onrender.com/users/ban/${userDataUser.id}`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/ban/${userDataUser.id}`, {
                     method: 'PUT',
                 });
 

@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 export async function login_auth(data_user: Ilogin_props) {
   try {
-    const res = await fetch(`https://pf-intitech.onrender.com/auth/login`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +30,7 @@ export async function login_auth(data_user: Ilogin_props) {
 
 export async function register_auth(data_register: Iregister_props) {
   try {
-    const res = await fetch(`https://pf-intitech.onrender.com/auth/register`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

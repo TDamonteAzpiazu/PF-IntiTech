@@ -2,7 +2,7 @@ import React from 'react'
 
 const GoogleLoginButton = () => {
   const handleLogin = () => {
-    const url = 'https://pf-intitech.onrender.com/auth/googleLogin'
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/googleLogin`
     window.location.href = url
   }
 

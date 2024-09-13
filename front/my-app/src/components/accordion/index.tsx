@@ -49,7 +49,7 @@ const Accordion = ({ title, answer }: AccordionProps) => {
             : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className="overflow-hidden text-lg mt-2">{answer}</div>
+        <div className="overflow-hidden lg:text-lg text-sm mt-2">{answer}</div>
       </div>
     </div>
   );
