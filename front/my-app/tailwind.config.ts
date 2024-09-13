@@ -26,6 +26,7 @@ const config: Config = {
       },
       backgroundSize: {
         'size-200': '120%',
+        'size-400': '400%',
       },
       boxShadow: {
         'custom': '0px 10px 35px -5px rgba(0, 0, 0, 0.1)',

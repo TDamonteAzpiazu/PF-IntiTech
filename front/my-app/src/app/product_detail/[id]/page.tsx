@@ -49,7 +49,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
     }
 
     try {
-      const response = await fetch(`https://pf-intitech.onrender.com/cart/add/${userData.cart?.id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/add/${userData.cart?.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,22 +88,23 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
   }
 
   return (
-    <div className='flex flex-col px-24 pb-20'>
+    <div className='flex flex-col h-screen'>
       <Breadcrumb className="-ml-20 pt-12 text-lg text-black" >
         <BreadcrumbItem icon={HiHome} href="/" className='text-black'>Inicio</BreadcrumbItem>
         <BreadcrumbItem href="/products">Productos</BreadcrumbItem>
         <BreadcrumbItem>{data_product.model}</BreadcrumbItem>
       </Breadcrumb>
-      <div className="flex items-center justify-center mt-8 rounded-lg bg-white">
-        <div className="relative w-96 h-96 mr-8">
+      <div className="flex flex-col mx-auto w-[90%] lg:flex-row items-center justify-center mt-8 rounded-lg bg-white">
+        <div className="w-1/3 lg:w-96 h-full mr-8">
           <Image
-            className="rounded-l-md"
+            className="border h-full w-full mx-auto rounded-l-md"
             src={data_product.image}
             alt="Product Image"
-            layout="fill"
+            width={0}
+            height={0}
           />
         </div>
-        <div className="flex flex-col gap-4 justify-center w-[60%] h-96  ">
+        <div className="flex flex-col gap-4 justify-center w-[90%] lg:w-[60%] h-96  ">
           <div>
             <div className='flex justify-between'>
               <p className="text-3xl font-medium uppercase mb-8">{data_product.brand}</p>
@@ -118,7 +119,7 @@ const Product_detail: React.FC<Idetail_props> = ({ params }) => {
               </button>
             </div>
           </div>
-          <div className='h-24'>
+          <div className='lg:h-24 h-36'>
             <Accordion title="Descripción" answer={data_product.description} />
           </div>
         </div>

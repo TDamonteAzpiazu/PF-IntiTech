@@ -29,7 +29,7 @@ const Orders: React.FC = () => {
         console.log("llego hasta aqui");
         try {
           const res = await fetch(
-            `https://pf-intitech.onrender.com/cart/getAllRecords/${userData.id}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/cart/getAllRecords/${userData.id}`,
             {
               method: "GET",
               headers: {

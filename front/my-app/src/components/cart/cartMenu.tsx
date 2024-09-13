@@ -62,7 +62,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items, setItems }) => {
 
     const deleteItemFromCart = async (itemId: string) => {
         try {
-            await axios.delete(`https://pf-intitech.onrender.com/cart/${itemId}`);
+            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/cart/${itemId}`);
             setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
         } catch (error) {
             console.error("Error deleting item from cart:", error);
@@ -72,7 +72,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items, setItems }) => {
 
     const deleteAllItemsFromCart = async () => {
         try {
-            await axios.delete(`https://pf-intitech.onrender.com/cart/clearCart/${userData.cart?.id}`);
+            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/cart/clearCart/${userData.cart?.id}`);
             setItems([]);
         } catch (error) {
             console.error("Error deleting all items from cart:", error);
@@ -82,7 +82,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items, setItems }) => {
 
     const subtractOneFromCartItem = async (itemId: string) => {
         try {
-            const response = await axios.put(`https://pf-intitech.onrender.com/cart/substract/${itemId}`);
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/cart/substract/${itemId}`);
             const updatedItem = response.data;
 
             setItems((prevItems) =>
@@ -104,7 +104,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items, setItems }) => {
 
     const addOneToCartItem = async (itemId: string) => {
         try {
-            const response = await axios.put(`https://pf-intitech.onrender.com/cart/add/${itemId}`);
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/cart/add/${itemId}`);
             const { cartItem, stock } = response.data;
             if (stock >= 0) {
                 setItems((prevItems) =>
@@ -131,7 +131,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, toggleCart, items, setItems }) => {
 
     const createPreference = async () => {
         try {
-            const res = await fetch("https://pf-intitech.onrender.com/mercadopago", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/mercadopago`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

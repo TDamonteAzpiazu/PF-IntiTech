@@ -30,7 +30,7 @@ const Activate = () => {
   const handleClick = async () => {
     if (!userDataUser) return;
 
-    const response = await fetch(`https://pf-intitech.onrender.com/users/${userDataUser.id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${userDataUser.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
